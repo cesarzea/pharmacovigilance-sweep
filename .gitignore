@@ -27,3 +27,4 @@ data/stage/
 runner/uv.lock
 data/cache/
 .secrets/
+data/local/

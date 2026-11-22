@@ -34,6 +34,13 @@ param claudeSmallModel string = 'claude-haiku-5-5'
 param claudeLargeModel string = ''
 param gptSmallModel string = 'gpt-5.4-mini'
 param gptLargeModel string = ''
+param smallCapacity int = 50
+param largeCapacity int = 50
+
+@description('Deploy Key Vault, monitoring and the Container Apps jobs (needs the runner image and a Snowflake account).')
+param deployRunnerJob bool = false
+param runnerImageTag string = 'latest'
+param snowflakeAccount string = ''
 
 var baseName = 'pvsweep-${environmentName}'
 var suffix = take(uniqueString(subscription().id, baseName), 6)
@@ -93,6 +100,8 @@ module foundry 'modules/foundry.bicep' = {
     claudeLargeModel: claudeLargeModel
     gptSmallModel: gptSmallModel
     gptLargeModel: gptLargeModel
+    smallCapacity: smallCapacity
+    largeCapacity: largeCapacity
     claudeOrganizationName: claudeOrganizationName
     claudeCountryCode: claudeCountryCode
     claudeIndustry: claudeIndustry
@@ -113,12 +122,37 @@ module platform 'modules/platform.bicep' = {
   }
 }
 
+module runner 'modules/runner.bicep' = if (deployRunnerJob) {
+  name: 'runner'
+  scope: rg
+  params: {
+    location: location
+    tags: tags
+    baseName: baseName
+    suffix: suffix
+    runnerIdentityId: platform.outputs.runnerIdentityId
+    runnerIdentityPrincipalId: platform.outputs.runnerIdentityPrincipalId
+    runnerIdentityClientId: platform.outputs.runnerIdentityClientId
+    registryLoginServer: platform.outputs.registryLoginServer
+    runnerImage: '${platform.outputs.registryLoginServer}/pvsweep-runner:${runnerImageTag}'
+    principalId: principalId
+    foundryAccountName: foundry.outputs.accountName
+    foundryProjectEndpoint: foundry.outputs.projectEndpoint
+    snowflakeAccount: snowflakeAccount
+    gptSmallDeployment: foundry.outputs.gptSmallDeployment
+    gptLargeDeployment: foundry.outputs.gptLargeDeployment
+    claudeSmallDeployment: foundry.outputs.claudeSmallDeployment
+    claudeLargeDeployment: foundry.outputs.claudeLargeDeployment
+  }
+}
+
 output resourceGroup string = rg.name
 output foundryAccountName string = foundry.outputs.accountName
 output foundryProjectName string = foundry.outputs.projectName
 output registryName string = platform.outputs.registryName
 output registryLoginServer string = platform.outputs.registryLoginServer
 output runnerIdentityClientId string = platform.outputs.runnerIdentityClientId
+output keyVaultName string = runner.?outputs.keyVaultName ?? ''
 output anthropicBaseUrl string = foundry.outputs.anthropicBaseUrl
 output openaiBaseUrl string = foundry.outputs.openaiBaseUrl
 output projectEndpoint string = foundry.outputs.projectEndpoint

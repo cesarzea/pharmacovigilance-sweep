@@ -5,3 +5,5 @@ agent-framework-foundry-hosting==1.0.0b261112
 agent-framework-anthropic==1.0.0b261112
 anthropic==2.12.0
 azure-identity==1.27.0
+snowflake-connector-python==5.2.0
+cryptography==50.0.2

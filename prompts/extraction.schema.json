@@ -1,0 +1,120 @@
+{
+  "name": "pvsweep_extraction",
+  "version": "v1",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["patient", "reporter", "products", "events", "special_situations", "seriousness",
+                 "causality_statement", "event_context", "dates", "missing_information", "confidence"],
+    "properties": {
+      "patient": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["initials", "age_years", "sex", "evidence"],
+        "properties": {
+          "initials": { "type": ["string", "null"] },
+          "age_years": { "type": ["number", "null"] },
+          "sex": { "type": "string", "enum": ["female", "male", "unknown"] },
+          "evidence": { "type": ["string", "null"] }
+        }
+      },
+      "reporter": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "name", "identifiable", "evidence"],
+        "properties": {
+          "type": { "type": "string", "enum": ["physician", "pharmacist", "nurse", "other_hcp", "consumer", "unknown"] },
+          "name": { "type": ["string", "null"] },
+          "identifiable": { "type": "boolean" },
+          "evidence": { "type": ["string", "null"] }
+        }
+      },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name_verbatim", "suspect", "batch_lot", "evidence"],
+          "properties": {
+            "name_verbatim": { "type": "string" },
+            "suspect": { "type": "boolean" },
+            "batch_lot": { "type": ["string", "null"] },
+            "evidence": { "type": "string" }
+          }
+        }
+      },
+      "events": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verbatim", "proposed_term", "hospitalisation", "evidence"],
+          "properties": {
+            "verbatim": { "type": "string" },
+            "proposed_term": { "type": "string", "description": "A medical Preferred Term-style name in English, e.g. Hyponatraemia, Seizure." },
+            "hospitalisation": { "type": "boolean" },
+            "evidence": { "type": "string" }
+          }
+        }
+      },
+      "special_situations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["overdose", "medication_error", "pregnancy_exposure", "breastfeeding_exposure",
+                   "lack_of_efficacy", "off_label_use", "misuse_or_abuse", "occupational_exposure"]
+        }
+      },
+      "seriousness": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["death", "life_threatening", "hospitalisation", "disability", "congenital_anomaly", "other_medically_important"],
+        "properties": {
+          "death": { "type": "boolean" },
+          "life_threatening": { "type": "boolean" },
+          "hospitalisation": { "type": "boolean" },
+          "disability": { "type": "boolean" },
+          "congenital_anomaly": { "type": "boolean" },
+          "other_medically_important": { "type": "boolean" }
+        }
+      },
+      "causality_statement": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "evidence"],
+        "properties": {
+          "value": { "type": "string", "enum": ["suspected", "excluded", "not_stated"],
+                     "description": "What the reporter says about the product causing the event. Not your own opinion." },
+          "evidence": { "type": ["string", "null"] }
+        }
+      },
+      "event_context": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason_for_admission", "planned_before_treatment", "follow_up_of_earlier_report", "new_information"],
+        "properties": {
+          "reason_for_admission": { "type": ["string", "null"] },
+          "planned_before_treatment": { "type": "boolean" },
+          "follow_up_of_earlier_report": { "type": "boolean" },
+          "new_information": { "type": ["string", "null"] }
+        }
+      },
+      "dates": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["onset_date", "record_date", "other_dates"],
+        "properties": {
+          "onset_date": { "type": ["string", "null"], "description": "YYYY-MM-DD when fully stated, else null." },
+          "record_date": { "type": ["string", "null"] },
+          "other_dates": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "missing_information": {
+        "type": "array",
+        "items": { "type": "string", "enum": ["patient", "reporter", "product", "event", "onset_date", "outcome", "batch"] }
+      },
+      "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+    }
+  }
+}

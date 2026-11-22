@@ -78,3 +78,4 @@ output registryName string = registry.name
 output registryLoginServer string = registry.properties.loginServer
 output runnerIdentityId string = runnerIdentity.id
 output runnerIdentityClientId string = runnerIdentity.properties.clientId
+output runnerIdentityPrincipalId string = runnerIdentity.properties.principalId

@@ -21,7 +21,7 @@ outputs:
 	@cat .env.$(ENV)
 
 build-agent:
-	. ./.env.$(ENV) && az acr build -r $$REGISTRYNAME -g $$RESOURCEGROUP -t pvsweep-agent:$(IMAGE_TAG) --platform linux/amd64 agent/
+	. ./.env.$(ENV) && az acr build -r $$REGISTRYNAME -g $$RESOURCEGROUP -t pvsweep-agent:$(IMAGE_TAG) --platform linux/amd64 -f agent/Dockerfile .
 
 deploy-agents:
 	. ./.env.$(ENV) && uv run -q --no-project --with azure-ai-projects --with azure-identity python -I scripts/deploy_agents.py \

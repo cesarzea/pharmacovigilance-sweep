@@ -19,7 +19,7 @@ param gptSmallModel string = 'gpt-5.4-mini'
 param gptLargeModel string = ''
 
 @description('Capacity in thousands of tokens per minute, per deployment.')
-param smallCapacity int = 10
+param smallCapacity int = 50
 param largeCapacity int = 10
 
 @description('"2" = Hosted on Azure, "1" = Hosted on Anthropic infrastructure.')

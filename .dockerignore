@@ -1,0 +1,9 @@
+*
+!agent/
+!runner/
+runner/.venv/
+runner/uv.lock
+runner/tests/
+!prompts/
+!config/
+!data/synthetic/

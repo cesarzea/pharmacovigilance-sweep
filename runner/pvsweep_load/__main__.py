@@ -17,7 +17,7 @@ from pathlib import Path
 
 import duckdb
 
-from . import faers, vaers, vocab
+from . import faers, synthetic, vaers, vocab
 
 TABLES = {
     "safety_case": "PV.SAFETY_CASE",
@@ -27,6 +27,12 @@ TABLES = {
     "vaers_coding": "EVAL.VAERS_CODING",
     "vaers_outcomes": "EVAL.VAERS_OUTCOMES",
     "pt_vocab": "REF.PT_VOCAB",
+    "source_record": "SRC.SOURCE_RECORD",
+    "gold_record": "EVAL.GOLD_RECORD",
+    "intake_queue": "PV.INTAKE_QUEUE",
+    "intake_log": "PV.INTAKE_LOG",
+    "vendor_tx_log": "PV.VENDOR_TX_LOG",
+    "case_version": "PV.CASE_VERSION",
 }
 
 
@@ -37,6 +43,7 @@ def main() -> int:
     ap.add_argument("--brands", type=Path, default=Path("config/brands.json"))
     ap.add_argument("--vaers-sample", type=int, default=400)
     ap.add_argument("--cache", type=Path, default=Path("data/cache"), help="downloaded source files (kept between runs)")
+    ap.add_argument("--synthetic", type=Path, default=Path("data/synthetic"))
     args = ap.parse_args()
 
     brands = json.loads(args.brands.read_text())
@@ -54,6 +61,10 @@ def main() -> int:
         print(f"  rows {m['rows']}", flush=True)
     print("vocabulary", flush=True)
     manifest.append(vocab.build(con, args.cache))
+    print("synthetic records", flush=True)
+    m = synthetic.build(con, args.synthetic)
+    manifest.append(m)
+    print(f"  rows {m['rows']}", flush=True)
 
     for table in TABLES:
         con.execute(f"COPY {table} TO '{args.out / table}.parquet' (FORMAT PARQUET)")
@@ -68,7 +79,9 @@ def main() -> int:
                 "dataset": src.repo if src else "derived",
                 "revision": src.revision if src else None,
                 "licence": src.licence if src else None,
-                "attribution": src.attribution if src else "derived from the sources above",
+                "attribution": src.attribution if src else ("synthetic (scenario-first, model-rendered)" if table in
+                                                            ("source_record", "gold_record", "intake_queue", "intake_log",
+                                                             "vendor_tx_log", "case_version") else "derived from the sources above"),
                 "row_count": n,
                 "date_offset_days": m.get("date_offset_days"),
                 "reference_date": args.reference_date if m.get("date_offset_days") is not None else None,

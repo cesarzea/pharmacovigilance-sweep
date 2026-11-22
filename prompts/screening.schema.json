@@ -1,0 +1,34 @@
+{
+  "name": "pvsweep_screening",
+  "version": "v1",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["screening_class", "minimum_criteria", "evidence", "confidence"],
+    "properties": {
+      "screening_class": {
+        "type": "string",
+        "enum": ["ADVERSE_EVENT", "SPECIAL_SITUATION", "NO_PV_CONTENT"],
+        "description": "ADVERSE_EVENT: any untoward medical occurrence in a person exposed, or possibly exposed, to a medicinal product, whether or not anyone links it to the product. SPECIAL_SITUATION: overdose, medication error, pregnancy or breastfeeding exposure, lack of efficacy, off-label use, misuse or occupational exposure without an adverse event. NO_PV_CONTENT: nothing about a person's health."
+      },
+      "minimum_criteria": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["identifiable_patient", "identifiable_reporter", "suspect_product", "event"],
+        "properties": {
+          "identifiable_patient": { "type": "boolean" },
+          "identifiable_reporter": { "type": "boolean" },
+          "suspect_product": { "type": "boolean" },
+          "event": { "type": "boolean" }
+        }
+      },
+      "evidence": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Short spans copied verbatim from the record that justify the class."
+      },
+      "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+    }
+  }
+}
