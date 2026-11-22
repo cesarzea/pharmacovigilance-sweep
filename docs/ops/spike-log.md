@@ -87,8 +87,9 @@ showed that anchored scenarios need dates consistent with their case, which the 
   the matcher looks in both (or `PVSWEEP_PROMPTS_DIR`).
 - **Anthropic API keys and workspaces:** an organisation-level key must send `anthropic-workspace-id`;
   without it the API answers 400, and a key with no credit attached answers 429 `rate_limit_error`
-  with no rate-limit headers. The "Claude Code" workspace that Claude Code creates cannot be used for
-  API calls (404 on messages). The runner reads `ANTHROPIC_WORKSPACE_ID` from `.env`.
+  with no rate-limit headers. Only a workspace created in the Console for API use works (another
+  workspace in the organisation answered 404 on messages). The runner reads `ANTHROPIC_WORKSPACE_ID`
+  from `.env`.
 
 - **`modelProviderData.industry` is a lowercase enum** (technology, finance, healthcare, education, retail,
   manufacturing, government, media, other). Any other spelling fails the deployment after minutes of

@@ -410,6 +410,11 @@ sequenceDiagram
   documentation does not describe. Tool choice stays automatic, because Claude's newer models
   reject forced tool choice; the instructions require the call, and a missing call is handled as
   in section 6.
+- **The host entry point is the protocol, not a model.** `agent/app.py` implements Agent
+  Framework's `SupportsAgentRun` directly: the Invocations message is the payload, the matcher runs
+  on it, the decision JSON is the reply. A wrapper agent with a "match" tool would make a model
+  echo a 10,000-token payload into a tool-call argument, which is slow, costs tokens and broke on
+  Claude (truncated argument, HTTP 500).
 - **Fresh state for every invocation.** A session is a stateful sandbox and is reused to save
   cost, so each invocation starts a new agent thread with no memory of earlier records.
   Otherwise one record's context would leak into the next and corrupt the evaluation.

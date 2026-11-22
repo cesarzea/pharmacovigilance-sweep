@@ -46,8 +46,14 @@ class Data:
 
             self.session = get_active_session()
             # Streamlit in Snowflake runs with owner's rights, where CURRENT_USER() is NULL; the viewer comes from st.user.
-            viewer = getattr(st, "user", None) or getattr(st, "experimental_user", None)
-            self.user = (viewer.get("user_name") if viewer else None) or self.session.sql("SELECT CURRENT_USER()").collect()[0][0]
+            self.user = None
+            for attr in ("user", "experimental_user"):
+                viewer = getattr(st, attr, None)
+                try:
+                    self.user = (viewer.get("user_name") if viewer is not None else None) or self.user
+                except Exception:  # noqa: BLE001 - attribute shapes differ across Streamlit versions
+                    pass
+            self.user = self.user or self.session.sql("SELECT CURRENT_USER()").collect()[0][0]
 
     def df(self, sql: str, params: list | None = None) -> pd.DataFrame:
         if self.local:

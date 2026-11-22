@@ -28,4 +28,3 @@ runner/uv.lock
 data/cache/
 .secrets/
 data/local/
-.claude/
