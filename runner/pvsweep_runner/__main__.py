@@ -12,9 +12,12 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
+import os
 import subprocess
 import sys
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -38,9 +41,12 @@ def code_version() -> str:
 
 
 def cmd_sweep(args) -> int:
-    if args.backend != "local":
-        raise SystemExit("snowflake backend not wired yet")
-    store = LocalStore(args.db, args.stage, args.synthetic)
+    if args.backend == "local":
+        store = LocalStore(args.db, args.stage, args.synthetic)
+    else:
+        from .snowflake_store import SnowflakeStore
+
+        store = SnowflakeStore()
     small = make_provider(args.provider, args.account, args.small)
     large = make_provider(args.provider, args.account, args.large) if args.large else None
     steps = Steps(small, large, store, store.vocab())
@@ -63,7 +69,12 @@ def cmd_sweep(args) -> int:
 
         agent_runner = matching.AgentRunner(lambda: make_client(args.provider, args.large or args.small,
                                                                 project_endpoint=args.project_endpoint, resource=args.account))
-        backend = DuckDBBackend(store.con)
+        if args.backend == "local":
+            backend = DuckDBBackend(store.con)
+        else:
+            from pvsweep_agent.backend import SnowflakeBackend
+
+            backend = SnowflakeBackend()
     elif args.match == "hosted":
         from azure.identity import DefaultAzureCredential
 
@@ -100,6 +111,15 @@ def cmd_sweep(args) -> int:
         if args.match == "agent":
             decision = agent_runner.match(backend, payload, f"pvsweep-matcher-{args.provider}")
             decision["tool_ids"] = []
+            u = decision.get("usage") or {}
+            store.insert_model_call({
+                "call_id": uuid.uuid4().hex, "run_id": run_id, "record_id": rec["record_id"], "step": "match",
+                "provider": args.provider, "deployment": args.large or args.small, "agent_name": f"pvsweep-matcher-{args.provider}",
+                "agent_version": "in-process", "prompt_version": "matching:v1", "schema_version": "submit_match_decision:v1",
+                "raw_output": json.dumps({k: v for k, v in decision.items() if k != "reply_text"}, default=str),
+                "input_tokens": u.get("input_tokens", 0), "output_tokens": u.get("output_tokens", 0), "cached_tokens": 0,
+                "latency_ms": decision.get("latency_ms"), "status": "ok" if decision.get("submitted") else "blocked",
+            })
         elif args.match == "hosted":
             decision = matching.match_hosted(args.project_endpoint, f"pvsweep-matcher-{args.provider}", token, payload)
         else:
@@ -194,11 +214,12 @@ def main() -> int:
     s.add_argument("--db", default="data/local/pvsweep.duckdb")
     s.add_argument("--stage", default="data/stage")
     s.add_argument("--synthetic", default="data/synthetic")
-    s.add_argument("--account", default=None, help="Foundry account name (gpt, claude)")
-    s.add_argument("--project-endpoint", default=None, help="Foundry project endpoint (agent and hosted matching with gpt)")
+    s.add_argument("--account", default=os.environ.get("PVSWEEP_FOUNDRY_ACCOUNT"), help="Foundry account name (gpt, claude)")
+    s.add_argument("--project-endpoint", default=os.environ.get("PVSWEEP_PROJECT_ENDPOINT"),
+                   help="Foundry project endpoint (agent and hosted matching with gpt)")
     s.add_argument("--provider", choices=["gpt", "claude", "claude-direct"], default="gpt")
-    s.add_argument("--small", required=True)
-    s.add_argument("--large", default=None)
+    s.add_argument("--small", default=os.environ.get("PVSWEEP_GPT_SMALL"))
+    s.add_argument("--large", default=os.environ.get("PVSWEEP_GPT_LARGE") or None)
     s.add_argument("--match", choices=["agent", "baseline", "hosted", "none"], default="none")
     s.add_argument("--as-of", default="2026-10-31", help="the sweep's reference date for clocks")
     s.add_argument("--channels", nargs="*", default=None)

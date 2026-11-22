@@ -18,7 +18,28 @@ created by the repository's scripts (`make deploy`, `make build-agent`, `make de
 | 5 | Guardrail behaviour on overdose and self-harm text | **Not tested yet** |
 | — | Invocations protocol end to end (`spike/02_invoke_hosted_agent.py`) | **Pass.** HTTP 200; 13.5 s for the two-probe call, 9.0 s for a trivial call. Each call without a session id got a new session (`x-agent-session-id` differs), so session reuse must be explicit |
 
+## 2026-11-22, later: data, synthetic records, end-to-end sweep (local backend)
+
+| Check | Result |
+|---|---|
+| Public data staged (`make stage-data`) | **Pass.** FAERS: 10,077 EU/EEA cases with the four substances as suspect, dates shifted by 669 days, brands remapped; VAERS: 400 coding and 400 outcome rows; vocabulary 18,470 terms. Hugging Face rate-limits DuckDB's remote reads, so files are downloaded once into `data/cache/` |
+| Scenario plan (`pvsweep_synth plan`) | **Pass.** 450 scenarios over 13 kinds and 5 channels; 93 anchored on real FAERS cases; intake queue 33, intake log 85, vendor log 135 rows. Deterministic for the seed; every rendered text carries a hash of its scenario |
+| Text rendering with GPT (`pvsweep_synth render --share 1/2`) | **Pass.** 225 records, 223 validated at the first attempt; about 1,200 tokens per record including retries. Claude's half waits on a working Anthropic key (the key authenticates but every call returns 429 with no rate-limit headers: account-side limit to check in the Console) |
+| Sweep, 40 records, GPT, agent matching in-process | **Pass.** Screening recall 1.000 (33/33 routed, 0 false positives on 7 non-PV records). Extraction valid 33/33, 2 escalations; causality statement 30/33, sex 31/33, age 31/33. Rules: ownership 33/33; seriousness 26/33 (the misses are "other medically important" events that need the IME list, e.g. syncope). Matching 30/33 (0.909): one BLOCKED, two confusions between "already in the safety database" and "non-significant follow-up". 250 s wall-clock at concurrency 3; 75 audited model calls, about $0.13 for screening and extraction (the agent's calls are not yet audited in-process) |
+| Report views (`V007`) on the local backend | **Pass.** Reconciliation finds 20 PSP, 27 MI-vendor and 3 social-listening items sent but never received, as planted |
+| Foundry custom evaluators | see below |
+
+Two things changed the matching accuracy from 0.71 to 0.91 between the first and second runs:
+a stricter instruction (a lookalike with the same substance, sex and event is not a match unless
+country and dates agree) and country plus receipt dates in the candidate keys. The first run also
+showed that anchored scenarios need dates consistent with their case, which the planner now does.
+
 ## Facts learned
+
+- **Anthropic API keys and workspaces:** an organisation-level key must send `anthropic-workspace-id`;
+  without it the API answers 400, and a key with no credit attached answers 429 `rate_limit_error`
+  with no rate-limit headers. The "Claude Code" workspace that Claude Code creates cannot be used for
+  API calls (404 on messages). The runner reads `ANTHROPIC_WORKSPACE_ID` from `.env`.
 
 - **Claude quota is 0 by default on this pay-as-you-go subscription**, for every Claude model and both
   hosting versions. Microsoft's own portal diagnostics confirmed "no initial Claude quota allocated".

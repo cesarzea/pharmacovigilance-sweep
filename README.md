@@ -58,7 +58,8 @@ uv run --project runner python -I -m pvsweep_runner sweep --account <foundry-acc
 ```
 
 `--provider claude-direct` uses the Anthropic API with `ANTHROPIC_API_KEY` from a git-ignored `.env`
-(development only; the evaluated path is Claude on Foundry).
+(development only; the evaluated path is Claude on Foundry). An organisation-level key also needs
+`ANTHROPIC_WORKSPACE_ID=wrkspc_...` there; a workspace-scoped key does not.
 
 ## Status
 

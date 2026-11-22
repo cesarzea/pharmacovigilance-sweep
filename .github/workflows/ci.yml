@@ -1,0 +1,37 @@
+name: ci
+
+# Runs on every push and pull request without cloud credentials: lint, unit tests, Bicep compile.
+# Pull requests from forks never get credentials (no pull_request_target), see docs/architecture.md §10.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - name: Lint
+        run: uv run --project runner --with ruff ruff check runner scripts agent/app.py snowflake/streamlit/app.py
+      - name: Unit tests (rules, validation)
+        run: uv run --project runner --extra dev python -I -m pytest -q runner/tests
+      - name: Synthetic data is consistent with its plan
+        run: |
+          uv run --project runner python -I -c "
+          import hashlib, json
+          plan = json.load(open('data/synthetic/plan.json'))
+          recs = json.load(open('data/synthetic/source_records.json'))
+          h = lambda s: hashlib.sha256(json.dumps(s, sort_keys=True, default=str).encode()).hexdigest()[:16]
+          by_id = {s['record_id']: s for s in plan['scenarios']}
+          stale = [r['record_id'] for r in recs if r.get('scenario_hash') != h(by_id.get(r['record_id'], {}))]
+          assert not stale, f'{len(stale)} rendered records do not match their scenario'
+          print(len(recs), 'records consistent with', len(plan['scenarios']), 'scenarios')
+          "
+      - name: Bicep compiles
+        run: |
+          curl -sSLo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x bicep && ./bicep build infra/main.bicep --stdout > /dev/null

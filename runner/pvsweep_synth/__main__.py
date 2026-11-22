@@ -63,9 +63,10 @@ async def render_all(args) -> int:
     if args.generator == "claude":
         from anthropic import AsyncAnthropic
         from pvsweep_runner.env import load_dotenv
+        from pvsweep_runner.providers import anthropic_headers
 
         load_dotenv()
-        aclient = AsyncAnthropic()
+        aclient = AsyncAnthropic(max_retries=5, default_headers=anthropic_headers())
         generator_label = f"anthropic:{args.deployment}"
 
         async def generate(prompt: str):

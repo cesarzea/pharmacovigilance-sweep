@@ -1,0 +1,36 @@
+name: deploy
+
+# Manual deployment to Azure with OIDC (no stored cloud secrets). The `azure` environment must be
+# protected (required reviewers) and hold: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+# as variables and PVSWEEP_PARAMETERS_JSON as a secret (the content of infra/main.parameters.local.json).
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Agent image tag to build and deploy
+        default: ${{ github.sha }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: azure
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Parameters
+        run: echo '${{ secrets.PVSWEEP_PARAMETERS_JSON }}' > infra/main.parameters.local.json
+      - name: Deploy infrastructure
+        run: make deploy
+      - name: Build agent image
+        run: make build-agent IMAGE_TAG=${{ inputs.image_tag }}
+      - name: Deploy hosted agents
+        run: make deploy-agents IMAGE_TAG=${{ inputs.image_tag }}

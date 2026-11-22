@@ -10,9 +10,14 @@ ENTRA_SCOPE = "https://ai.azure.com/.default"
 def make_client(provider: str, deployment: str, *, project_endpoint: str | None = None, resource: str | None = None):
     if provider == "claude-direct":
         # Anthropic API with the user's key (ANTHROPIC_API_KEY): local development only.
-        from agent_framework.anthropic import AnthropicClient
+        import os
 
-        return AnthropicClient(model=deployment)
+        from agent_framework.anthropic import AnthropicClient
+        from anthropic import AsyncAnthropic
+
+        ws = os.environ.get("ANTHROPIC_WORKSPACE_ID")
+        headers = {"anthropic-workspace-id": ws} if ws else {}
+        return AnthropicClient(model=deployment, anthropic_client=AsyncAnthropic(max_retries=5, default_headers=headers))
     credential = DefaultAzureCredential()
     if provider == "claude":
         from agent_framework.anthropic import AnthropicFoundryClient

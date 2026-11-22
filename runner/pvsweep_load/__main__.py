@@ -44,6 +44,7 @@ def main() -> int:
     ap.add_argument("--vaers-sample", type=int, default=400)
     ap.add_argument("--cache", type=Path, default=Path("data/cache"), help="downloaded source files (kept between runs)")
     ap.add_argument("--synthetic", type=Path, default=Path("data/synthetic"))
+    ap.add_argument("--push-snowflake", action="store_true", help="after staging, PUT and COPY into Snowflake (runner key pair)")
     args = ap.parse_args()
 
     brands = json.loads(args.brands.read_text())
@@ -92,6 +93,11 @@ def main() -> int:
     con.execute(f"CREATE OR REPLACE TABLE data_source AS SELECT * FROM read_json_auto('{manifest_path}')")
     con.execute(f"COPY data_source TO '{args.out / 'data_source'}.parquet' (FORMAT PARQUET)")
     print(f"staged {len(TABLES) + 1} files in {args.out}")
+    if args.push_snowflake:
+        from .push import push
+
+        print("pushing to Snowflake", flush=True)
+        push(args.out, Path(__file__).resolve().parents[2] / "snowflake" / "load" / "load_stage.sql")
     return 0
 
 

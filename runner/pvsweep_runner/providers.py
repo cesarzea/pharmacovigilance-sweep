@@ -127,7 +127,15 @@ class ClaudeDirect(ClaudeFoundry):
 
         load_dotenv()
         self.deployment = deployment
-        self._client = Anthropic(max_retries=5)
+        self._client = Anthropic(max_retries=5, default_headers=anthropic_headers())
+
+
+def anthropic_headers() -> dict:
+    """An organisation-level key must name the workspace; a workspace-scoped key needs nothing."""
+    import os
+
+    ws = os.environ.get("ANTHROPIC_WORKSPACE_ID")
+    return {"anthropic-workspace-id": ws} if ws else {}
 
 
 def _classify(exc: Exception) -> str:

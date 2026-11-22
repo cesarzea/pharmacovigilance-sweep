@@ -7,7 +7,7 @@ PARAMS     ?= infra/main.parameters.local.json
 RG          = rg-pvsweep-$(ENV)
 IMAGE_TAG  ?= $(shell git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M)
 
-.PHONY: deploy outputs build-agent deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load teardown
+.PHONY: deploy outputs build-agent deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
 
 deploy:
 	az deployment sub create -n pvsweep-$(ENV)-$$(date +%Y%m%d%H%M%S) -l $(LOCATION) \
@@ -65,3 +65,6 @@ snow-migrate:
 
 snow-load: stage-data
 	scripts/snow_load.sh $(SNOW_CONN) data/stage
+
+snow-app:
+	scripts/snow_app.sh $(SNOW_CONN)

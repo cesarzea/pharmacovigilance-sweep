@@ -659,6 +659,19 @@ pharmacovigilance-sweep/
 Prerelease packages (the agent framework's Foundry hosting and Anthropic integrations) are pinned
 to exact versions.
 
+## 14b. Local development backend
+
+The runner has two storage backends behind one interface: Snowflake (the target) and a local DuckDB
+file over the staged Parquet and the committed synthetic data. The local backend exists so that the
+pipeline, the rules and the matching agent can be developed and evaluated without a Snowflake
+account, and so that CI needs no Snowflake. The review app has the same split (Snowpark in
+Snowflake, DuckDB locally). The agent tools read the same `AGENT_API` views in both.
+
+Three provider settings exist for the models: `gpt` and `claude` through Foundry with Entra ID (the
+evaluated path), and `claude-direct` through the Anthropic API with the owner's key for development
+and synthetic data while the Foundry Claude quota is pending. Results are always labelled with the
+provider and deployment that produced them.
+
 ## 15. Architecture decisions
 
 | ADR | Decision | Main alternative | Why |
@@ -675,6 +688,8 @@ to exact versions.
 | 010 | The agent's decision is the argument of a strict `submit_match_decision` tool | The framework's structured-output mode | Works identically on both providers; structured output through the framework's Anthropic client is not documented |
 | 011 | Model metrics as custom evaluators in Foundry; gold labels, outputs and business KPIs in Snowflake | All metrics as SQL views | Model comparison where AI engineers look for it, one source per metric |
 | 012 | A small pool of reused sessions, a fresh agent thread per invocation | One session per record | Hosted compute is billed per session including idle time; reuse is safe only with fresh state |
+| 013 | A local DuckDB backend mirrors the Snowflake tables for development and CI | Snowflake only | Work continues without an account; CI runs without cloud credentials; the agent tools and SQL views are exercised on both |
+| 014 | Rules in Python with unit tests; report views and reconciliation in portable SQL | Everything as Snowflake SQL | Clocks and ownership are tested with fixtures in CI; the SQL that matters to analysts stays SQL and runs on both backends |
 
 ## 16. Path to production
 

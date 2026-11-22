@@ -182,4 +182,10 @@ async def run_matching(client, backend: Backend, payload: dict, name: str = "pvs
     decision["tool_calls"] = ctx.calls
     decision["submitted"] = ctx.decision is not None
     decision["reply_text"] = response.text
+    usage = getattr(response, "usage_details", None)
+    decision["usage"] = {
+        "input_tokens": getattr(usage, "input_token_count", None) or 0,
+        "output_tokens": getattr(usage, "output_token_count", None) or 0,
+        "total_tokens": getattr(usage, "total_token_count", None) or 0,
+    }
     return decision
