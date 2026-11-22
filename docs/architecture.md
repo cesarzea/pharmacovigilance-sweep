@@ -425,9 +425,10 @@ sequenceDiagram
   has no tool that writes or sends anything, a guardrail screens its traffic, and every output is
   validated twice.
 - **Cost control.** Hosted compute is billed per session for the CPU and memory allocated while it
-  runs, including idle time before suspension. The runner keeps a pool of a few sessions, each
-  processing one record at a time; sandboxes use the smallest size and the shortest idle
-  timeout.
+  runs, including idle time before suspension. The runner keeps a pool of free session ids per
+  agent and passes one back as the `agent_session_id` query parameter, so at most `concurrency`
+  sessions exist and a warm invocation costs about one second of platform overhead instead of six
+  (spike item 4); sandboxes use the smallest size and the shortest idle timeout.
 - **Throttling.** The agent's model calls happen inside the sandbox, so the runner cannot pace
   them directly. The pool size is the throttle: it is set from the large model's quota (section
   11), and the agent's model client retries on 429 with back-off.
