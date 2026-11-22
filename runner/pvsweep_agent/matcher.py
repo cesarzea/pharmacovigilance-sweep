@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 from pathlib import Path
 from typing import Annotated
 
@@ -98,15 +99,28 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
 
     @tool(approval_mode="never_require")
     def search_intake_queue(
-        text: Annotated[str, "a product name, substance or event to look for in the queue summaries"],
+        text: Annotated[str | None, "words to look for in the queue summaries (product, substance, event, sex, age); "
+                                    "every word of 4+ letters must appear; or null when intake_id is given"] = None,
+        intake_id: Annotated[str | None, "an intake id from the payload, to fetch that item directly"] = None,
         date_from: Annotated[str | None, "earliest PV receipt date YYYY-MM-DD or null"] = None,
         date_to: Annotated[str | None, "latest PV receipt date YYYY-MM-DD or null"] = None,
     ) -> str:
         """Items received by pharmacovigilance that are not cases yet."""
         if len(ctx.calls) >= MAX_TOOL_CALLS:
             return _json({"error": "tool-call limit reached; submit your decision"})
-        sql = "SELECT intake_id, channel_code, vendor_reference, received_by_pv, status, case_id, summary FROM AGENT_API.INTAKE_QUEUE WHERE lower(summary) LIKE ?"
-        params: list = [f"%{text.lower()}%"]
+        sql = ("SELECT intake_id, channel_code, vendor_reference, received_by_pv, status, case_id, summary "
+               "FROM AGENT_API.INTAKE_QUEUE WHERE 1 = 1")
+        params: list = []
+        if intake_id:
+            sql += " AND intake_id = ?"
+            params.append(intake_id)
+        else:
+            tokens = [t for t in re.split(r"[,\s]+", (text or "").lower()) if len(t) >= 4]
+            if not tokens:
+                return _json({"error": "give an intake_id or at least one word of 4+ letters"})
+            for t in tokens:
+                sql += " AND lower(summary) LIKE ?"
+                params.append(f"%{t}%")
         if date_from:
             sql += " AND received_by_pv >= ?"
             params.append(dt.datetime.fromisoformat(date_from))
@@ -115,7 +129,22 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
             params.append(dt.datetime.fromisoformat(date_to) + dt.timedelta(days=1))
         rows = backend.rows(sql + " LIMIT 20", params)
         ctx.seen_ids |= {r["intake_id"] for r in rows}
-        ctx.log("search_intake_queue", {"text": text, "date_from": date_from, "date_to": date_to}, rows)
+        ctx.log("search_intake_queue", {"text": text, "intake_id": intake_id, "date_from": date_from, "date_to": date_to}, rows)
+        return _json(rows)
+
+    @tool(approval_mode="never_require")
+    def search_intake_log(
+        vendor_code: Annotated[str, "PSPV, MIV or SOCV"],
+        vendor_reference: Annotated[str, "the vendor's reference number"],
+    ) -> str:
+        """Pharmacovigilance's own log of what it received from a vendor, by vendor reference."""
+        if len(ctx.calls) >= MAX_TOOL_CALLS:
+            return _json({"error": "tool-call limit reached; submit your decision"})
+        rows = backend.rows("SELECT intake_id, vendor_code, vendor_reference, received_by_pv, product_name, event_summary "
+                            "FROM AGENT_API.INTAKE_LOG WHERE vendor_code = ? AND vendor_reference = ? LIMIT 20",
+                            [vendor_code, vendor_reference])
+        ctx.seen_ids |= {f"{r['intake_id']}" for r in rows}
+        ctx.log("search_intake_log", {"vendor_code": vendor_code, "vendor_reference": vendor_reference}, rows)
         return _json(rows)
 
     @tool(approval_mode="never_require")
@@ -160,7 +189,8 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
                         "justification": justification, "confidence": confidence}
         return _json({"accepted": True, **ctx.decision, "tool_calls": ctx.calls})
 
-    return [search_safety_cases, get_case_history, search_intake_queue, search_vendor_log, submit_match_decision]
+    return [search_safety_cases, get_case_history, search_intake_queue, search_intake_log, search_vendor_log,
+            submit_match_decision]
 
 
 def payload_ids(payload: dict) -> set[str]:

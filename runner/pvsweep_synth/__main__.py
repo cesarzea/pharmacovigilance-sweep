@@ -5,7 +5,8 @@
 
 `plan` is deterministic and free. `render` calls the model once per record (plus retries) and writes
 source_records.json with the text, the model used and the validator result. Both outputs are
-committed, so every deployment loads the same data.
+committed, so every deployment loads the same data. Run one `render` at a time: it rewrites
+source_records.json as it goes, so two concurrent renders (e.g. both generators) overwrite each other.
 """
 
 from __future__ import annotations

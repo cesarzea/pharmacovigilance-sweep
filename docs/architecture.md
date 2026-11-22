@@ -388,7 +388,7 @@ sequenceDiagram
   EP->>Agt: new agent thread for this invocation
   Agt->>M: instructions + extraction + blocked candidates + tool definitions
   loop at most 6 tool calls
-    M->>T: search_safety_cases / get_case_history / search_intake_queue / search_vendor_log
+    M->>T: search_safety_cases / get_case_history / search_intake_queue / search_intake_log / search_vendor_log
     T->>Sf: parameterised SELECT with the agent's role
     Sf-->>T: rows
     T-->>M: IDs, dates, events, versions

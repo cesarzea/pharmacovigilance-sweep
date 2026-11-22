@@ -49,12 +49,14 @@ def business_days_between(start: dt.date, end: dt.date) -> int:
 
 
 def product_ownership(products: list[dict], portfolio: dict[str, str]) -> tuple[str, str | None]:
-    """portfolio maps lower-case names (brands and substances) to the substance; brands map to themselves too."""
+    """portfolio maps substance -> brand. Ownership is decided by the suspect products; when the record
+    names no suspect product (e.g. an admission nobody links to the medicine), the patient's own product
+    still decides ownership, so the non-suspect products are used as a fallback."""
     brands = {b.lower(): s for s, b in portfolio.items()}
+    suspect = [p for p in products if p.get("suspect", True)]
+    candidates = suspect or list(products)
     best, substance = "none", None
-    for p in products:
-        if not p.get("suspect", True):
-            continue
+    for p in candidates:
         name = p["name_verbatim"].strip().lower()
         if name in brands:
             return "own_brand", brands[name]
@@ -66,14 +68,43 @@ def product_ownership(products: list[dict], portfolio: dict[str, str]) -> tuple[
     return best, substance
 
 
+def _normalise_term(term: str) -> str:
+    return " ".join(term.lower().split())
+
+
+def _tokens(term: str) -> set[str]:
+    return {t for t in "".join(c if c.isalpha() else " " for c in term.lower()).split() if t}
+
+
+def is_ime_term(term: str, ime_terms: set[str]) -> bool:
+    """Exact match after normalisation, or a token overlap of at least 0.6 over the shorter token set, so
+    that 'Self-harm ideation' matches 'Suicidal ideation' only through its listed synonym while
+    'QT prolonged' matches 'Electrocardiogram QT prolonged'."""
+    norm = _normalise_term(term)
+    normalised = {_normalise_term(t) for t in ime_terms}
+    if norm in normalised:
+        return True
+    toks = _tokens(term)
+    if not toks:
+        return False
+    for t in normalised:
+        other = _tokens(t)
+        if not other:
+            continue
+        overlap = len(toks & other) / min(len(toks), len(other))
+        if overlap >= 0.6:
+            return True
+    return False
+
+
 def apply(extraction: dict, *, channel_report_type: str, is_social_odcs: bool, channel_received: dt.date,
           as_of: dt.date, vendor_forwarding_business_days: int | None, pv_received: dt.date | None,
           ime_terms: set[str], portfolio: dict[str, str]) -> RuleResult:
     ownership, substance = product_ownership(extraction.get("products", []), portfolio)
 
     events = extraction.get("events", [])
-    terms = {e["proposed_term"].strip().lower() for e in events}
-    ime = any(t in ime_terms for t in terms)
+    terms = {e["proposed_term"] for e in events if e.get("proposed_term")}
+    ime = any(is_ime_term(t, ime_terms) for t in terms)
     s = extraction.get("seriousness", {})
     serious = ime or any(s.get(k) for k in ("death", "life_threatening", "hospitalisation", "disability",
                                              "congenital_anomaly", "other_medically_important"))

@@ -45,6 +45,12 @@ CREATE TABLE IF NOT EXISTS SWEEP.MATCH_CANDIDATE (run_id VARCHAR, record_id VARC
 CREATE TABLE IF NOT EXISTS SWEEP.MATCH_DECISION (run_id VARCHAR, record_id VARCHAR, outcome VARCHAR, matched_ids JSON,
   new_facts JSON, justification VARCHAR, confidence VARCHAR, tool_calls JSON, agent_name VARCHAR, agent_version VARCHAR,
   valid BOOLEAN, created_at TIMESTAMP DEFAULT current_timestamp);
+CREATE SCHEMA IF NOT EXISTS REVIEW;
+CREATE TABLE IF NOT EXISTS SWEEP.FINDING (run_id VARCHAR, finding_id VARCHAR PRIMARY KEY, record_id VARCHAR, finding_type VARCHAR,
+  priority INTEGER, created_at TIMESTAMP DEFAULT current_timestamp);
+CREATE TABLE IF NOT EXISTS REVIEW.DECISION (decision_id VARCHAR PRIMARY KEY, finding_id VARCHAR, reviewer VARCHAR,
+  decided_at TIMESTAMP DEFAULT current_timestamp, outcome VARCHAR, checklist JSON, confirmed_day0 DATE, rationale VARCHAR,
+  supersedes_id VARCHAR);
 CREATE TABLE IF NOT EXISTS EVAL.GOLD_RECORD (record_id VARCHAR PRIMARY KEY, kind VARCHAR, timing VARCHAR, gold_screening VARCHAR,
   gold_match VARCHAR, gold_outcome VARCHAR, gold_day0 DATE, substance VARCHAR, product_name VARCHAR, ownership VARCHAR,
   reporter_type VARCHAR, patient_age INTEGER, patient_sex VARCHAR, event_pt VARCHAR, serious BOOLEAN, hospitalisation BOOLEAN,
@@ -167,10 +173,13 @@ class LocalStore:
                 "PQC": ("spontaneous", None, None), "SOCIAL": ("solicited", "SOCV", 2)}
 
     def ime_terms(self) -> set[str]:
+        # Keep identical to the demo list in snowflake/migrations/V003__seed_ref.sql.
         return {t.lower() for t in ("Serotonin syndrome", "Hyponatraemia", "Electrocardiogram QT prolonged", "Torsade de pointes",
                                     "Arrhythmia", "Suicidal ideation", "Suicide attempt", "Completed suicide", "Seizure",
                                     "Gastrointestinal haemorrhage", "Hepatic failure", "Neuroleptic malignant syndrome",
-                                    "Anaphylactic reaction", "Stevens-Johnson syndrome", "Agranulocytosis", "Rhabdomyolysis")}
+                                    "Anaphylactic reaction", "Stevens-Johnson syndrome", "Agranulocytosis", "Rhabdomyolysis",
+                                    "Syncope", "Self-harm ideation", "Self-injurious ideation", "Suicidal thoughts",
+                                    "QT prolonged", "QT prolongation", "Loss of consciousness", "Fainting")}
 
     def insert_model_call(self, row: dict):
         cols = ["call_id", "run_id", "record_id", "step", "provider", "deployment", "agent_name", "agent_version", "prompt_version",

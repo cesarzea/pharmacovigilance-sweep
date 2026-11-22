@@ -55,7 +55,10 @@ def cmd_sweep(args) -> int:
                                               "('sertraline','Sertavix'),('escitalopram','Escitrel'),('duloxetine','Duloxane'),"
                                               "('venlafaxine','Venlaris')) v(substance, brand)")}
     channel_meta, ime_terms = store.channel_meta(), store.ime_terms()
-    records = store.records(args.channels, args.limit, args.record)
+    record_ids = list(args.record or [])
+    if args.record_file:
+        record_ids += [ln.strip() for ln in open(args.record_file) if ln.strip()]
+    records = store.records(args.channels, args.limit, record_ids or None)
     run_id = store.start_run(args.provider, steps.screen_version, code_version(),
                              {"channels": args.channels, "limit": args.limit, "records": len(records), "match": args.match,
                               "as_of": args.as_of})
@@ -224,6 +227,7 @@ def main() -> int:
     s.add_argument("--as-of", default="2026-10-31", help="the sweep's reference date for clocks")
     s.add_argument("--channels", nargs="*", default=None)
     s.add_argument("--record", nargs="*", default=None)
+    s.add_argument("--record-file", default=None, help="file with one record id per line (same records on both providers)")
     s.add_argument("--limit", type=int, default=None)
     s.add_argument("--concurrency", type=int, default=4)
     args = ap.parse_args()

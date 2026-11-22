@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "review-app",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PVSWEEP_LOCAL_DB=data/local/app-test.duckdb scripts/run_app_local.sh"],
+      "port": 8501
+    }
+  ]
+}

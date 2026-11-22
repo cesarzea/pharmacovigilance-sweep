@@ -50,3 +50,8 @@ FROM PV.VENDOR_TX_LOG;
 -- Reference the agent may need to normalise a brand to a substance.
 CREATE OR REPLACE SECURE VIEW AGENT_API.PRODUCT AS
 SELECT substance, brand FROM REF.PRODUCT;
+
+-- Tool search_intake_log: PV's own record of what it received from a vendor.
+CREATE OR REPLACE SECURE VIEW AGENT_API.INTAKE_LOG AS
+SELECT intake_id, vendor_code, vendor_reference, received_by_pv, product_name, event_summary
+FROM PV.INTAKE_LOG;

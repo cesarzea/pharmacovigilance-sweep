@@ -95,3 +95,32 @@ def test_substance_only_when_generic_named():
 def test_business_days_skip_weekends():
     assert rules.business_days_between(dt.date(2026, 10, 16), dt.date(2026, 10, 19)) == 1  # Fri -> Mon
     assert rules.business_days_between(dt.date(2026, 10, 19), dt.date(2026, 10, 19)) == 0
+
+
+def test_ownership_falls_back_to_non_suspect_product():
+    # an admission nobody links to the medicine: the extractor marks the product as not suspect
+    r = run(extraction(products=[{"name_verbatim": "Escitrel", "suspect": False, "batch_lot": None, "evidence": "Escitrel"}],
+                       events=[{"verbatim": "admitted for a planned hernia repair", "proposed_term": "Hospitalisation",
+                                "hospitalisation": True, "evidence": "admitted"}]))
+    assert r.ownership == "own_brand" and r.substance == "escitalopram"
+    assert r.criteria_complete is False  # no suspect product: the minimum criteria are not met
+
+
+def test_ime_synonym_self_harm_ideation_is_serious():
+    r = run(extraction(events=[{"verbatim": "thoughts of hurting himself", "proposed_term": "Self-harm ideation",
+                                "hospitalisation": False, "evidence": "thoughts"}]),
+            ime_terms=IME | {"self-harm ideation"})
+    assert r.ime_flag and r.serious
+
+
+def test_ime_token_overlap_qt_prolonged_is_serious():
+    r = run(extraction(events=[{"verbatim": "QT prolonged on ECG", "proposed_term": "QT prolonged",
+                                "hospitalisation": False, "evidence": "QT prolonged"}]),
+            ime_terms=IME | {"electrocardiogram qt prolonged"})
+    assert rules.is_ime_term("QT prolonged", {"electrocardiogram qt prolonged"})
+    assert r.ime_flag and r.serious
+
+
+def test_ime_lookup_ignores_case_and_spacing():
+    assert rules.is_ime_term("  serotonin   SYNDROME ", IME)
+    assert not rules.is_ime_term("Headache", IME)

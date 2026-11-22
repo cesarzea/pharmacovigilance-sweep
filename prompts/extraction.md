@@ -22,7 +22,9 @@ Fields:
 - **special_situations**: as listed, only when stated.
 - **seriousness** (ICH E2A): death; life-threatening; hospitalisation or prolongation of it; persistent
   or significant disability; congenital anomaly; other medically important event. An emergency-room
-  visit without admission is not hospitalisation.
+  visit without admission is not hospitalisation. Set other_medically_important for events that are
+  medically serious even without an admission, such as syncope, suicidal ideation, QT prolongation or
+  serotonin syndrome.
 - **causality_statement**: what the *reporter* says: "suspected" if they think or ask whether the
   product caused it, "excluded" if they explicitly say it did not, "not_stated" otherwise. Never your
   own judgement.

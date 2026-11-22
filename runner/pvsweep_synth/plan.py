@@ -36,28 +36,70 @@ def _initials(rng: random.Random) -> str:
     return rng.choice("ABCDEFGHJKLMNPRST") + rng.choice("ABCDEFGHJKLMNPRST")
 
 
+_KEYED_CASES_SQL = """
+    SELECT c.case_id, c.initial_receipt_date, c.latest_receipt_date, c.age_years, c.sex, c.occurrence_country,
+           c.serious, c.hospitalisation, c.death, d.substance, d.product_name, e.pt
+    FROM '{stage_dir}/safety_case.parquet' c
+    JOIN (SELECT case_id, min(substance) substance, min(product_name) product_name
+          FROM '{stage_dir}/case_drug.parquet' WHERE ownership = 'own_brand' AND role = 'primary_suspect'
+          GROUP BY case_id) d USING (case_id)
+    JOIN (SELECT case_id, min(pt) pt FROM '{stage_dir}/case_event.parquet' GROUP BY case_id) e USING (case_id)
+"""
+
+
 def load_anchor_cases(stage_dir: str, n: int, rng: random.Random) -> list[dict]:
+    """Candidate anchors, excluding FAERS near-duplicates: a case with a same-key twin (substance, sex,
+    age within 3 years, same first event, same country) received within 30 days is skipped, so that
+    every anchor is the only case matching could legitimately find."""
     con = duckdb.connect()
     rows = con.execute(f"""
-        SELECT c.case_id, c.initial_receipt_date, c.latest_receipt_date, c.age_years, c.sex, c.occurrence_country,
-               c.serious, c.hospitalisation, d.substance, d.product_name, e.pt
-        FROM '{stage_dir}/safety_case.parquet' c
-        JOIN (SELECT case_id, min(substance) substance, min(product_name) product_name
-              FROM '{stage_dir}/case_drug.parquet' WHERE ownership = 'own_brand' AND role = 'primary_suspect'
-              GROUP BY case_id) d USING (case_id)
-        JOIN (SELECT case_id, min(pt) pt FROM '{stage_dir}/case_event.parquet' GROUP BY case_id) e USING (case_id)
-        WHERE c.age_years BETWEEN 18 AND 85 AND c.sex IN ('female','male') AND c.initial_receipt_date IS NOT NULL
-        ORDER BY hash(c.case_id)
+        WITH k AS ({_KEYED_CASES_SQL.format(stage_dir=stage_dir)})
+        SELECT a.case_id, a.initial_receipt_date, a.latest_receipt_date, a.age_years, a.sex, a.occurrence_country,
+               a.serious, a.hospitalisation, a.death, a.substance, a.product_name, a.pt
+        FROM k a
+        WHERE a.age_years BETWEEN 18 AND 85 AND a.sex IN ('female','male') AND a.initial_receipt_date IS NOT NULL
+          AND NOT EXISTS (
+              SELECT 1 FROM k b
+              WHERE b.case_id <> a.case_id AND b.substance = a.substance AND b.sex = a.sex AND b.pt = a.pt
+                AND b.occurrence_country = a.occurrence_country
+                AND abs(b.age_years - a.age_years) <= 3
+                AND abs(date_diff('day', b.latest_receipt_date, a.latest_receipt_date)) <= 30)
+        ORDER BY hash(a.case_id)
         LIMIT {n * 3}""").fetchall()
     cols = ["case_id", "initial_receipt_date", "latest_receipt_date", "age_years", "sex", "country",
-            "serious", "hospitalisation", "substance", "product_name", "pt"]
+            "serious", "hospitalisation", "death", "substance", "product_name", "pt"]
     cases = [dict(zip(cols, r, strict=True)) for r in rows]
     rng.shuffle(cases)
     return cases[:n]
 
 
+class CaseIndex:
+    """In-memory index of the safety database keys, to keep NEW_* scenarios from colliding with a real case."""
+
+    def __init__(self, stage_dir: str):
+        con = duckdb.connect()
+        rows = con.execute(_KEYED_CASES_SQL.format(stage_dir=stage_dir)).fetchall()
+        self.by_key: dict[tuple[str, str, str, str], list[tuple[float, dt.date]]] = {}
+        for r in rows:
+            if r[3] is None or r[2] is None:
+                continue
+            key = (r[9], r[4], str(r[11]).lower(), r[5])
+            self.by_key.setdefault(key, []).append((float(r[3]), r[2]))
+
+    def collides(self, substance: str, sex: str, age: int, event_pt: str, country: str, received: dt.date) -> bool:
+        lo, hi = received - dt.timedelta(days=180), received + dt.timedelta(days=30)
+        for age_years, latest in self.by_key.get((substance, sex, event_pt.lower(), country), ()):
+            if abs(age_years - age) <= 3 and lo <= latest <= hi:
+                return True
+        return False
+
+
 def build(seed: int, total: int, stage_dir: str, brands: dict[str, str], reference_date: dt.date) -> dict:
     rng = random.Random(seed)
+    # rng2 serves only the de-collision checks added later, so the main draw sequence (and therefore the
+    # record ids, facts and rendered texts of unchanged scenarios) stays what it was.
+    rng2 = random.Random(seed * 1000 + 1)
+    case_index = CaseIndex(stage_dir)
     kinds = [(k, k.weight) for k in C.KINDS]
     anchors = load_anchor_cases(stage_dir, total, rng)
     anchor_iter = iter(anchors)
@@ -129,6 +171,17 @@ def build(seed: int, total: int, stage_dir: str, brands: dict[str, str], referen
                 s.identifiable_patient = False
                 s.patient_initials, s.patient_age, s.patient_sex = None, None, None
 
+        # NEW_* scenarios must not look like a real case already in the safety database (a FAERS case with
+        # the same substance, sex, age band, event and country received inside the blocking window), or the
+        # gold NO_MATCH could not be told from a true match. Only the country is redrawn, from rng2, so every
+        # other fact and the main RNG sequence stay unchanged.
+        if kind.code.startswith("NEW_") and s.event_pt and s.ownership != "other" and s.patient_age is not None:
+            for _ in range(5):
+                if not case_index.collides(s.substance, s.patient_sex, s.patient_age, s.event_pt, s.country, received):
+                    break
+                s.country = rng2.choice(C.COUNTRIES)
+            country = s.country
+
         # anchors on real cases
         if kind.needs_case:
             a = next(anchor_iter, None)
@@ -138,9 +191,17 @@ def build(seed: int, total: int, stage_dir: str, brands: dict[str, str], referen
             s.substance, s.product_name, s.ownership = a["substance"], a["product_name"], "own_brand"
             s.patient_age, s.patient_sex, s.country = int(a["age_years"]), a["sex"], a["country"]
             s.event_pt = a["pt"]
-            s.serious, s.hospitalisation = bool(a["serious"]), bool(a["hospitalisation"])
+            # Seriousness comes from criteria the text can carry (admission, death), not from the FAERS
+            # `serious` flag, which is true for almost every manufacturer report and would plant nothing.
+            s.hospitalisation = bool(a["hospitalisation"])
+            s.serious = s.hospitalisation or bool(a["death"])
             known = {e[0]: e[3] for e in C.EVENTS}
-            s.event_context = known.get(a["pt"], f"the patient developed {a['pt'].lower()}")
+            if a["pt"] in known:
+                s.event_context = known[a["pt"]]
+            elif s.hospitalisation:
+                s.event_context = f"the patient developed {a['pt'].lower()} and was admitted to hospital"
+            else:
+                s.event_context = f"the patient developed {a['pt'].lower()}"
             first = a["initial_receipt_date"]
             # the channel record is written shortly after the safety case was received, so dates agree
             received = a["latest_receipt_date"] + dt.timedelta(days=rng.randint(0, 14))

@@ -92,7 +92,7 @@ class AgentRunner:
 
     def match(self, backend, payload: dict, name: str) -> dict:
         t0 = time.perf_counter()
-        for backoff in (10, 30, 60, 90):
+        for backoff in (15, 30, 60, 120, 180):
             try:
                 decision = asyncio.run_coroutine_threadsafe(self._run(backend, payload, name), self.loop).result(timeout=600)
                 break
@@ -101,7 +101,7 @@ class AgentRunner:
                     raise
                 time.sleep(backoff)
         else:
-            decision = {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": "rate limited four times",
+            decision = {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": "rate limited five times",
                         "confidence": "low", "tool_calls": [], "submitted": False}
         decision["latency_ms"] = round((time.perf_counter() - t0) * 1000)
         return decision

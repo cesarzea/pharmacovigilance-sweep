@@ -36,12 +36,15 @@ WHEN MATCHED THEN UPDATE SET channel_name = s.channel_name, report_type = s.repo
                              operated_by = s.operated_by, vendor_code = s.vendor_code
 WHEN NOT MATCHED THEN INSERT VALUES (s.channel_code, s.channel_name, s.report_type, s.operated_by, s.vendor_code);
 
--- Demo IME list: serious-event terms used by the scenarios. Not the EMA list.
+-- Demo IME list: serious-event terms used by the scenarios, plus synonyms extractors propose.
+-- Not the EMA list. Keep identical to LocalStore.ime_terms() in runner/pvsweep_runner/store.py.
 MERGE INTO REF.IME_TERM t USING (
   SELECT column1 AS pt_name, 'demo list' AS source FROM VALUES
     ('Serotonin syndrome'), ('Hyponatraemia'), ('Electrocardiogram QT prolonged'), ('Torsade de pointes'),
     ('Arrhythmia'), ('Suicidal ideation'), ('Suicide attempt'), ('Completed suicide'), ('Seizure'),
     ('Gastrointestinal haemorrhage'), ('Hepatic failure'), ('Neuroleptic malignant syndrome'),
-    ('Anaphylactic reaction'), ('Stevens-Johnson syndrome'), ('Agranulocytosis'), ('Rhabdomyolysis')
+    ('Anaphylactic reaction'), ('Stevens-Johnson syndrome'), ('Agranulocytosis'), ('Rhabdomyolysis'),
+    ('Syncope'), ('Self-harm ideation'), ('Self-injurious ideation'), ('Suicidal thoughts'),
+    ('QT prolonged'), ('QT prolongation'), ('Loss of consciousness'), ('Fainting')
 ) s ON t.pt_name = s.pt_name AND t.source = s.source
 WHEN NOT MATCHED THEN INSERT VALUES (s.pt_name, s.source);
