@@ -1,0 +1,21 @@
+[project]
+name = "pvsweep-runner"
+version = "0.1.0"
+description = "Pharmacovigilance Sweep: data staging, sweep runner and evaluation export"
+requires-python = ">=3.13"
+dependencies = [
+    "duckdb==2.0.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.0.1", "ruff==0.15.0"]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pvsweep_load*"]
+
+[tool.ruff]
+line-length = 110

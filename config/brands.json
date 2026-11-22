@@ -1,0 +1,7 @@
+{
+  "_comment": "Fictional brand names of Contoso Pharma, one per active substance. To be checked against EU product registers before publication (docs/poc-definition.md, open decision 5).",
+  "sertraline": "Sertavix",
+  "escitalopram": "Escitrel",
+  "duloxetine": "Duloxane",
+  "venlafaxine": "Venlaris"
+}
