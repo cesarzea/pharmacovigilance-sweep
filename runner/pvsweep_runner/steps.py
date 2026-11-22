@@ -41,6 +41,7 @@ class Steps:
         self.small, self.large, self.store, self.vocab = small, large, store, vocab
         self.screen_prompt, self.screen_schema, self.screen_version = load_prompt("screening")
         self.extract_prompt, self.extract_schema, self.extract_version = load_prompt("extraction")
+        self.screening_evidence: dict[str, tuple[list[str], str]] = {}   # record_id -> (evidence, confidence), for findings
 
     def user_text(self, rec: dict) -> str:
         return USER_TEMPLATE.format(channel=rec["channel_code"], date=rec["channel_received_date"],
@@ -63,6 +64,7 @@ class Steps:
         confidence = out["confidence"] if not problems else "low"   # unsupported evidence lowers confidence
         self.store.insert_screening(run_id, rec["record_id"], out["screening_class"], out["minimum_criteria"], out["evidence"],
                                     confidence, {**out, "problems": problems})
+        self.screening_evidence[rec["record_id"]] = (list(out["evidence"]), confidence)
         return out["screening_class"]
 
     def extract(self, run_id: str, rec: dict) -> tuple[bool, dict | None]:

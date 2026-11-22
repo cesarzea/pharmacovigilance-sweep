@@ -8,9 +8,13 @@ Both expose the same small interface used by the steps.
 from __future__ import annotations
 
 import json
+import re
 import threading
 import uuid
 from pathlib import Path
+
+# The report views are written in portable SQL (V007); the local backend creates them from the same file.
+REPORT_VIEWS_SQL = Path(__file__).resolve().parents[2] / "snowflake" / "migrations" / "V007__report_views.sql"
 
 LOCAL_DDL = """
 CREATE SCHEMA IF NOT EXISTS SRC; CREATE SCHEMA IF NOT EXISTS SWEEP; CREATE SCHEMA IF NOT EXISTS AUDIT;
@@ -48,9 +52,17 @@ CREATE TABLE IF NOT EXISTS SWEEP.MATCH_DECISION (run_id VARCHAR, record_id VARCH
 CREATE SCHEMA IF NOT EXISTS REVIEW;
 CREATE TABLE IF NOT EXISTS SWEEP.FINDING (run_id VARCHAR, finding_id VARCHAR PRIMARY KEY, record_id VARCHAR, finding_type VARCHAR,
   priority INTEGER, created_at TIMESTAMP DEFAULT current_timestamp);
+ALTER TABLE SWEEP.FINDING ADD COLUMN IF NOT EXISTS summary VARCHAR;
+ALTER TABLE SWEEP.FINDING ADD COLUMN IF NOT EXISTS note VARCHAR;
+ALTER TABLE SWEEP.FINDING ADD COLUMN IF NOT EXISTS package JSON;
 CREATE TABLE IF NOT EXISTS REVIEW.DECISION (decision_id VARCHAR PRIMARY KEY, finding_id VARCHAR, reviewer VARCHAR,
   decided_at TIMESTAMP DEFAULT current_timestamp, outcome VARCHAR, checklist JSON, confirmed_day0 DATE, rationale VARCHAR,
   supersedes_id VARCHAR);
+CREATE TABLE IF NOT EXISTS REVIEW.CASE_INTAKE_PACKAGE (package_id VARCHAR PRIMARY KEY, finding_id VARCHAR, decision_id VARCHAR,
+  initial_receipt_date DATE, day0 DATE, regulatory_deadline DATE, late_submission BOOLEAN, package JSON,
+  created_at TIMESTAMP DEFAULT current_timestamp);
+CREATE TABLE IF NOT EXISTS REVIEW.COMPLIANCE_FINDING (compliance_id VARCHAR PRIMARY KEY, finding_id VARCHAR, kind VARCHAR,
+  vendor_code VARCHAR, root_cause VARCHAR, capa VARCHAR, created_at TIMESTAMP DEFAULT current_timestamp);
 CREATE TABLE IF NOT EXISTS EVAL.GOLD_RECORD (record_id VARCHAR PRIMARY KEY, kind VARCHAR, timing VARCHAR, gold_screening VARCHAR,
   gold_match VARCHAR, gold_outcome VARCHAR, gold_day0 DATE, substance VARCHAR, product_name VARCHAR, ownership VARCHAR,
   reporter_type VARCHAR, patient_age INTEGER, patient_sex VARCHAR, event_pt VARCHAR, serious BOOLEAN, hospitalisation BOOLEAN,
@@ -59,6 +71,23 @@ CREATE TABLE IF NOT EXISTS EVAL.GOLD_RECORD (record_id VARCHAR PRIMARY KEY, kind
 """
 
 VENDOR_BY_CHANNEL = {"PSP": "PSPV", "MI": "MIV", "SOCIAL": "SOCV"}
+
+
+def report_view_statements(path: Path = REPORT_VIEWS_SQL) -> list[str]:
+    """The CREATE VIEW statements of V007, without the Snowflake session and grant statements. Empty when the
+    migrations are not shipped (the runner image has no local backend use for them)."""
+    if not path.is_file():
+        return []
+    sql = re.sub(r"--[^\n]*", "", path.read_text())
+    return [stmt.strip() for stmt in sql.split(";") if stmt.strip().upper().startswith("CREATE")]
+
+
+def ensure_local_schema(con) -> None:
+    """Idempotent: tables, added columns and report views. Also used by the review app in local mode."""
+    con.execute(LOCAL_DDL)
+    con.execute("CREATE SCHEMA IF NOT EXISTS REPORT")
+    for stmt in report_view_statements():
+        con.execute(stmt)
 
 
 class LocalStore:
@@ -74,6 +103,7 @@ class LocalStore:
         for schema, name in (("PV", "safety_case"), ("PV", "case_drug"), ("PV", "case_event"), ("REF", "pt_vocab")):
             self.con.execute(f"CREATE OR REPLACE VIEW {schema}.{name.upper()} AS SELECT * FROM '{stage / name}.parquet'")
         self._load_synthetic(Path(synthetic_dir))
+        ensure_local_schema(self.con)
 
     def _load_synthetic(self, d: Path):
         plan = json.loads((d / "plan.json").read_text())
@@ -169,6 +199,14 @@ class LocalStore:
                           d.get("justification"), d.get("confidence"), json.dumps(d.get("tool_calls", [])), d.get("agent_name"),
                           d.get("agent_version"), d.get("valid", True)])
 
+    def insert_findings(self, run_id, rows: list[dict]):
+        for f in rows:
+            self.con.execute("INSERT INTO SWEEP.FINDING (run_id, finding_id, record_id, finding_type, priority, summary, note, package) "
+                             "VALUES (?,?,?,?,?,?,?,?)",
+                             [run_id, f["finding_id"], f["record_id"], f["finding_type"], f["priority"], f.get("summary"),
+                              f.get("note"), json.dumps(f["package"], sort_keys=True, default=str) if f.get("package") is not None
+                              else None])
+
     def channel_meta(self) -> dict:
         """Channel report type and vendor forwarding timelines; mirrors REF.CHANNEL and REF.VENDOR."""
         return {"MI": ("spontaneous", "MIV", 1), "CRM": ("spontaneous", None, None), "PSP": ("solicited", "PSPV", 1),
@@ -204,5 +242,5 @@ def _locked(fn):
 
 # DuckDB connections are not thread-safe; the sweep runs model calls in threads, so writes are serialised.
 for _name in ("records", "vocab", "start_run", "finish_run", "insert_screening", "insert_extraction", "insert_rule_result",
-              "insert_candidates", "insert_match_decision", "insert_model_call", "query"):
+              "insert_candidates", "insert_match_decision", "insert_findings", "insert_model_call", "query"):
     setattr(LocalStore, _name, _locked(getattr(LocalStore, _name)))

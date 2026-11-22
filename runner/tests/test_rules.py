@@ -124,3 +124,16 @@ def test_ime_token_overlap_qt_prolonged_is_serious():
 def test_ime_lookup_ignores_case_and_spacing():
     assert rules.is_ime_term("  serotonin   SYNDROME ", IME)
     assert not rules.is_ime_term("Headache", IME)
+
+
+def test_after_match_withdraws_the_clock_when_pv_already_holds_the_information():
+    pre = run(extraction(), channel_received=dt.date(2025, 2, 11)).as_dict()
+    assert pre["regulatory_status"] == "overdue" and pre["days_remaining"] < 0
+    for outcome in ("IN_SAFETY_DB", "IN_INTAKE_QUEUE", "NON_SIGNIFICANT_FOLLOW_UP", "DUPLICATE_IN_SWEEP"):
+        post = rules.after_match(pre, outcome)
+        assert post["regulatory_status"] == "no_new_clock"
+        assert post["days_remaining"] is None and post["regulatory_deadline"] is None
+        assert post["serious"] == pre["serious"] and post["forwarding_status"] == pre["forwarding_status"]
+    assert pre["regulatory_status"] == "overdue"   # the pre-match result is not modified
+    for outcome in ("NO_MATCH", "SIGNIFICANT_FOLLOW_UP", "BLOCKED", None):
+        assert rules.after_match(pre, outcome) == pre

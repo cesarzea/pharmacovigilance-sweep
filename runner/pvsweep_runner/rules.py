@@ -28,7 +28,7 @@ class RuleResult:
     proposed_day0: dt.date | None
     regulatory_deadline: dt.date | None
     days_remaining: int | None
-    regulatory_status: str         # clock_not_started | reviewer_sets_day0 | on_time | at_risk | overdue
+    regulatory_status: str         # clock_not_started | reviewer_sets_day0 | on_time | at_risk | overdue | no_new_clock
     forwarding_days: int | None
     forwarding_status: str         # not_applicable | within_timeline | breached
 
@@ -142,3 +142,16 @@ def apply(extraction: dict, *, channel_report_type: str, is_social_odcs: bool, c
 
     return RuleResult(ownership, substance, channel_report_type, causality_required, ime, serious, criteria_complete,
                       day0, deadline, remaining, status, fwd_days, fwd_status)
+
+
+# Match outcomes where PV already holds the information: no new regulatory clock (definition section 6).
+NO_NEW_CLOCK_OUTCOMES = ("IN_SAFETY_DB", "IN_INTAKE_QUEUE", "NON_SIGNIFICANT_FOLLOW_UP", "DUPLICATE_IN_SWEEP")
+
+
+def after_match(rule: dict, match_outcome: str | None) -> dict:
+    """The rule result as stored: the clock is proposed before matching (and sent to the agent as such), then
+    withdrawn when the agent finds that PV already holds the information. A new case or a significant
+    follow-up keeps its clock; so does a record that was not matched or could not be matched."""
+    if match_outcome not in NO_NEW_CLOCK_OUTCOMES:
+        return dict(rule)
+    return {**rule, "regulatory_status": "no_new_clock", "regulatory_deadline": None, "days_remaining": None}

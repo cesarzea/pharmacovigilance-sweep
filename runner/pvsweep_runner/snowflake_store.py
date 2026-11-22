@@ -122,6 +122,13 @@ class SnowflakeStore:
                     d.get("justification"), d.get("confidence"), json.dumps(d.get("tool_calls", []), default=str), d.get("agent_name"),
                     d.get("agent_version"), d.get("valid", True)]).close()
 
+    def insert_findings(self, run_id, rows: list[dict]):
+        for f in rows:
+            self._exec("INSERT INTO SWEEP.FINDING (run_id, finding_id, record_id, finding_type, priority, summary, note, package) "
+                       "SELECT ?, ?, ?, ?, ?, ?, ?, PARSE_JSON(?)",
+                       [run_id, f["finding_id"], f["record_id"], f["finding_type"], f["priority"], f.get("summary"), f.get("note"),
+                        json.dumps(f["package"], sort_keys=True, default=str) if f.get("package") is not None else None]).close()
+
     def insert_model_call(self, row: dict):
         cols = ["call_id", "run_id", "record_id", "step", "provider", "deployment", "agent_name", "agent_version", "prompt_version",
                 "schema_version", "effort", "input_hash", "output_hash", "input_tokens", "output_tokens", "cached_tokens",

@@ -93,6 +93,20 @@ the gold's fault (anchored), 13 are vocabulary or list gaps.
 the medicine; `product_ownership` ignores non-suspect products and returns `none`. The gold expects the
 product the patient takes to be classified regardless of suspicion.
 
+### Gold timing labels
+
+The planner (`runner/pvsweep_synth/plan.py`) labels new cases `WITHIN_TIMELINE`, `FORWARDING_BREACHED` or
+`OVERDUE`, but only moves the receipt date back for `OVERDUE`. The other two get a receipt date anywhere in
+the 120 days before the reference date (2026-10-31), so many have passed their 15- or 90-day deadline by
+the gold's own dates: 44 of 72 `WITHIN_TIMELINE` records and 27 of 48 `FORWARDING_BREACHED` records with a
+gold day 0 are overdue at the reference date. The labels therefore cannot serve as the expected
+regulatory status. The evaluation now derives the expected overdue flag from the gold day 0, the gold
+seriousness and the run's `as_of` instead (`overdue_agreement` in `runner/pvsweep_runner/__main__.py`).
+On `run-dc415c71681e` that gives 144 of 170. All 26 disagreements are records where the extraction found
+the minimum criteria incomplete, so the clock never started. The next planner revision should constrain
+the receipt date to the label: for `WITHIN_TIMELINE` and `FORWARDING_BREACHED`, day 0 plus the deadline
+must fall on or after the reference date.
+
 ## 3. Proposals, in priority order
 
 1. **Blocking (`runner/pvsweep_runner/blocking.py`), fixes (a):** before the ranked `LIMIT 15` query,
