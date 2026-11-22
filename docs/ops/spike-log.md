@@ -69,6 +69,17 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Streamlit review app in Snowflake | **Pass.** `REVIEW.PVSWEEP_REVIEW` renders the sweep runs over the real tables (owner's rights, PVSWEEP_ADMIN); column names from Snowpark arrive upper-case, so the app lower-cases them |
 | Runner changes | Snowflake connector added to the runner project; `.env` is loaded at CLI start; the in-process agent backend serialises its shared connection and takes its own key variable; the end-of-run summary SQL is dialect-aware; `--account`/`--small` are required for Foundry providers; run-time role gets `UPDATE` on `SWEEP.RUN` only (V008) |
 
+## 2026-11-22, late: hosted agents on both providers, reading Snowflake from the sandbox
+
+| Check | Result |
+|---|---|
+| Agent key in a Foundry project connection (`infra/modules/connections.bicep`, `${{connections...}}` placeholder) | **Pass.** The sandbox received the PEM key through the environment; nothing secret in the image or the agent definition |
+| Hosted agent entry point (`agent/app.py` implements `SupportsAgentRun`) | **Pass after two rewrites.** A wrapper Agent with a `match` tool failed on `asyncio.run` inside the host loop, then on Claude because the model had to echo the whole payload into a tool-call argument (truncated, HTTP 500). The entry point now hands the Invocations message straight to the matcher |
+| Claude hosted agent calling Claude on Foundry with its own identity | **Pass** once the agent identity holds *Azure AI User* on the account (granted by `scripts/deploy_agents.py`); HTTP 500 "Agent invocation failed" before that |
+| Sweep, 8 records, GPT, `--match hosted`, Snowflake backend | **Pass.** Screening 8/8, extraction 8/8, matching 6/8 (two known cases read as NO_MATCH); 91 s at concurrency 2 |
+| Sweep, 8 records, Claude on Foundry, `--match hosted`, Snowflake backend | **Pass.** Screening 8/8, matching 7/7; one record lost to a transient TLS error on the laptop's Haiku call (`ConnectError`, counted as invalid, re-runnable with `--resume`); 152 s |
+| Spike items 1 to 3 of section 17 | Closed: Snowflake egress from the sandbox, Claude with Entra ID through Agent Framework, same code on both providers ending with the submit tool. Items 4 (session reuse) and 5 (guardrails) stay open |
+
 ## Facts learned
 
 - **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep

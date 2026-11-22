@@ -66,9 +66,12 @@ uv run --project runner python -I -m pvsweep_runner sweep --account <foundry-acc
 Infrastructure, data, the local sweep and the hosted GPT agent work end to end; three evaluation
 rounds over 450 synthetic records are in [docs/ops/spike-log.md](docs/ops/spike-log.md), with the
 provider comparison in [docs/ops/comparison-round3.md](docs/ops/comparison-round3.md). Claude on
-Foundry got quota on 2026-11-22 (ticket in [docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md))
-and its deployment is being created; the Claude numbers so far come from the Anthropic API with the
-same code. Snowflake deployment and the runner job are the open items.
+Foundry is deployed (quota granted on 2026-11-22, ticket in
+[docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md)); the 450-record Claude numbers
+come from the Anthropic API with the same code, and the Foundry path is verified on samples. Snowflake
+holds the data, the results and the review app; both hosted agents (GPT and Claude) read it from the
+Foundry sandbox. Open items: the full 450-record run through Claude on Foundry, the runner job in
+Container Apps, findings and case-intake packages, the business case.
 
 ## Data and licences
 
