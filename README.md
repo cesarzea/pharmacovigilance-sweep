@@ -70,8 +70,10 @@ Foundry is deployed (quota granted on 2026-11-22, ticket in
 [docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md)); the 450-record Claude numbers
 come from the Anthropic API with the same code, and the Foundry path is verified on samples. Snowflake
 holds the data, the results and the review app; both hosted agents (GPT and Claude) read it from the
-Foundry sandbox. Open items: the full 450-record run through Claude on Foundry, the runner job in
-Container Apps, findings and case-intake packages, the business case.
+Foundry sandbox. The sweep also runs unattended as a Container Apps job
+([docs/ops/runner-job.md](docs/ops/runner-job.md)), and every processed record ends as a prioritised
+finding with a proposed case intake package that the review app turns into the confirmed package and
+compliance findings. Open items: the full 450-record run through Claude on Foundry and the business case.
 
 ## Data and licences
 

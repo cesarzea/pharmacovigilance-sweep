@@ -36,6 +36,9 @@ DEFAULT_AS_OF = "2026-10-31"
 
 
 def code_version() -> str:
+    """Git short sha on a laptop; the image tag (PVSWEEP_CODE_VERSION) inside the Container Apps job."""
+    if os.environ.get("PVSWEEP_CODE_VERSION"):
+        return os.environ["PVSWEEP_CODE_VERSION"]
     try:
         return subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     except Exception:  # noqa: BLE001

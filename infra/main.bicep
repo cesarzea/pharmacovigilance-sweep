@@ -3,8 +3,8 @@
 //   az deployment sub create -l swedencentral -f infra/main.bicep -p @infra/main.parameters.local.json
 //
 // Creates the resource group, a monthly cost budget with alerts, and the Foundry module.
-// Spike scope (docs/architecture.md, section 17): Foundry and small models only. Container Apps,
-// Key Vault, registry and hosted agents are added by later modules.
+// Also the platform module (registry, runner identity) and, with deployRunnerJob = true, the runner
+// module (Log Analytics, App Insights, Key Vault, Container Apps environment and jobs).
 
 targetScope = 'subscription'
 
@@ -42,6 +42,10 @@ param largeCapacity int = 50
 @description('Deploy Key Vault, monitoring and the Container Apps jobs (needs the runner image and a Snowflake account).')
 param deployRunnerJob bool = false
 param runnerImageTag string = 'latest'
+@description('With deployRunnerJob: create the Container Apps jobs. False on the first pass, before `make kv-secrets`.')
+param deployRunnerJobs bool = true
+@description('With deployRunnerJob: also create the data load job.')
+param deployLoadJob bool = false
 param snowflakeAccount string = ''
 @description('PEM private key of the PVSWEEP_AGENT service user, stored in a project connection for the hosted agents. Empty skips the connection.')
 @secure()
@@ -159,6 +163,8 @@ module runner 'modules/runner.bicep' = if (deployRunnerJob) {
     gptLargeDeployment: foundry.outputs.gptLargeDeployment
     claudeSmallDeployment: foundry.outputs.claudeSmallDeployment
     claudeLargeDeployment: foundry.outputs.claudeLargeDeployment
+    deployJobs: deployRunnerJobs
+    deployLoadJob: deployLoadJob
   }
 }
 
@@ -170,6 +176,8 @@ output registryName string = platform.outputs.registryName
 output registryLoginServer string = platform.outputs.registryLoginServer
 output runnerIdentityClientId string = platform.outputs.runnerIdentityClientId
 output keyVaultName string = runner.?outputs.keyVaultName ?? ''
+output logAnalyticsWorkspaceId string = runner.?outputs.logAnalyticsWorkspaceId ?? ''
+output sweepJobName string = runner.?outputs.sweepJobName ?? ''
 output anthropicBaseUrl string = foundry.outputs.anthropicBaseUrl
 output openaiBaseUrl string = foundry.outputs.openaiBaseUrl
 output projectEndpoint string = foundry.outputs.projectEndpoint

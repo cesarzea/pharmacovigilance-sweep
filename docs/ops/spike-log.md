@@ -90,6 +90,15 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Sweep on Snowflake with findings (4 records, GPT) | **Pass.** 3 potential cases written to `SWEEP.FINDING` with packages; V009 applied |
 | Review app on Snowflake | **Pass.** Queue from `SWEEP.FINDING` by priority; opening a finding shows the package; recording outcome D with a confirmed day 0 wrote `REVIEW.DECISION`, `REVIEW.CASE_INTAKE_PACKAGE` (deadline recomputed from the confirmed day 0) and `REVIEW.COMPLIANCE_FINDING` (`late_submission`) in one click, with the viewer's name from `st.user` |
 
+## 2026-11-23: the sweep as an unattended Azure job
+
+| Check | Result |
+|---|---|
+| `infra/modules/runner.bicep` deployed (`make deploy DEPLOY_RUNNER=1`) | **Pass.** Log Analytics (30-day retention), App Insights, Key Vault (RBAC: runner identity Secrets User, deploying principal Secrets Officer), AcrPull for the runner identity, consumption-only Container Apps environment, manual-trigger job `job-pvsweep-dev-sweep` (0.5 vCPU / 1 GiB, no retries). Order on a fresh environment: build the image, deploy without jobs, `make kv-secrets`, deploy with jobs; see [runner-job.md](runner-job.md) |
+| Secrets | The two Snowflake private keys go to Key Vault by file (`scripts/kv_secrets.sh`) and reach the job as Key Vault secret references resolved with the runner's identity; nothing passes through shell arguments or the repository |
+| Execution `job-pvsweep-dev-sweep-fbcccyc` (`make run-sweep-job`, `--limit 6`, GPT) | **Pass.** 3 min 07 s wall-clock (146 s for the sweep itself); `SWEEP.RUN` row `run-054e4b5e2af1` with 6 screened, routed, extracted and matched, 5 potential-case findings, 18 audited calls, about $0.02. Console logs reach Log Analytics about five minutes after the end; `az containerapp job logs show` answers "No replicas found" once the execution is over |
+| Guard rails | `scripts/run_sweep_job.sh` refuses to start without `--limit` unless `ALLOW_FULL_SWEEP=1`, starts the job through the ARM API with an args override, and stops the execution if the override did not reach it. The 50 EUR budget on the resource group covers the new resources. `SWEEP.RUN.code_version` records the image tag |
+
 ## Facts learned
 
 - **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep

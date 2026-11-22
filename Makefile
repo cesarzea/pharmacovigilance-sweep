@@ -7,26 +7,48 @@ PARAMS     ?= infra/main.parameters.local.json
 RG          = rg-pvsweep-$(ENV)
 IMAGE_TAG  ?= $(shell git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M)
 
-.PHONY: deploy outputs build-agent deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
+.PHONY: deploy outputs build-agent build-runner kv-secrets run-sweep-job deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
 
 # The Snowflake agent key (from `make snow-keys`) goes into a Foundry project connection when it exists;
 # SNOWFLAKE_ACCOUNT comes from .env (PVSWEEP_SNOWFLAKE_ACCOUNT) unless given on the command line.
 SNOWFLAKE_ACCOUNT ?= $(shell grep -s '^PVSWEEP_SNOWFLAKE_ACCOUNT=' .env | cut -d= -f2)
-AGENT_KEY_PARAMS   = $(if $(and $(wildcard .secrets/snowflake_agent.p8),$(SNOWFLAKE_ACCOUNT)),-p snowflakeAccount='$(SNOWFLAKE_ACCOUNT)' -p snowflakeAgentPrivateKey="$$(cat .secrets/snowflake_agent.p8)",)
+SNOWFLAKE_PARAMS   = $(if $(SNOWFLAKE_ACCOUNT),-p snowflakeAccount='$(SNOWFLAKE_ACCOUNT)',)
+AGENT_KEY_PARAMS   = $(if $(and $(wildcard .secrets/snowflake_agent.p8),$(SNOWFLAKE_ACCOUNT)),-p snowflakeAgentPrivateKey="$$(cat .secrets/snowflake_agent.p8)",)
+
+# Runner job (docs/ops/runner-job.md). DEPLOY_RUNNER=1 adds Log Analytics, App Insights, Key Vault, the
+# Container Apps environment and the sweep job with image pvsweep-runner:$(IMAGE_TAG). RUNNER_JOBS=0 skips
+# the jobs: first pass only, before `make kv-secrets` has stored the keys they reference.
+DEPLOY_RUNNER ?= 0
+RUNNER_JOBS   ?= 1
+RUNNER_PARAMS  = $(if $(filter 1,$(DEPLOY_RUNNER)),-p deployRunnerJob=true -p runnerImageTag=$(IMAGE_TAG) -p deployRunnerJobs=$(if $(filter 0,$(RUNNER_JOBS)),false,true),)
 
 deploy:
 	az deployment sub create -n pvsweep-$(ENV)-$$(date +%Y%m%d%H%M%S) -l $(LOCATION) \
-	  -f infra/main.bicep -p @$(PARAMS) $(AGENT_KEY_PARAMS) --only-show-errors -o none
+	  -f infra/main.bicep -p @$(PARAMS) $(SNOWFLAKE_PARAMS) $(AGENT_KEY_PARAMS) $(RUNNER_PARAMS) --only-show-errors -o none
 	$(MAKE) outputs
 
-# Writes the deployment outputs to .env.$(ENV) (ignored by git) for the other targets.
+# Writes the outputs of the latest successful deployment to .env.$(ENV) (ignored by git) for the other targets.
 outputs:
-	az deployment sub list --query "[?contains(name,'pvsweep-$(ENV)-')] | sort_by(@,&properties.timestamp) | [-1].properties.outputs" -o json \
+	az deployment sub list --query "[?contains(name,'pvsweep-$(ENV)-') && properties.provisioningState=='Succeeded'] | sort_by(@,&properties.timestamp) | [-1].properties.outputs" -o json \
 	  | python3 -I scripts/outputs_to_env.py > .env.$(ENV)
 	@cat .env.$(ENV)
 
 build-agent:
 	. ./.env.$(ENV) && az acr build -r $$REGISTRYNAME -g $$RESOURCEGROUP -t pvsweep-agent:$(IMAGE_TAG) --platform linux/amd64 -f agent/Dockerfile .
+
+build-runner:
+	. ./.env.$(ENV) && az acr build -r $$REGISTRYNAME -g $$RESOURCEGROUP -t pvsweep-runner:$(IMAGE_TAG) --platform linux/amd64 -f runner/Dockerfile .
+
+# Snowflake runner and agent keys into the runner Key Vault (needs a DEPLOY_RUNNER=1 deployment first).
+kv-secrets:
+	@. ./.env.$(ENV) && test -n "$$KEYVAULTNAME" || { echo "KEYVAULTNAME is empty in .env.$(ENV): run make deploy DEPLOY_RUNNER=1 RUNNER_JOBS=0 first"; exit 1; }
+	. ./.env.$(ENV) && scripts/kv_secrets.sh $$KEYVAULTNAME .secrets
+
+# One execution of the sweep job with SWEEP_ARGS, then its console logs (scripts/run_sweep_job.sh refuses
+# to start without --limit unless ALLOW_FULL_SWEEP=1).
+SWEEP_ARGS ?= --limit 6 --concurrency 2 --match agent --backend snowflake --provider gpt
+run-sweep-job:
+	. ./.env.$(ENV) && scripts/run_sweep_job.sh $$RESOURCEGROUP $$SWEEPJOBNAME $$LOGANALYTICSWORKSPACEID -- $(SWEEP_ARGS)
 
 deploy-agents:
 	. ./.env.$(ENV) && uv run -q --no-project --with azure-ai-projects --with azure-identity python -I scripts/deploy_agents.py \
