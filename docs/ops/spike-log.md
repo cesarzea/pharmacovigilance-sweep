@@ -71,6 +71,20 @@ showed that anchored scenarios need dates consistent with their case, which the 
 
 ## Facts learned
 
+- **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep
+  (`infra/modules/connections.bicep`) and referenced as `${{connections.<name>.credentials.<key>}}` in
+  the agent's environment variables is resolved by the platform at start-up: the sandbox saw the full
+  PEM key (1,703 characters). No secret is in the agent definition, the image or the repository.
+- **Hosted agents and Claude:** the platform mints an identity per hosted agent (`instance_identity`
+  in the version record). GPT through the project endpoint works without any role, but Claude on
+  Foundry is called with that identity's token against the account's `/anthropic` endpoint and fails
+  with HTTP 500 "Agent invocation failed" until the identity holds *Azure AI User* on the account;
+  `scripts/deploy_agents.py` grants it after each version becomes active.
+- **Hosted agent tools run inside the host's event loop:** a sync tool that calls `asyncio.run()`
+  fails with "Function failed"; the tool is `async` and awaits the matcher. Tool failures now come
+  back as a JSON error with safe diagnostics instead of an opaque message.
+- **Image layout:** `prompts/` is one level above the package in the image and two in the repository;
+  the matcher looks in both (or `PVSWEEP_PROMPTS_DIR`).
 - **Anthropic API keys and workspaces:** an organisation-level key must send `anthropic-workspace-id`;
   without it the API answers 400, and a key with no credit attached answers 429 `rate_limit_error`
   with no rate-limit headers. The "Claude Code" workspace that Claude Code creates cannot be used for
