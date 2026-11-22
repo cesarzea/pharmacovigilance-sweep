@@ -11,7 +11,7 @@ from pathlib import Path
 LOCAL_VIEWS = """
 CREATE SCHEMA IF NOT EXISTS AGENT_API;
 CREATE OR REPLACE VIEW AGENT_API.SAFETY_CASE_SUMMARY AS
-SELECT c.case_id, c.initial_receipt_date, c.latest_receipt_date, c.event_date, c.case_version, c.reporter_type,
+SELECT c.case_id, c.patient_initials, c.initial_receipt_date, c.latest_receipt_date, c.event_date, c.case_version, c.reporter_type,
        c.age_years, c.sex, c.occurrence_country, c.serious, c.hospitalisation, c.death, d.substances, d.products, e.events
 FROM PV.SAFETY_CASE c
 LEFT JOIN (SELECT case_id, list(DISTINCT substance ORDER BY substance) AS substances,

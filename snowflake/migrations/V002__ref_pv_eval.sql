@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS REF.IME_TERM (
 CREATE TABLE IF NOT EXISTS PV.SAFETY_CASE (
   case_id                     STRING NOT NULL,
   source_case_id              STRING,
+  patient_initials            STRING,   -- synthetic, deterministic (FAERS has none)
   case_version                NUMBER,
   initial_receipt_date        DATE,
   latest_receipt_date         DATE,

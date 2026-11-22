@@ -123,7 +123,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Jonas G.",
-   "patient_initials": "ES",
+   "patient_initials": "DJ",
    "patient_age": 63,
    "patient_sex": "female",
    "country": "FR",
@@ -454,7 +454,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Ingrid T.",
-   "patient_initials": "BJ",
+   "patient_initials": "MW",
    "patient_age": 67,
    "patient_sex": "female",
    "country": "FR",
@@ -489,7 +489,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Pieter T.",
-   "patient_initials": "LG",
+   "patient_initials": "MJ",
    "patient_age": 53,
    "patient_sex": "female",
    "country": "FR",
@@ -596,7 +596,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "ND",
+   "patient_initials": "LZ",
    "patient_age": 30,
    "patient_sex": "female",
    "country": "FR",
@@ -634,7 +634,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Clara L.",
-   "patient_initials": "PJ",
+   "patient_initials": "UG",
    "patient_age": 19,
    "patient_sex": "male",
    "country": "IT",
@@ -743,7 +743,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "HS",
+   "patient_initials": "IV",
    "patient_age": 83,
    "patient_sex": "female",
    "country": "ES",
@@ -925,7 +925,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Zofia N.",
-   "patient_initials": "BA",
+   "patient_initials": "VK",
    "patient_age": 44,
    "patient_sex": "female",
    "country": "FR",
@@ -963,7 +963,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Ines T.",
-   "patient_initials": "PH",
+   "patient_initials": "VQ",
    "patient_age": 51,
    "patient_sex": "female",
    "country": "FR",
@@ -998,7 +998,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Pieter K.",
-   "patient_initials": "PS",
+   "patient_initials": "XU",
    "patient_age": 22,
    "patient_sex": "female",
    "country": "FR",
@@ -1249,7 +1249,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Ingrid R.",
-   "patient_initials": "DE",
+   "patient_initials": "AD",
    "patient_age": 40,
    "patient_sex": "male",
    "country": "SE",
@@ -1323,7 +1323,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Luca N.",
-   "patient_initials": "RE",
+   "patient_initials": "EN",
    "patient_age": 52,
    "patient_sex": "female",
    "country": "FR",
@@ -1546,7 +1546,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Niels W.",
-   "patient_initials": "EK",
+   "patient_initials": "QO",
    "patient_age": 82,
    "patient_sex": "female",
    "country": "FR",
@@ -1693,7 +1693,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Mateo K.",
-   "patient_initials": "FS",
+   "patient_initials": "VQ",
    "patient_age": 35,
    "patient_sex": "female",
    "country": "FR",
@@ -2018,7 +2018,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Pieter N.",
-   "patient_initials": "FM",
+   "patient_initials": "HF",
    "patient_age": 53,
    "patient_sex": "male",
    "country": "ES",
@@ -2276,7 +2276,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Anna V.",
-   "patient_initials": "TK",
+   "patient_initials": "WQ",
    "patient_age": 81,
    "patient_sex": "male",
    "country": "ES",
@@ -2311,7 +2311,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "FG",
+   "patient_initials": "HU",
    "patient_age": 44,
    "patient_sex": "female",
    "country": "ES",
@@ -2386,7 +2386,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "MA",
+   "patient_initials": "HC",
    "patient_age": 26,
    "patient_sex": "female",
    "country": "FR",
@@ -2675,7 +2675,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Karl P.",
-   "patient_initials": "JC",
+   "patient_initials": "UA",
    "patient_age": 55,
    "patient_sex": "female",
    "country": "SE",
@@ -2749,7 +2749,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Ines M.",
-   "patient_initials": "AM",
+   "patient_initials": "LO",
    "patient_age": 23,
    "patient_sex": "female",
    "country": "IT",
@@ -2930,7 +2930,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "HL",
+   "patient_initials": "SN",
    "patient_age": 84,
    "patient_sex": "female",
    "country": "FR",
@@ -3005,7 +3005,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Ines F.",
-   "patient_initials": "GP",
+   "patient_initials": "YL",
    "patient_age": 43,
    "patient_sex": "male",
    "country": "PT",
@@ -3114,7 +3114,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Olivier R.",
-   "patient_initials": "JT",
+   "patient_initials": "RZ",
    "patient_age": 30,
    "patient_sex": "male",
    "country": "FR",
@@ -3151,7 +3151,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Lena R.",
-   "patient_initials": "PB",
+   "patient_initials": "LA",
    "patient_age": 59,
    "patient_sex": "female",
    "country": "IT",
@@ -3299,7 +3299,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "DL",
+   "patient_initials": "ZI",
    "patient_age": 76,
    "patient_sex": "female",
    "country": "PT",
@@ -3337,7 +3337,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Luca K.",
-   "patient_initials": "AL",
+   "patient_initials": "NY",
    "patient_age": 52,
    "patient_sex": "male",
    "country": "DE",
@@ -3840,7 +3840,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Clara T.",
-   "patient_initials": "JD",
+   "patient_initials": "VA",
    "patient_age": 26,
    "patient_sex": "male",
    "country": "IT",
@@ -3912,7 +3912,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Jonas V.",
-   "patient_initials": "KL",
+   "patient_initials": "UK",
    "patient_age": 32,
    "patient_sex": "male",
    "country": "DE",
@@ -3950,7 +3950,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Zofia B.",
-   "patient_initials": "GS",
+   "patient_initials": "XY",
    "patient_age": 22,
    "patient_sex": "male",
    "country": "FR",
@@ -4710,7 +4710,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Anna G.",
-   "patient_initials": "LL",
+   "patient_initials": "JI",
    "patient_age": 42,
    "patient_sex": "male",
    "country": "PL",
@@ -5217,7 +5217,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Clara T.",
-   "patient_initials": "BR",
+   "patient_initials": "VT",
    "patient_age": 57,
    "patient_sex": "male",
    "country": "IT",
@@ -5398,7 +5398,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Luca L.",
-   "patient_initials": "NM",
+   "patient_initials": "OD",
    "patient_age": 19,
    "patient_sex": "female",
    "country": "FR",
@@ -5728,7 +5728,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "PB",
+   "patient_initials": "OW",
    "patient_age": 22,
    "patient_sex": "female",
    "country": "CZ",
@@ -6124,7 +6124,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Hugo R.",
-   "patient_initials": "MC",
+   "patient_initials": "ZO",
    "patient_age": 50,
    "patient_sex": "female",
    "country": "IT",
@@ -6556,7 +6556,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "NK",
+   "patient_initials": "KH",
    "patient_age": 24,
    "patient_sex": "male",
    "country": "FR",
@@ -6847,7 +6847,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Hugo S.",
-   "patient_initials": "FL",
+   "patient_initials": "SQ",
    "patient_age": 55,
    "patient_sex": "female",
    "country": "SK",
@@ -6922,7 +6922,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Karl S.",
-   "patient_initials": "PD",
+   "patient_initials": "YZ",
    "patient_age": 78,
    "patient_sex": "female",
    "country": "PT",
@@ -7138,7 +7138,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Anna G.",
-   "patient_initials": "FA",
+   "patient_initials": "YI",
    "patient_age": 20,
    "patient_sex": "female",
    "country": "IT",
@@ -7210,7 +7210,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Elena D.",
-   "patient_initials": "TA",
+   "patient_initials": "DE",
    "patient_age": 80,
    "patient_sex": "female",
    "country": "FR",
@@ -7388,7 +7388,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Luca G.",
-   "patient_initials": "CL",
+   "patient_initials": "RH",
    "patient_age": 49,
    "patient_sex": "male",
    "country": "DE",
@@ -7602,7 +7602,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "DG",
+   "patient_initials": "CZ",
    "patient_age": 49,
    "patient_sex": "female",
    "country": "DE",
@@ -7676,7 +7676,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Karl G.",
-   "patient_initials": "TN",
+   "patient_initials": "LP",
    "patient_age": 64,
    "patient_sex": "female",
    "country": "FR",
@@ -7929,7 +7929,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Maja T.",
-   "patient_initials": "JR",
+   "patient_initials": "TM",
    "patient_age": 54,
    "patient_sex": "female",
    "country": "FI",
@@ -8254,7 +8254,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Maja B.",
-   "patient_initials": "TA",
+   "patient_initials": "SU",
    "patient_age": 48,
    "patient_sex": "female",
    "country": "FR",
@@ -8361,7 +8361,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Elena R.",
-   "patient_initials": "GG",
+   "patient_initials": "RJ",
    "patient_age": 67,
    "patient_sex": "male",
    "country": "IT",
@@ -8545,7 +8545,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "JH",
+   "patient_initials": "WP",
    "patient_age": 30,
    "patient_sex": "male",
    "country": "FR",
@@ -8582,7 +8582,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Clara S.",
-   "patient_initials": "FR",
+   "patient_initials": "PY",
    "patient_age": 32,
    "patient_sex": "male",
    "country": "SE",
@@ -8800,7 +8800,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Ingrid L.",
-   "patient_initials": "BC",
+   "patient_initials": "PO",
    "patient_age": 77,
    "patient_sex": "male",
    "country": "FR",
@@ -9631,7 +9631,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "GD",
+   "patient_initials": "WW",
    "patient_age": 19,
    "patient_sex": "female",
    "country": "FR",
@@ -9774,7 +9774,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Jonas L.",
-   "patient_initials": "PL",
+   "patient_initials": "LX",
    "patient_age": 36,
    "patient_sex": "male",
    "country": "DE",
@@ -9918,7 +9918,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Marie G.",
-   "patient_initials": "GB",
+   "patient_initials": "BO",
    "patient_age": 78,
    "patient_sex": "male",
    "country": "ES",
@@ -10205,7 +10205,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Ines V.",
-   "patient_initials": "ED",
+   "patient_initials": "OP",
    "patient_age": 47,
    "patient_sex": "male",
    "country": "FR",
@@ -10243,7 +10243,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Mateo G.",
-   "patient_initials": "CJ",
+   "patient_initials": "LI",
    "patient_age": 73,
    "patient_sex": "male",
    "country": "FR",
@@ -10681,7 +10681,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Ines V.",
-   "patient_initials": "DF",
+   "patient_initials": "TH",
    "patient_age": 69,
    "patient_sex": "male",
    "country": "FR",
@@ -10719,7 +10719,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Marie W.",
-   "patient_initials": "SN",
+   "patient_initials": "WO",
    "patient_age": 76,
    "patient_sex": "male",
    "country": "FR",
@@ -10828,7 +10828,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Elena P.",
-   "patient_initials": "NF",
+   "patient_initials": "AI",
    "patient_age": 47,
    "patient_sex": "female",
    "country": "FR",
@@ -10865,7 +10865,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Marie P.",
-   "patient_initials": "KM",
+   "patient_initials": "LR",
    "patient_age": 82,
    "patient_sex": "female",
    "country": "FR",
@@ -11011,7 +11011,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Sofia S.",
-   "patient_initials": "JD",
+   "patient_initials": "VU",
    "patient_age": 74,
    "patient_sex": "male",
    "country": "FR",
@@ -11048,7 +11048,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Olivier W.",
-   "patient_initials": "RG",
+   "patient_initials": "BD",
    "patient_age": 61,
    "patient_sex": "female",
    "country": "FR",
@@ -11262,7 +11262,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "FB",
+   "patient_initials": "RH",
    "patient_age": 40,
    "patient_sex": "female",
    "country": "ES",
@@ -11631,7 +11631,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "SS",
+   "patient_initials": "BT",
    "patient_age": 24,
    "patient_sex": "female",
    "country": "FR",
@@ -11743,7 +11743,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Sofia K.",
-   "patient_initials": "CF",
+   "patient_initials": "ZE",
    "patient_age": 48,
    "patient_sex": "male",
    "country": "ES",
@@ -11780,7 +11780,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "LM",
+   "patient_initials": "KT",
    "patient_age": 21,
    "patient_sex": "female",
    "country": "IT",
@@ -11818,7 +11818,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "JA",
+   "patient_initials": "OX",
    "patient_age": 80,
    "patient_sex": "male",
    "country": "FR",
@@ -11996,7 +11996,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Sofia L.",
-   "patient_initials": "HP",
+   "patient_initials": "QX",
    "patient_age": 61,
    "patient_sex": "female",
    "country": "FR",
@@ -12108,7 +12108,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Lena G.",
-   "patient_initials": "MH",
+   "patient_initials": "FR",
    "patient_age": 28,
    "patient_sex": "female",
    "country": "PL",
@@ -12470,7 +12470,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Maja D.",
-   "patient_initials": "EK",
+   "patient_initials": "YQ",
    "patient_age": 85,
    "patient_sex": "male",
    "country": "FR",
@@ -12545,7 +12545,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Maja N.",
-   "patient_initials": "LH",
+   "patient_initials": "FU",
    "patient_age": 44,
    "patient_sex": "female",
    "country": "CZ",
@@ -12654,7 +12654,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Hugo G.",
-   "patient_initials": "MK",
+   "patient_initials": "FX",
    "patient_age": 23,
    "patient_sex": "male",
    "country": "SE",
@@ -12691,7 +12691,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Olivier F.",
-   "patient_initials": "MJ",
+   "patient_initials": "GE",
    "patient_age": 24,
    "patient_sex": "female",
    "country": "SE",
@@ -12765,7 +12765,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Zofia N.",
-   "patient_initials": "AR",
+   "patient_initials": "VQ",
    "patient_age": 76,
    "patient_sex": "female",
    "country": "ES",
@@ -12802,7 +12802,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Maja D.",
-   "patient_initials": "HR",
+   "patient_initials": "PB",
    "patient_age": 84,
    "patient_sex": "female",
    "country": "FR",
@@ -12985,7 +12985,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Hugo M.",
-   "patient_initials": "BT",
+   "patient_initials": "AW",
    "patient_age": 37,
    "patient_sex": "male",
    "country": "ES",
@@ -13557,7 +13557,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Karl R.",
-   "patient_initials": "EF",
+   "patient_initials": "PE",
    "patient_age": 41,
    "patient_sex": "female",
    "country": "CZ",
@@ -13774,7 +13774,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Ingrid L.",
-   "patient_initials": "RH",
+   "patient_initials": "FV",
    "patient_age": 38,
    "patient_sex": "female",
    "country": "DE",
@@ -13885,7 +13885,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "NL",
+   "patient_initials": "AU",
    "patient_age": 65,
    "patient_sex": "female",
    "country": "FR",
@@ -13957,7 +13957,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Sofia F.",
-   "patient_initials": "PK",
+   "patient_initials": "SM",
    "patient_age": 60,
    "patient_sex": "male",
    "country": "FR",
@@ -14099,7 +14099,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Maja G.",
-   "patient_initials": "ES",
+   "patient_initials": "NB",
    "patient_age": 49,
    "patient_sex": "male",
    "country": "DE",
@@ -14136,7 +14136,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Jonas N.",
-   "patient_initials": "ET",
+   "patient_initials": "TL",
    "patient_age": 77,
    "patient_sex": "male",
    "country": "FR",
@@ -14319,7 +14319,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Rafael M.",
-   "patient_initials": "MA",
+   "patient_initials": "XE",
    "patient_age": 41,
    "patient_sex": "female",
    "country": "DE",
@@ -14393,7 +14393,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "GE",
+   "patient_initials": "HT",
    "patient_age": 51,
    "patient_sex": "male",
    "country": "FR",
@@ -14430,7 +14430,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "GP",
+   "patient_initials": "TI",
    "patient_age": 64,
    "patient_sex": "female",
    "country": "IT",
@@ -14541,7 +14541,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Ines D.",
-   "patient_initials": "MB",
+   "patient_initials": "KU",
    "patient_age": 81,
    "patient_sex": "female",
    "country": "ES",
@@ -14646,7 +14646,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Jonas R.",
-   "patient_initials": "HR",
+   "patient_initials": "RK",
    "patient_age": 54,
    "patient_sex": "female",
    "country": "IT",
@@ -14755,7 +14755,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Zofia W.",
-   "patient_initials": "KN",
+   "patient_initials": "HE",
    "patient_age": 18,
    "patient_sex": "female",
    "country": "FR",
@@ -14828,7 +14828,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Marie G.",
-   "patient_initials": "DK",
+   "patient_initials": "PX",
    "patient_age": 84,
    "patient_sex": "female",
    "country": "PT",
@@ -14900,7 +14900,7 @@
    "ownership": "own_brand",
    "reporter_type": "nurse",
    "reporter_name": "Luca W.",
-   "patient_initials": "KJ",
+   "patient_initials": "TM",
    "patient_age": 73,
    "patient_sex": "male",
    "country": "DE",
@@ -14938,7 +14938,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Karl M.",
-   "patient_initials": "MF",
+   "patient_initials": "HA",
    "patient_age": 21,
    "patient_sex": "female",
    "country": "FR",
@@ -15119,7 +15119,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Ingrid L.",
-   "patient_initials": "BE",
+   "patient_initials": "ZZ",
    "patient_age": 24,
    "patient_sex": "female",
    "country": "FR",
@@ -15623,7 +15623,7 @@
    "ownership": "own_brand",
    "reporter_type": "pharmacist",
    "reporter_name": "Maja S.",
-   "patient_initials": "RD",
+   "patient_initials": "ZD",
    "patient_age": 32,
    "patient_sex": "male",
    "country": "IT",
@@ -15697,7 +15697,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": "Hugo M.",
-   "patient_initials": "KP",
+   "patient_initials": "LO",
    "patient_age": 56,
    "patient_sex": "male",
    "country": "DE",
@@ -15769,7 +15769,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Marie S.",
-   "patient_initials": "HD",
+   "patient_initials": "XX",
    "patient_age": 19,
    "patient_sex": "female",
    "country": "NL",
@@ -15950,7 +15950,7 @@
    "ownership": "own_brand",
    "reporter_type": "physician",
    "reporter_name": "Sofia G.",
-   "patient_initials": "MP",
+   "patient_initials": "RU",
    "patient_age": 63,
    "patient_sex": "female",
    "country": "ES",
@@ -16131,7 +16131,7 @@
    "ownership": "own_brand",
    "reporter_type": "consumer",
    "reporter_name": null,
-   "patient_initials": "FT",
+   "patient_initials": "IF",
    "patient_age": 63,
    "patient_sex": "female",
    "country": "FR",
@@ -16346,7 +16346,7 @@
    "received_by_pv": "2026-08-18T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Sertavix: Dizziness, female 24y, AT"
+   "summary": "Sertavix: Dizziness, female 24y, SH, AT"
   },
   {
    "intake_id": "INT-00002",
@@ -16355,7 +16355,7 @@
    "received_by_pv": "2026-07-06T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "escitalopram: Serotonin syndrome, female 82y, NL"
+   "summary": "escitalopram: Serotonin syndrome, female 82y, MR, NL"
   },
   {
    "intake_id": "INT-00003",
@@ -16364,7 +16364,7 @@
    "received_by_pv": "2026-10-02T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "sertraline: Serotonin syndrome, female 24y, IT"
+   "summary": "sertraline: Serotonin syndrome, female 24y, AA, IT"
   },
   {
    "intake_id": "INT-00004",
@@ -16373,7 +16373,7 @@
    "received_by_pv": "2026-08-07T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Insomnia, male 56y, PL"
+   "summary": "Escitrel: Insomnia, male 56y, DN, PL"
   },
   {
    "intake_id": "INT-00005",
@@ -16382,7 +16382,7 @@
    "received_by_pv": "2026-07-05T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "escitalopram: Arrhythmia, male 21y, DE"
+   "summary": "escitalopram: Arrhythmia, male 21y, GJ, DE"
   },
   {
    "intake_id": "INT-00006",
@@ -16391,7 +16391,7 @@
    "received_by_pv": "2026-09-06T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "duloxetine: Gastrointestinal haemorrhage, female 72y, NL"
+   "summary": "duloxetine: Gastrointestinal haemorrhage, female 72y, KL, NL"
   },
   {
    "intake_id": "INT-00007",
@@ -16400,7 +16400,7 @@
    "received_by_pv": "2026-09-22T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "duloxetine: Arrhythmia, male 51y, IE"
+   "summary": "duloxetine: Arrhythmia, male 51y, HS, IE"
   },
   {
    "intake_id": "INT-00008",
@@ -16409,7 +16409,7 @@
    "received_by_pv": "2026-10-14T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Gastrointestinal haemorrhage, female 30y, IE"
+   "summary": "Escitrel: Gastrointestinal haemorrhage, female 30y, HN, IE"
   },
   {
    "intake_id": "INT-00009",
@@ -16418,7 +16418,7 @@
    "received_by_pv": "2026-07-13T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Suicidal ideation, female 73y, SE"
+   "summary": "Escitrel: Suicidal ideation, female 73y, SE, SE"
   },
   {
    "intake_id": "INT-00010",
@@ -16427,7 +16427,7 @@
    "received_by_pv": "2026-10-07T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Venlaris: Syncope, male 61y, ES"
+   "summary": "Venlaris: Syncope, male 61y, BK, ES"
   },
   {
    "intake_id": "INT-00011",
@@ -16436,7 +16436,7 @@
    "received_by_pv": "2026-07-22T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Electrocardiogram QT prolonged, female 19y, IE"
+   "summary": "Duloxane: Electrocardiogram QT prolonged, female 19y, GT, IE"
   },
   {
    "intake_id": "INT-00012",
@@ -16445,7 +16445,7 @@
    "received_by_pv": "2026-09-25T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "venlafaxine: Serotonin syndrome, female 62y, BE"
+   "summary": "venlafaxine: Serotonin syndrome, female 62y, EM, BE"
   },
   {
    "intake_id": "INT-00013",
@@ -16454,7 +16454,7 @@
    "received_by_pv": "2026-10-26T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Rash, female 62y, PL"
+   "summary": "Escitrel: Rash, female 62y, RD, PL"
   },
   {
    "intake_id": "INT-00014",
@@ -16463,7 +16463,7 @@
    "received_by_pv": "2026-09-30T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Hyponatraemia, female 69y, PT"
+   "summary": "Duloxane: Hyponatraemia, female 69y, FK, PT"
   },
   {
    "intake_id": "INT-00015",
@@ -16472,7 +16472,7 @@
    "received_by_pv": "2026-07-19T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Sertavix: Electrocardiogram QT prolonged, male 73y, PL"
+   "summary": "Sertavix: Electrocardiogram QT prolonged, male 73y, FH, PL"
   },
   {
    "intake_id": "INT-00016",
@@ -16481,7 +16481,7 @@
    "received_by_pv": "2026-07-23T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Electrocardiogram QT prolonged, female 26y, PL"
+   "summary": "Escitrel: Electrocardiogram QT prolonged, female 26y, EL, PL"
   },
   {
    "intake_id": "INT-00017",
@@ -16490,7 +16490,7 @@
    "received_by_pv": "2026-10-08T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Headache, female 40y, PL"
+   "summary": "Duloxane: Headache, female 40y, HB, PL"
   },
   {
    "intake_id": "INT-00018",
@@ -16499,7 +16499,7 @@
    "received_by_pv": "2026-08-18T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Sexual dysfunction, male 25y, DE"
+   "summary": "Duloxane: Sexual dysfunction, male 25y, LE, DE"
   },
   {
    "intake_id": "INT-00019",
@@ -16508,7 +16508,7 @@
    "received_by_pv": "2026-10-09T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Venlaris: Suicidal ideation, female 79y, BE"
+   "summary": "Venlaris: Suicidal ideation, female 79y, SJ, BE"
   },
   {
    "intake_id": "INT-00020",
@@ -16517,7 +16517,7 @@
    "received_by_pv": "2026-07-20T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Hyponatraemia, male 61y, FR"
+   "summary": "Escitrel: Hyponatraemia, male 61y, SK, FR"
   },
   {
    "intake_id": "INT-00021",
@@ -16526,7 +16526,7 @@
    "received_by_pv": "2026-10-10T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Syncope, female 65y, PT"
+   "summary": "Escitrel: Syncope, female 65y, GF, PT"
   },
   {
    "intake_id": "INT-00022",
@@ -16535,7 +16535,7 @@
    "received_by_pv": "2026-09-29T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Weight increased, female 73y, SE"
+   "summary": "Duloxane: Weight increased, female 73y, AC, SE"
   },
   {
    "intake_id": "INT-00023",
@@ -16544,7 +16544,7 @@
    "received_by_pv": "2026-07-14T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "duloxetine: Dizziness, male 46y, PT"
+   "summary": "duloxetine: Dizziness, male 46y, DH, PT"
   },
   {
    "intake_id": "INT-00024",
@@ -16553,7 +16553,7 @@
    "received_by_pv": "2026-10-23T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Electrocardiogram QT prolonged, male 64y, NL"
+   "summary": "Duloxane: Electrocardiogram QT prolonged, male 64y, HN, NL"
   },
   {
    "intake_id": "INT-00025",
@@ -16562,7 +16562,7 @@
    "received_by_pv": "2026-09-02T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Arrhythmia, female 64y, IT"
+   "summary": "Duloxane: Arrhythmia, female 64y, GH, IT"
   },
   {
    "intake_id": "INT-00026",
@@ -16571,7 +16571,7 @@
    "received_by_pv": "2026-09-03T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "escitalopram: Headache, female 38y, ES"
+   "summary": "escitalopram: Headache, female 38y, DT, ES"
   },
   {
    "intake_id": "INT-00027",
@@ -16580,7 +16580,7 @@
    "received_by_pv": "2026-07-09T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Hyperhidrosis, female 79y, NL"
+   "summary": "Duloxane: Hyperhidrosis, female 79y, JA, NL"
   },
   {
    "intake_id": "INT-00028",
@@ -16589,7 +16589,7 @@
    "received_by_pv": "2026-09-22T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Escitrel: Weight increased, female 62y, PL"
+   "summary": "Escitrel: Weight increased, female 62y, AN, PL"
   },
   {
    "intake_id": "INT-00029",
@@ -16598,7 +16598,7 @@
    "received_by_pv": "2026-09-28T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "duloxetine: Gastrointestinal haemorrhage, male 38y, PT"
+   "summary": "duloxetine: Gastrointestinal haemorrhage, male 38y, JR, PT"
   },
   {
    "intake_id": "INT-00030",
@@ -16607,7 +16607,7 @@
    "received_by_pv": "2026-07-06T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "venlafaxine: Sexual dysfunction, female 79y, IT"
+   "summary": "venlafaxine: Sexual dysfunction, female 79y, HM, IT"
   },
   {
    "intake_id": "INT-00031",
@@ -16616,7 +16616,7 @@
    "received_by_pv": "2026-09-15T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Rash, male 48y, DK"
+   "summary": "Duloxane: Rash, male 48y, JA, DK"
   },
   {
    "intake_id": "INT-00032",
@@ -16625,7 +16625,7 @@
    "received_by_pv": "2026-10-14T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "venlafaxine: Arrhythmia, female 30y, FR"
+   "summary": "venlafaxine: Arrhythmia, female 30y, AN, FR"
   },
   {
    "intake_id": "INT-00033",
@@ -16634,7 +16634,7 @@
    "received_by_pv": "2026-08-30T10:00:00",
    "status": "pending",
    "case_id": null,
-   "summary": "Duloxane: Syncope, female 78y, IT"
+   "summary": "Duloxane: Syncope, female 78y, JT, IT"
   }
  ],
  "intake_log": [

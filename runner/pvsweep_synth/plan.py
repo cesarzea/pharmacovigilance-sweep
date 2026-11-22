@@ -38,7 +38,7 @@ def _initials(rng: random.Random) -> str:
 
 _KEYED_CASES_SQL = """
     SELECT c.case_id, c.initial_receipt_date, c.latest_receipt_date, c.age_years, c.sex, c.occurrence_country,
-           c.serious, c.hospitalisation, c.death, d.substance, d.product_name, e.pt
+           c.serious, c.hospitalisation, c.death, d.substance, d.product_name, e.pt, c.patient_initials
     FROM '{stage_dir}/safety_case.parquet' c
     JOIN (SELECT case_id, min(substance) substance, min(product_name) product_name
           FROM '{stage_dir}/case_drug.parquet' WHERE ownership = 'own_brand' AND role = 'primary_suspect'
@@ -55,7 +55,7 @@ def load_anchor_cases(stage_dir: str, n: int, rng: random.Random) -> list[dict]:
     rows = con.execute(f"""
         WITH k AS ({_KEYED_CASES_SQL.format(stage_dir=stage_dir)})
         SELECT a.case_id, a.initial_receipt_date, a.latest_receipt_date, a.age_years, a.sex, a.occurrence_country,
-               a.serious, a.hospitalisation, a.death, a.substance, a.product_name, a.pt
+               a.serious, a.hospitalisation, a.death, a.substance, a.product_name, a.pt, a.patient_initials
         FROM k a
         WHERE a.age_years BETWEEN 18 AND 85 AND a.sex IN ('female','male') AND a.initial_receipt_date IS NOT NULL
           AND NOT EXISTS (
@@ -67,7 +67,7 @@ def load_anchor_cases(stage_dir: str, n: int, rng: random.Random) -> list[dict]:
         ORDER BY hash(a.case_id)
         LIMIT {n * 3}""").fetchall()
     cols = ["case_id", "initial_receipt_date", "latest_receipt_date", "age_years", "sex", "country",
-            "serious", "hospitalisation", "death", "substance", "product_name", "pt"]
+            "serious", "hospitalisation", "death", "substance", "product_name", "pt", "patient_initials"]
     cases = [dict(zip(cols, r, strict=True)) for r in rows]
     rng.shuffle(cases)
     return cases[:n]
@@ -195,6 +195,7 @@ def build(seed: int, total: int, stage_dir: str, brands: dict[str, str], referen
             # `serious` flag, which is true for almost every manufacturer report and would plant nothing.
             s.hospitalisation = bool(a["hospitalisation"])
             s.serious = s.hospitalisation or bool(a["death"])
+            s.patient_initials = a["patient_initials"]  # the safety case's initials: the identifier matching can use
             known = {e[0]: e[3] for e in C.EVENTS}
             if a["pt"] in known:
                 s.event_context = known[a["pt"]]
@@ -224,7 +225,7 @@ def build(seed: int, total: int, stage_dir: str, brands: dict[str, str], referen
             intake_queue.append({"intake_id": intake_id, "channel_code": channel, "vendor_reference": None,
                                  "received_by_pv": pv_received.isoformat() + "T10:00:00", "status": "pending",
                                  "case_id": None,
-                                 "summary": f"{s.product_name}: {s.event_pt}, {s.patient_sex} {s.patient_age}y, {country}"})
+                                 "summary": f"{s.product_name}: {s.event_pt}, {s.patient_sex} {s.patient_age}y, {s.patient_initials}, {country}"})
 
         # timing and vendor forwarding for records that should have reached PV
         vendor = C.REPORTERS and {"PSP": "PSPV", "MI": "MIV", "SOCIAL": "SOCV"}.get(channel)

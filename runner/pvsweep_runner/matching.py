@@ -98,7 +98,11 @@ class AgentRunner:
                 break
             except Exception as exc:  # noqa: BLE001 - the framework wraps provider errors
                 if "429" not in str(exc) and "rate limit" not in str(exc).lower():
-                    raise
+                    # Refusals, invalidated streams, transport errors: the record goes to human review.
+                    decision = {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "confidence": "low",
+                                "justification": f"agent failed: {type(exc).__name__}: {str(exc)[:300]}",
+                                "tool_calls": [], "submitted": False}
+                    break
                 time.sleep(backoff)
         else:
             decision = {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": "rate limited five times",

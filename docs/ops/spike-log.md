@@ -36,6 +36,15 @@ a stricter instruction (a lookalike with the same substance, sex and event is no
 country and dates agree) and country plus receipt dates in the candidate keys. The first run also
 showed that anchored scenarios need dates consistent with their case, which the planner now does.
 
+## 2026-11-22, round 2: fixes from the analysis, both generators, 450 records
+
+| Check | Result |
+|---|---|
+| Fixes applied (blocking exact-key pass and fuzzy terms, token-wise intake search, `search_intake_log`, prompt v2, IME synonyms, ownership fallback, unique anchors, seriousness from the case) | Done; 14 unit tests pass; 93 anchored scenarios re-rendered by both generators |
+| Sweep, 450 records (225 GPT-written, 225 Claude-written), GPT, agent matching | Screening recall 0.997 (377/378), 0 false positives. Extraction valid 372/377, escalated 16; causality 338/377, sex 364, age 366. **Rules now agree on seriousness 367/372** (was 165/188) and ownership 362/372. **Matching fell to 0.694** (258/372): the exact-key pass now offers FAERS lookalikes to every new record and the agent accepts them (37 NO_MATCH read as IN_SAFETY_DB), and the token-wise intake search over-matches (15 NO_MATCH and 16 known cases read as IN_INTAKE_QUEUE); anchored cases still missed 18 times |
+| Sweep, same 450 records, Claude (Haiku 5.5 screening and extraction, Sonnet 5.5 agent, Anthropic API) | Screening recall 0.989 (4 records answered with invalid JSON twice), 0 false positives. Extraction valid 374/374 after 50 escalations to Sonnet; causality 350/374. Seriousness 364/374, ownership 363/374. **Matching 0.844** (314/372): only 2 lookalikes accepted, but 18 known cases and 16 significant follow-ups missed as NO_MATCH. Full side-by-side in [comparison-round2.md](comparison-round2.md): on the 406 records both runs share, GPT 0.729 vs Claude 0.903 matching, screening and extraction within a point of each other |
+| Conclusion | Without a patient identifier the safety database cannot be searched reliably: with 10,000 cases on four substances, same substance, sex, age and event within weeks is common. Real safety databases hold patient initials, and FAERS does not, so round 3 adds deterministic synthetic initials to the extract, carries them into the intake queue summaries and the agent's tools, and makes initials the primary identity rule in the prompt. Queue candidates are offered only when the event or the initials agree |
+
 ## Facts learned
 
 - **Anthropic API keys and workspaces:** an organisation-level key must send `anthropic-workspace-id`;

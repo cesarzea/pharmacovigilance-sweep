@@ -84,23 +84,23 @@
  },
  {
   "record_id": "MI-007-0004",
-  "scenario_hash": "d62c923282c01790",
+  "scenario_hash": "6c36e28b48bd490d",
   "channel": "MI",
   "channel_received_date": "2025-01-27",
   "country": "FR",
-  "text": "Medical Information Call Log – Ref. MIV-00002\nDate: 27/01/2025. Country: France. Channel: inbound telephone call.\n\nCaller: Jonas G., physician.\n\nQuery: The caller asked whether supraventricular tachycardia has been described with Duloxane. He is treating a 63-year-old female patient, initials ES, who developed supraventricular tachycardia at around 06/01/2025. In his clinical judgement, Duloxane caused the episode, and he wanted to know if this is consistent with the known profile of the product.\n\nAgent action: Caller's question and patient details recorded. Standard product information to be provided in the written response. No further details were available during the call.\n\nStatus: Open, awaiting written response.",
+  "text": "Call log – MIV-00002\nDate: 27/01/2025. Country: France. Channel: inbound telephone.\n\nCaller: Jonas G., physician (identified himself as the treating doctor).\n\nProduct concerned: Duloxane.\n\nQuestion asked: The caller wanted to know whether supraventricular tachycardia has been described with Duloxane and whether any specific advice exists for patients with this presentation. He explained that his patient, DJ, a 63-year-old woman, developed supraventricular tachycardia around 06/01/2025. In his clinical opinion the medicine caused it.\n\nAgent action: Details of the call recorded. Caller informed that the product's approved information would be reviewed and that a written reply would follow. No further clinical details were offered during this call.\n\nCaller was thanked and the call was closed.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2842,
+    "latency_ms": 3658,
     "problems": [],
     "usage": {
-     "input_tokens": 393,
-     "output_tokens": 237,
-     "total_tokens": 630
+     "input_tokens": 394,
+     "output_tokens": 263,
+     "total_tokens": 657
     }
    }
   ]
@@ -319,18 +319,18 @@
  },
  {
   "record_id": "CRM-007-0013",
-  "scenario_hash": "c104f58016e13ec8",
+  "scenario_hash": "bea3800c9a0dbba2",
   "channel": "CRM",
   "channel_received_date": "2025-12-28",
   "country": "FR",
-  "text": "Visited Dr Ingrid T. today, physician in FR. Spoke about Venlaris and general follow-up. She mentioned a female patient BJ, 67 yo, who developed acute pancreatitis around 27/11/2025 and was admitted to hospital because of it. Dr T. feels Venlaris may be the cause. No further details given at the visit.",
+  "text": "Visited Dr Ingrid T. in FR today. She mentioned a female patient MW, 67 yo, on Venlaris, who around 27/11/2025 developed an acute pancreatitis and had to be admitted to hospital because of it. Dr T. feels the med was the likely cause. Discussed briefly and noted her feedback.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 809,
+    "latency_ms": 897,
     "problems": [],
     "usage": {
      "input_tokens": 287,
@@ -338,58 +338,34 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 79,
+     "output_tokens": 73,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 366
+     "total_tokens": 360
     }
    }
   ]
  },
  {
   "record_id": "CRM-007-0014",
-  "scenario_hash": "dadafe4103c48e3e",
+  "scenario_hash": "86c4a90cc5e38630",
   "channel": "CRM",
   "channel_received_date": "2026-11-08",
   "country": "FR",
-  "text": "Visit 08/11 – Dr Pieter T., GP, cabinet in Lyon 6e. Saw him ~20 min between patients. Still happy with Venlaris for his newer starts, asked for 2 more sample boxes + the updated leaflet, will do next visit. Pharmacy stock OK according to him. He mentioned one pt, LG, 53 y/o woman, who has been really sleepy during the day since around 09/10, dozing off at her desk, struggling to stay awake. He's convinced it's the Venlaris causing the somnolence, nothing else changed for her. Didn't go further, he was rushed. Follow up in 3 wks, bring pricing doc for hospital contract. Also check whether his associate wants a meeting.",
+  "text": "Visit 08/11/2026 – Dr Pieter T., GP, cabinet, 25 min. Seen at lunch, quite receptive.\n\nDiscussed Venlaris positioning again, he's fairly happy with it overall and wants more samples for next month + the patient leaflet pack. Asked about pricing/reimbursement for his older patients, I'll check with market access and revert.\n\nHe mentioned one pt, MJ, F 53 y/o, who became very drowsy (somnolence) from around 09/10, since she started Venlaris. He's convinced it's the drug. Didn't go further on it, short on time.\n\nNext: send samples, follow up on reimbursement Q. Call back mid-Dec.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4852,
-    "problems": [
-     "event 'Somnolence' not described"
-    ],
-    "usage": {
-     "input_tokens": 388,
-     "output_tokens": 250,
-     "total_tokens": 638
-    }
-   },
-   {
-    "attempt": 2,
-    "latency_ms": 3935,
-    "problems": [
-     "event 'Somnolence' not described"
-    ],
-    "usage": {
-     "input_tokens": 422,
-     "output_tokens": 251,
-     "total_tokens": 673
-    }
-   },
-   {
-    "attempt": 3,
-    "latency_ms": 4034,
+    "latency_ms": 3736,
     "problems": [],
     "usage": {
-     "input_tokens": 422,
-     "output_tokens": 247,
-     "total_tokens": 669
+     "input_tokens": 389,
+     "output_tokens": 231,
+     "total_tokens": 620
     }
    }
   ]
@@ -449,53 +425,53 @@
  },
  {
   "record_id": "SOCIAL-007-0017",
-  "scenario_hash": "55cb2be7bcbdd913",
+  "scenario_hash": "32bf22d248944c7f",
   "channel": "SOCIAL",
   "channel_received_date": "2025-12-15",
   "country": "FR",
-  "text": "Hi all, I’m posting as ND, 30, under my forum nickname. I’ve been taking Venlaris and around 07/11/2025 I started getting abdominal pain. It got bad enough that I was admitted to hospital because of it. I honestly think Venlaris may have caused it. Just adding an update to my earlier post: I was also admitted for palpitations and an irregular heartbeat.",
+  "text": "Hi, I’m posting an update under my forum nickname. I’m LZ, 30, female, and I’ve been taking Venlaris. Around 07/11/2025 I developed pretty bad abdominal pain, and it got serious enough that I was admitted to hospital because of it. I really think Venlaris was the cause. This is an update to my earlier post: I was also admitted for palpitations and an irregular heartbeat, so they said arrhythmia.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 993,
+    "latency_ms": 1022,
     "problems": [],
     "usage": {
-     "input_tokens": 321,
+     "input_tokens": 322,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 90,
+     "output_tokens": 104,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 411
+     "total_tokens": 426
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0018",
-  "scenario_hash": "9b83b857465d47be",
+  "scenario_hash": "8eef25fe220f60d9",
   "channel": "MI",
   "channel_received_date": "2025-10-03",
   "country": "IT",
-  "text": "Medical Information Call Log – Ref. MIV-00006\n\nDate: 03/10/2025. Country: Italy. Channel: inbound phone call.\n\nCaller: Clara L., consumer (not a healthcare professional).\n\nProduct queried: Venlaris.\n\nSummary: Caller contacted us on behalf of the patient, PJ, a 19-year-old male. She reported that around 08/09/2025 he began to experience akathisia, and that he was subsequently admitted to hospital because of it. Caller asked whether Venlaris can cause this kind of restlessness. She stated that she believes the medicine caused the problem.\n\nAgent response: Caller was advised to continue discussing the case with the treating hospital physicians. Details were logged under the reference number above.\n\nFollow-up requested by caller: none.",
+  "text": "Medical Information Call Log – Ref. MIV-00006\n\nDate: 03/10/2025. Country: Italy. Channel: inbound phone call.\n\nCaller: Clara L., consumer (identified herself as the patient's relative; no further details given).\n\nQuery: Caller asked whether Venlaris can cause akathisia. She said that UG, a 19-year-old male, started to be unable to sit still, with constant restlessness and pacing, around 08/09/2025. He was subsequently admitted to hospital because of this condition. The caller believes Venlaris caused it and wanted to know if this is a known effect of the product.\n\nAgent action: Product information leaflet content on the topic offered verbally. Caller advised to discuss the matter with the treating physician. Caller's contact details recorded in the system. No further questions raised. Call closed.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2895,
+    "latency_ms": 3080,
     "problems": [],
     "usage": {
-     "input_tokens": 407,
-     "output_tokens": 261,
-     "total_tokens": 668
+     "input_tokens": 406,
+     "output_tokens": 271,
+     "total_tokens": 677
     }
    }
   ]
@@ -555,18 +531,18 @@
  },
  {
   "record_id": "SOCIAL-007-0021",
-  "scenario_hash": "f6cb8563df2b6be9",
+  "scenario_hash": "a69b4c0ac721bb37",
   "channel": "SOCIAL",
   "channel_received_date": "2026-04-18",
   "country": "ES",
-  "text": "I’m posting again under my forum nickname because I already wrote about this same situation before, and nothing has changed since then. I’m HS, 83-year-old female, and I’ve been taking Duloxane. Around 09/04/2026 I started having diarrhoea. It’s still the same issue as in my earlier post, with no new changes to add.",
+  "text": "Hi, I’m posting again under my forum nickname about Duloxane. I’m IV, an 83-year-old woman, and I’ve had diarrhoea since around 09/04/2026. I already wrote about this same patient and this same problem before, and nothing has changed since then.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1013,
+    "latency_ms": 889,
     "problems": [],
     "usage": {
      "input_tokens": 305,
@@ -574,11 +550,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 82,
+     "output_tokens": 67,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 387
+     "total_tokens": 372
     }
    }
   ]
@@ -691,49 +667,49 @@
  },
  {
   "record_id": "PSP-007-0026",
-  "scenario_hash": "42b59b498d768de1",
+  "scenario_hash": "b4294d9dcdb2c3c6",
   "channel": "PSP",
   "channel_received_date": "2025-10-10",
   "country": "FR",
-  "text": "Patient Support Programme – Nurse Call Note\nDate: 10/10/2025 | Country: France | Ref: PSPV-00009\nNurse: Zofia N.\n\nPatient: BA, female, 44 years old. Product: Sertavix.\n\nThis is a follow-up to our earlier note on this patient.\n\nWellbeing check: Patient is currently in hospital. Symptoms of microscopic colitis began around 05/10/2025 and led to her admission. New information today: she was also admitted for palpitations and an irregular heartbeat, recorded as an arrhythmia.\n\nAdherence: Not assessed during this call, as she is an inpatient.\n\nNurse assessment: In my opinion, Sertavix caused the colitis.\n\nPlan: I will keep in contact with the patient and the hospital team and add to this record when I have further information.\n\nZofia N., Nurse",
+  "text": "PSP nurse call note, 10/10/2025\nRef: PSPV-00009 (follow-up to earlier entry)\nCaller: Zofia N., nurse\nPatient: VK, female, 44 years\nProduct: Sertavix\n\nPurpose: wellbeing check and update of the existing record.\n\nSummary: Patient developed microscopic colitis, with onset around 05/10/2025. She has been admitted to hospital because of it. In my opinion Sertavix caused the colitis.\n\nNew information since the last entry: arrhythmia. She was admitted for palpitations and an irregular heartbeat.\n\nPlan: keep the file open and update it as soon as further information on her condition is received. Next contact to be arranged through the hospital team",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4752,
+    "latency_ms": 5368,
     "problems": [],
     "usage": {
      "input_tokens": 455,
-     "output_tokens": 560,
-     "total_tokens": 1015
+     "output_tokens": 600,
+     "total_tokens": 1055
     }
    }
   ]
  },
  {
   "record_id": "CRM-007-0027",
-  "scenario_hash": "1589afba77dd070a",
+  "scenario_hash": "dc358deaacb68ba0",
   "channel": "CRM",
   "channel_received_date": "2025-08-28",
   "country": "FR",
-  "text": "Visited Dr’s office today re Escitrel. Spoke w/ Ines T., pharmacist, who flagged a case on PH, 51 yo female patient. She mentioned that the pt developed a confusional state, with onset around 26/07/2025. Ines T. feels the med could be the cause. Kept the exchange brief but useful for follow-up and product awareness.",
+  "text": "Visited dr/pharmacy contact in FR on 28/08/2025. Discussed Escitrel with Ines T., pharmacist, who mentioned a pt, VQ, 51 yo female. She said the pt developed a confusional state starting around 26/07/2025, and her view is that Escitrel was the cause. No other details shared during the visit.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1036,
+    "latency_ms": 872,
     "problems": [],
     "usage": {
-     "input_tokens": 274,
+     "input_tokens": 275,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 86,
+     "output_tokens": 85,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
@@ -744,23 +720,23 @@
  },
  {
   "record_id": "CRM-007-0028",
-  "scenario_hash": "1e2390f3a7cb8e89",
+  "scenario_hash": "7fc06aa500267dd7",
   "channel": "CRM",
   "channel_received_date": "2025-12-04",
   "country": "FR",
-  "text": "Visit 04/12 – Dr Pieter K., GP, cabinet Lyon 6e. Saw him ~15 min between consults, waiting room full as usual. Discussed Venlaris starter packs, he's still happy with the profile for his younger pts, asked for 2 more boxes + updated leaflet. Mentioned a pt of his, PS, 22 yo female, who started having galactorrhoea around 21/11. He's fairly sure it's due to Venlaris, no other obvious cause in his view. Didn't go into more detail, he was rushed. Pharmacy nearby (Pharmacie Gambetta) out of stock last week, to check w/ wholesaler. Next visit mid-January, bring samples + new study summary he requested.",
+  "text": "Visit Dr Pieter K. (GP), Lyon 4 Dec, 25 min, saw him between consults. Discussed Venlaris starter packs + new patient leaflet, he's fine to keep prescribing, asked for 2 more sample boxes next time. Mentioned in passing one of his young patients, XU, 22 y/o female on Venlaris, started having milk discharge from the breasts (galactorrhoea) around 21/11. He's convinced it's due to Venlaris, no other explanation in his view. Didn't go deeper, he was running late. Left the formulary comparison sheet. Follow up call in 2 wks re samples + send info on pricing/reimbursement. Competitor rep also there before me, he said.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3590,
+    "latency_ms": 3716,
     "problems": [],
     "usage": {
      "input_tokens": 394,
-     "output_tokens": 248,
-     "total_tokens": 642
+     "output_tokens": 242,
+     "total_tokens": 636
     }
    }
   ]
@@ -926,18 +902,18 @@
  },
  {
   "record_id": "MI-007-0035",
-  "scenario_hash": "21381e5e8a436eb5",
+  "scenario_hash": "cc6a8ab2de316345",
   "channel": "MI",
   "channel_received_date": "2026-01-05",
   "country": "SE",
-  "text": "Consumer Ingrid R. called regarding Duloxane for patient DE, a 40-year-old male. The caller asked whether the medicine could be related to the patient’s blood pressure increase. She said the blood pressure increase began around 2025-12-09 and that she suspects Duloxane may have caused it. Reference number: MIV-00010.",
+  "text": "Consumer Ingrid R. called regarding Duloxane for patient AD, a 40-year-old male. She asked whether the medicine could be related to a rise in blood pressure. She reported that the patient developed increased blood pressure around 09/12/2025 and believed the medicine may have caused it. The contact was documented in Sweden. Reference number: MIV-00010.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 821,
+    "latency_ms": 918,
     "problems": [],
     "usage": {
      "input_tokens": 279,
@@ -945,11 +921,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 77,
+     "output_tokens": 81,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 356
+     "total_tokens": 360
     }
    }
   ]
@@ -979,18 +955,18 @@
  },
  {
   "record_id": "MI-007-0037",
-  "scenario_hash": "b92535fbfdf264ef",
+  "scenario_hash": "25ef4fb902af0a7b",
   "channel": "MI",
   "channel_received_date": "2026-07-18",
   "country": "FR",
-  "text": "FR call log entry dated 18/07/2026. Caller: Luca N., pharmacist. He reported on patient RE, a 52-year-old female, treated with Sertavix. He stated that the patient developed vertigo starting around 24/06/2026 and was admitted to hospital because of this. He added that this same patient and event had already been reported previously and that there has been no change since then. Reference number provided: MIV-00012.",
+  "text": "Pharmacist Luca N. called from FR regarding Sertavix. He reported for patient EN, a 52-year-old female, that she developed vertigo around 24/06/2026 and was admitted to hospital because of it. He stated this same patient and event had already been reported previously and that there has been no change since then. The call was logged under reference number MIV-00012.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 937,
+    "latency_ms": 1010,
     "problems": [],
     "usage": {
      "input_tokens": 318,
@@ -998,11 +974,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 102,
+     "output_tokens": 88,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 420
+     "total_tokens": 406
     }
    }
   ]
@@ -1138,30 +1114,30 @@
  },
  {
   "record_id": "MI-007-0043",
-  "scenario_hash": "fb4d5604b1796fdc",
+  "scenario_hash": "ed6098f905013f0d",
   "channel": "MI",
   "channel_received_date": "2025-01-09",
   "country": "FR",
-  "text": "Consumer Niels W. called with an update for reference number MIV-00016 regarding Venlaris. The patient, EK, an 82-year-old female, developed renal failure around 15/12/2024 and was admitted to hospital because of it. The reporter believes the medicine may have caused the renal failure. New information was also provided: the patient had gastrointestinal haemorrhage with black stools and was admitted overnight. The caller asked for the information to be added to the earlier report.",
+  "text": "Consumer caller Niels W. provided an update regarding Venlaris for patient QO, an 82-year-old female. The caller reported that the patient developed renal failure, with onset around 15/12/2024, and was admitted to hospital because of this. The caller considers the medicine to be the cause. The caller also gave new information that the patient had gastrointestinal haemorrhage, described as black stools, and was admitted overnight. This was stated as an update to an earlier report. Reference number: MIV-00016.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1399,
+    "latency_ms": 1209,
     "problems": [],
     "usage": {
-     "input_tokens": 314,
+     "input_tokens": 315,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 105,
+     "output_tokens": 114,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 419
+     "total_tokens": 429
     }
    }
   ]
@@ -1244,30 +1220,30 @@
  },
  {
   "record_id": "PSP-007-0047",
-  "scenario_hash": "646859ee00392177",
+  "scenario_hash": "233e685cac03b41d",
   "channel": "PSP",
   "channel_received_date": "2025-06-02",
   "country": "FR",
-  "text": "Patient support programme nurse call note. Patient FS, 35-year-old female, in France, was contacted for a wellbeing and adherence check. She is using Duloxane. Reporter Mateo K., consumer, provided the information. He reported that the patient developed a coma, with onset around 17/05/2025. He believes the medicine may have caused this event. Reference number: PSPV-00015.",
+  "text": "PSP call note. Patient VQ, 35-year-old female, was contacted regarding Duloxane use. During the discussion, the patient was reported to have developed coma, with onset around 17/05/2025. The reporter, Mateo K., consumer, expressed the view that the medicine may have been the cause. General wellbeing and treatment follow-up were discussed as part of the call. Reference number: PSPV-00015.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1024,
+    "latency_ms": 945,
     "problems": [],
     "usage": {
-     "input_tokens": 271,
+     "input_tokens": 272,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 88,
+     "output_tokens": 94,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 359
+     "total_tokens": 366
     }
    }
   ]
@@ -1524,23 +1500,23 @@
  },
  {
   "record_id": "MI-007-0056",
-  "scenario_hash": "6caa48ed6383cc71",
+  "scenario_hash": "0d78a8220cbf0cf8",
   "channel": "MI",
   "channel_received_date": "2025-06-23",
   "country": "ES",
-  "text": "Medical Information Call Log – 23/06/2025 – Ref. MIV-00017\n\nContact: Spain. Caller type: consumer, Pieter N. Follow-up call to an earlier contact.\n\nQuery: Caller is enquiring about Escitrel taken by FM, male, 53 years old. He repeats that around 25/05/2025 FM suffered transient global amnesia and was admitted to hospital. Caller believes Escitrel caused it and asks whether the two could be linked.\n\nNew information given today: FM later had black stools and was kept in hospital overnight for gastrointestinal haemorrhage.\n\nAgent noted the details against the previous record and updated the file. Caller asked for a written reply to be sent. Query forwarded to the medical information team.",
+  "text": "Call log, 23/06/2025. Ref: MIV-00017 (follow-up to earlier contact)\n\nCaller: Pieter N., consumer, calling from Spain on behalf of patient HF, male, 53 years old.\n\nProduct: Escitrel.\n\nQuery: Caller wished to update his earlier call. He reports that around 25/05/2025 the patient developed transient global amnesia and was admitted to hospital. Caller believes Escitrel caused this. New information given today: patient later passed black stools and was admitted overnight for gastrointestinal haemorrhage. Caller asked whether either problem is linked to the medicine and whether the patient should carry on taking it.\n\nAction: Details added to the existing record. Caller advised to discuss continued use with the treating doctor. Case forwarded to the medical team.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3496,
+    "latency_ms": 2758,
     "problems": [],
     "usage": {
      "input_tokens": 454,
-     "output_tokens": 248,
-     "total_tokens": 702
+     "output_tokens": 265,
+     "total_tokens": 719
     }
    }
   ]
@@ -1706,65 +1682,65 @@
  },
  {
   "record_id": "PQC-007-0063",
-  "scenario_hash": "f3235e1dc8673ee7",
+  "scenario_hash": "8ff7c1b452d2b60d",
   "channel": "PQC",
   "channel_received_date": "2026-03-31",
   "country": "ES",
-  "text": "Sertavix was used by TK, an 81-year-old male patient. According to Anna V., the pharmacist, the patient was admitted to hospital with confusion and low sodium, and the condition was identified as hyponatraemia. The problem began around 08/03/2026. The reporter considers that this medicine may have been the cause of the episode.",
+  "text": "Anna V., pharmacist, reports on behalf of WQ, an 81-year-old male patient, concerning Sertavix. Around 08/03/2026, he developed hyponatraemia with confusion and low sodium levels. The condition was serious enough that he was admitted to hospital because of it. In the reporter’s opinion, the medicine may have been the cause of this event.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 962,
+    "latency_ms": 842,
     "problems": [],
     "usage": {
-     "input_tokens": 277,
+     "input_tokens": 278,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 79,
+     "output_tokens": 83,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 356
+     "total_tokens": 361
     }
    }
   ]
  },
  {
   "record_id": "SOCIAL-007-0064",
-  "scenario_hash": "14b4baff1083d842",
+  "scenario_hash": "b248fa6fdda4e4f6",
   "channel": "SOCIAL",
   "channel_received_date": "2026-07-29",
   "country": "ES",
-  "text": "Update from my earlier post, it's sol_de_mayo again (FG, 44, female). Around 7/7 I started feeling awful after my Duloxane dose was increased. I got agitated, shaky, and then spiked a fever. I ended up admitted to hospital, where blood tests showed the level of Duloxane in my blood was higher than it should be. The doctors said it was serotonin syndrome. I honestly think the Duloxane caused all this, since it began right after the increase. Has anyone else had a high drug level or something like this after a dose change?",
+  "text": "Update to my earlier post, from sol_y_sombra (HU, 44, woman). Around 7 July, after my Duloxane dose was increased, things went wrong. I got agitated, my hands were shaking and I ran a fever. In hospital they said it was serotonin syndrome, and the blood test showed the level of Duloxane in my blood was higher than it should be. They admitted me because of it. I really think the Duloxane caused all this, since nothing else changed in my routine. I'm writing in case anyone else has had a raised level of this drug and similar symptoms. Has anyone been through this?",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4917,
+    "latency_ms": 5212,
     "problems": [
      "event 'Drug level increased' not described"
     ],
     "usage": {
      "input_tokens": 454,
-     "output_tokens": 439,
-     "total_tokens": 893
+     "output_tokens": 504,
+     "total_tokens": 958
     }
    },
    {
     "attempt": 2,
-    "latency_ms": 4663,
+    "latency_ms": 4569,
     "problems": [],
     "usage": {
      "input_tokens": 489,
-     "output_tokens": 450,
-     "total_tokens": 939
+     "output_tokens": 426,
+     "total_tokens": 915
     }
    }
   ]
@@ -1801,23 +1777,23 @@
  },
  {
   "record_id": "SOCIAL-007-0066",
-  "scenario_hash": "9b74fa64c3178c84",
+  "scenario_hash": "82f5169e3226388a",
   "channel": "SOCIAL",
   "channel_received_date": "2024-12-01",
   "country": "FR",
-  "text": "Posted by grey_heron\n\nUpdate on my earlier post about Venlaris. I'm MA, 26, female. Around 27/10/2024 my condition started getting much worse, way beyond how it was before. Then I had a seizure at home and was taken to hospital, where they admitted me. I'm now fairly sure Venlaris caused all this, because nothing else changed in my life around that time. I wanted to tell you all, since a few of you asked how I was doing. Has anyone else had something similar on it? Would love to hear your experiences.",
+  "text": "Update to my earlier post, from bluefox_hc here (HC, I'm 26, female). Since around 27/10/2024, about a month ago, my condition has got a lot worse since I started Venlaris. The new thing is that I had a seizure at home and was taken to hospital, where they admitted me. I'm convinced Venlaris caused this, because nothing else changed before it started. Has anyone else on it had something similar? I'd really like to hear your experiences.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4650,
+    "latency_ms": 4637,
     "problems": [],
     "usage": {
      "input_tokens": 438,
-     "output_tokens": 445,
-     "total_tokens": 883
+     "output_tokens": 430,
+     "total_tokens": 868
     }
    }
   ]
@@ -2013,11 +1989,11 @@
  },
  {
   "record_id": "CRM-007-0074",
-  "scenario_hash": "2baa34d9c786ccbb",
+  "scenario_hash": "45ebcdc2eb0c295c",
   "channel": "CRM",
   "channel_received_date": "2025-02-11",
   "country": "SE",
-  "text": "Visit 11/02/25 – Dr Karl P., GP, Stockholm area. Quick 15 min catch-up at the clinic. Discussed Venlaris, he's still fairly happy w/ it for his newer patients, asked for more samples and the updated leaflet, will send next wk. He brought up pt JC, 55 y/o female on Venlaris, who became aggressive around 14/01/25 – shouting at family, irritable and hostile at home, quite out of character according to him. Karl said he already reported this same pt and event earlier, nothing changed since, no update. Didn't push further. Follow up visit booked for mid March, bring pricing info for the regional formulary meeting.",
+  "text": "Visit 11/02/25 – Dr Karl P., Stockholm clinic, approx 20 min. Good chat re Venlaris, he's still using it in a few pts and asked for the newest leaflet + sample pack, will send via email. Pricing/formulary talk, nothing new on regional tender. He brought up pt UA, 55 y/o female, who became aggressive from around 14/01/25, shouting at family and being confrontational, apparently out of character. Said he already reported this same pt and event earlier, nothing has changed since. Didn't add more details. Next visit in ~6 wks, follow up on leaflet, book lunch meeting for nurses.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": false,
   "validator_problems": [
@@ -2026,7 +2002,7 @@
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3695,
+    "latency_ms": 4097,
     "problems": [
      "event 'Aggression' not described"
     ],
@@ -2038,26 +2014,26 @@
    },
    {
     "attempt": 2,
-    "latency_ms": 3741,
+    "latency_ms": 3054,
     "problems": [
      "event 'Aggression' not described"
     ],
     "usage": {
      "input_tokens": 455,
-     "output_tokens": 241,
-     "total_tokens": 696
+     "output_tokens": 233,
+     "total_tokens": 688
     }
    },
    {
     "attempt": 3,
-    "latency_ms": 3341,
+    "latency_ms": 3399,
     "problems": [
      "event 'Aggression' not described"
     ],
     "usage": {
      "input_tokens": 455,
-     "output_tokens": 226,
-     "total_tokens": 681
+     "output_tokens": 217,
+     "total_tokens": 672
     }
    }
   ]
@@ -2094,23 +2070,23 @@
  },
  {
   "record_id": "CRM-007-0076",
-  "scenario_hash": "628e3c3646d19ff4",
+  "scenario_hash": "e08c9c0a5f8f7cc6",
   "channel": "CRM",
   "channel_received_date": "2025-12-18",
   "country": "IT",
-  "text": "Visit 18/12/25 – Dr Ines M., Milan clinic, 20 min, caught her between appts. Discussed Sertavix positioning vs. current SSRIs, she's open to more starters but wants updated leaflet + samples next time. Asked for the new patient-support brochure. \n\nShe also mentioned a pt of hers, AM, 23 y/o female on Sertavix, who started abusing the drug around 15/11 and ended up admitted to hospital. Dr M. is convinced Sertavix caused it, she was quite firm on that. Didn't go into more detail, she was rushing to clinic.\n\nNext steps: send brochure, book follow-up early Jan, check samples stock with the office. Overall positive tone but a bit worried about the case.",
+  "text": "Visit 18/12 – Dr Ines M. (Milano, psych outpatient clinic). Quick 15 min catch-up, she's still happy with Sertavix for most of her new starts, asked for more samples + the updated leaflet, will send via email. Pricing/reimbursement not an issue for her atm.\n\nShe also told me about LO, F, 23 yrs, on Sertavix: from about mid Nov (~15/11) started misusing it, taking way beyond what was prescribed, ended up admitted to hospital for drug abuse. Ines is convinced it's the Sertavix that caused it. Didn't go into more detail, she was rushing to clinic.\n\nNext visit: mid Jan, bring samples. Follow up on leaflet.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3542,
+    "latency_ms": 3877,
     "problems": [],
     "usage": {
      "input_tokens": 414,
-     "output_tokens": 250,
-     "total_tokens": 664
+     "output_tokens": 245,
+     "total_tokens": 659
     }
    }
   ]
@@ -2223,18 +2199,18 @@
  },
  {
   "record_id": "SOCIAL-007-0081",
-  "scenario_hash": "cf01d0cb920fe95f",
+  "scenario_hash": "096110dcb16e83df",
   "channel": "SOCIAL",
   "channel_received_date": "2025-12-28",
   "country": "FR",
-  "text": "I’m posting again under my forum nickname about Sertavix. I’m HL, 84, female, and this is an update to my earlier message. Around 28/11/2025, I developed microscopic colitis and ended up being admitted to hospital because of it. I still believe Sertavix may have caused it. Also, new information: I was admitted for palpitations and an irregular heartbeat.",
+  "text": "Hi all, I’m posting as SN, 84, and I’m the patient myself, using a forum nickname here. I’ve been taking Sertavix and around 28/11/2025 I developed microscopic colitis. It got bad enough that I was admitted to hospital because of it. I really think Sertavix caused this. This is also an update to my earlier post: I was admitted for palpitations and an irregular heartbeat, and that’s new information I wanted to add.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 940,
+    "latency_ms": 992,
     "problems": [],
     "usage": {
      "input_tokens": 318,
@@ -2242,11 +2218,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 89,
+     "output_tokens": 106,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 407
+     "total_tokens": 424
     }
    }
   ]
@@ -2276,49 +2252,30 @@
  },
  {
   "record_id": "CRM-007-0083",
-  "scenario_hash": "224bfcd5b39c6247",
+  "scenario_hash": "2cf492d44775121a",
   "channel": "CRM",
   "channel_received_date": "2025-05-02",
   "country": "PT",
-  "text": "Visit note PT, 02/05/2025. Spoke with Dr. Ines F. re Escitrel. She gave an update on a previously shared case for pt GP, 43 yo male. Around 25/03/2025 he started with abdominal pain and ended up admitted to hospital because of it. Dr. Ines F. feels Escitrel was the likely cause. New info added: pt was also admitted w/ confusion and low sodium, c/w hyponatraemia.",
+  "text": "Visited Dr. Ines F. today in PT re Escitrel. She gave an update on pt YL, 43yo male. She said he started having abdominal pain around 25/03/2025 and was later admitted to hospital because of it. She feels the med may have caused the issue. New info from the earlier report: he was admitted with confusion and low sodium, i.e. hyponatraemia. Dr. F. asked to keep her posted on any follow-up and said she’ll continue monitoring the case.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1080,
-    "problems": [
-     "follow-up framing missing"
-    ],
-    "usage": {
-     "input_tokens": 311,
-     "input_tokens_details": {
-      "cache_write_tokens": 0,
-      "cached_tokens": 0
-     },
-     "output_tokens": 122,
-     "output_tokens_details": {
-      "reasoning_tokens": 0
-     },
-     "total_tokens": 433
-    }
-   },
-   {
-    "attempt": 2,
-    "latency_ms": 1059,
+    "latency_ms": 949,
     "problems": [],
     "usage": {
-     "input_tokens": 330,
+     "input_tokens": 312,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 108,
+     "output_tokens": 114,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 438
+     "total_tokens": 426
     }
    }
   ]
@@ -2378,41 +2335,41 @@
  },
  {
   "record_id": "MI-007-0086",
-  "scenario_hash": "d133464397fc7e59",
+  "scenario_hash": "2c80bce9dda6d2ef",
   "channel": "MI",
   "channel_received_date": "2025-12-21",
   "country": "FR",
-  "text": "MEDICAL INFORMATION CALL LOG\nRef: MIV-00026\nDate: 21/12/2025\nCountry: France\nCaller type: Healthcare professional, Olivier R., pharmacist\n\nSummary of contact: The pharmacist phoned the medical information line about Venlaris, taken by a patient with initials JT, a 30-year-old man. Olivier R. reported that around 18/11/2025 the patient fell into a coma and was admitted to hospital as a result. He said he believes Venlaris caused the coma. He asked whether the company holds any information on coma in association with this product. No other medicines or events were mentioned. The agent noted the details and told the caller the question would be passed to the medical team for a written reply. Caller confirmed he can be contacted again by phone.",
+  "text": "Call log – Ref. MIV-00026\nDate: 21/12/2025. Country: France. Channel: inbound phone call.\n\nCaller: Olivier R., pharmacist.\n\nQuery: The caller asked for information about Venlaris in connection with a patient he supplied, a 30-year-old man (initials RZ). He said the patient fell into a coma at around 18/11/2025 and was taken into hospital because of it. The pharmacist believes Venlaris is responsible for the coma and wanted to know whether this has been described with the product and what the company advises.\n\nAgent notes: Caller identity and profession recorded. No other details were given during the call. Enquiry logged under the reference above and passed to the medical information team for a written reply.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2923,
+    "latency_ms": 3181,
     "problems": [],
     "usage": {
-     "input_tokens": 405,
-     "output_tokens": 258,
-     "total_tokens": 663
+     "input_tokens": 406,
+     "output_tokens": 236,
+     "total_tokens": 642
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0087",
-  "scenario_hash": "d6d7fada9363ac10",
+  "scenario_hash": "4a4b1c2b75422a04",
   "channel": "MI",
   "channel_received_date": "2026-07-28",
   "country": "IT",
-  "text": "Consumer reporter Lena R. called regarding Sertavix for patient PB, a 59-year-old female. She asked whether the medicine could be related to a new affective disorder. According to the reporter, the patient developed this condition around 24/07/2026 and was admitted to hospital because of it. The reporter suspected that Sertavix may have caused the problem. Reference number MIV-00027.",
+  "text": "Consumer Lena R. called from IT regarding Sertavix for patient LA, a 59-year-old female. The caller asked whether Sertavix could have caused an affective disorder. She reported that the patient developed an affective disorder around 24/07/2026 and was admitted to hospital because of it. The caller stated she believes the medicine may have been the cause. Reference number MIV-00027.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1086,
+    "latency_ms": 861,
     "problems": [],
     "usage": {
      "input_tokens": 295,
@@ -2420,11 +2377,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 88,
+     "output_tokens": 89,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 383
+     "total_tokens": 384
     }
    }
   ]
@@ -2507,53 +2464,53 @@
  },
  {
   "record_id": "SOCIAL-007-0091",
-  "scenario_hash": "886d6d7ed80a0afc",
+  "scenario_hash": "eda60504cc2afd07",
   "channel": "SOCIAL",
   "channel_received_date": "2026-04-12",
   "country": "PT",
-  "text": "Hi everyone, I’m posting an update about Sertavix. I’m DL, 76, female, writing myself here under a forum nickname. Around 28/02/2026 I developed adenocarcinoma and ended up being admitted to hospital because of it. I still feel the medicine may have caused this. Since my earlier post, there’s also new information: I was admitted for palpitations and an irregular heartbeat, and they said it was an arrhythmia.",
+  "text": "Hi, I’m ZI, 76F, posting from my forum nickname. I’ve been on Sertavix, and I really think it caused what happened to me. Around 28/02/2026 I developed adenocarcinoma and ended up being admitted to hospital because of it. This is an update to my earlier post: they also admitted me for palpitations and an irregular heartbeat, and they said it was arrhythmia.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1175,
+    "latency_ms": 1011,
     "problems": [],
     "usage": {
-     "input_tokens": 325,
+     "input_tokens": 326,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 102,
+     "output_tokens": 96,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 427
+     "total_tokens": 422
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0092",
-  "scenario_hash": "0727f76ab2a5b10c",
+  "scenario_hash": "84c261bfc0a2ae0e",
   "channel": "MI",
   "channel_received_date": "2025-08-01",
   "country": "DE",
-  "text": "Medical Information Call Log – 01/08/2025 – Country: DE\n\nRef: MIV-00029 (follow-up to earlier contact)\n\nCaller: Luca K., pharmacist. Product: Venlaris.\n\nPatient: AL, male, 52 years.\n\nQuery: Caller phoned with additional information on a case already logged. Around 23/06/2025 the patient developed abdominal discomfort and was admitted to hospital. New details: following a dose increase, the patient showed agitation, tremor and fever, described by the caller as serotonin syndrome. Caller believes Venlaris caused the event. He asked whether the new information could be added to the existing case and whether further documentation is needed.\n\nResponse: Details recorded and linked to the earlier contact. Caller informed that the case would be forwarded to the responsible team.\n\nAgent: call-centre, Germany",
+  "text": "Call log, 01/08/2025, Germany. Ref: MIV-00029 (follow-up to earlier contact).\n\nCaller: Luca K., pharmacist.\n\nProduct: Venlaris.\n\nPatient: NY, male, 52 years old.\n\nReason for call: Caller is providing an update on a case already logged. Patient developed abdominal discomfort around 23/06/2025 and was admitted to hospital because of it. Caller now reports further information: agitation, tremor and fever occurred after a dose increase, and these were described as serotonin syndrome. Caller considers Venlaris to be the cause of the event.\n\nQuestion asked: Caller wanted the new details added to the existing record.\n\nAction: Information documented and linked to MIV-00029. No other questions raised during the call.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3335,
+    "latency_ms": 3019,
     "problems": [],
     "usage": {
      "input_tokens": 458,
-     "output_tokens": 281,
-     "total_tokens": 739
+     "output_tokens": 253,
+     "total_tokens": 711
     }
    }
   ]
@@ -2908,23 +2865,23 @@
  },
  {
   "record_id": "PSP-007-0106",
-  "scenario_hash": "824d117a2dfbea00",
+  "scenario_hash": "58a2e5c3f23008b1",
   "channel": "PSP",
   "channel_received_date": "2025-03-20",
   "country": "IT",
-  "text": "PSP Nurse Call Note – 20/03/2025\nRef: PSPV-00031\nCountry: Italy\n\nCaller: Clara T. (consumer), calling regarding patient JD, 26-year-old male, prescribed Sertavix.\n\nAdherence check: Caller states JD has not been taking Sertavix as directed. Around 13/02/2025 he began using it in a way that she describes as drug abuse, taking it outside the prescribed pattern and seeking it for effect rather than treatment. She believes the medicine itself caused this behaviour.\n\nWellbeing check: Caller says she is worried about JD's current state and wants guidance on what to do next. Details beyond this were not offered during the call.\n\nActions: Concerns documented in full. Caller encouraged to contact JD's prescriber and to keep any remaining packs safe. Follow-up call to be offered.\n\nNurse signature on file.",
+  "text": "PSP Nurse Call Note – Ref. PSPV-00031\nDate: 20/03/2025 | Country: Italy | Contact type: outbound follow-up call\n\nCaller: Clara T. (consumer), speaking about patient VA, male, 26 years old.\nProduct: Sertavix.\n\nAdherence: Clara reports that VA has not been taking Sertavix as directed. She says he has been taking it in a compulsive, non-prescribed way and seeking it out for its effects, which she describes as drug abuse. She places the start at around 13/02/2025.\n\nWellbeing check: Clara is worried about him and finds the situation hard to manage. She believes Sertavix caused this behaviour.\n\nActions: Details recorded as given by the caller. No further information was available during the call.\n\nNurse: PSP team, Italy.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3532,
+    "latency_ms": 3545,
     "problems": [],
     "usage": {
      "input_tokens": 392,
-     "output_tokens": 297,
-     "total_tokens": 689
+     "output_tokens": 272,
+     "total_tokens": 664
     }
    }
   ]
@@ -2961,41 +2918,41 @@
  },
  {
   "record_id": "PSP-007-0108",
-  "scenario_hash": "e57e9de110199c9d",
+  "scenario_hash": "6d697c9b091b2091",
   "channel": "PSP",
   "channel_received_date": "2025-07-21",
   "country": "DE",
-  "text": "Patient Support Programme – Nurse Follow-up Call\nDate: 21/07/2025 | Country: DE | Ref: PSPV-00032\n\nCaller: Jonas V. (consumer), calling about patient KL, male, 32 years.\nProduct: Venlaris.\n\nPurpose: follow-up to our earlier call; this note updates the existing record.\n\nSummary: Jonas V. reports that around 13/06/2025 KL developed albuminuria and was admitted to hospital because of it. He believes Venlaris caused this. New today: KL was also admitted for palpitations and an irregular heartbeat, described as an arrhythmia. Jonas V. says KL's wellbeing has been affected by the stay.\n\nAdherence: not discussed in detail during this call; to be reviewed at next contact.\n\nPlan: record the new information under PSPV-00032. Offer another check-in call. Jonas V. was advised to pass on any further hospital information and to speak to the treating doctors about his concerns.\n\nNurse signature on file.",
+  "text": "Patient Support Programme – Nurse Call Note\nDate: 21/07/2025 | Country: DE | Ref: PSPV-00032\n\nCaller: Jonas V., consumer, calling about patient UK (male, 32 years). Product: Venlaris.\n\nPurpose: Follow-up call, update to the earlier contact on file.\n\nAdherence: Caller states Venlaris is being taken as prescribed; no missed doses mentioned.\n\nWellbeing check: Caller reports that around 13/06/2025 the patient developed albuminuria and was admitted to hospital because of it. Caller believes Venlaris caused this. New information today: the patient was also admitted for palpitations and an irregular heartbeat (arrhythmia).\n\nOther concerns raised: none.\n\nActions: Details added to the existing record under the reference above. Caller advised to keep in touch with the treating hospital team and to contact the programme with any further changes. Next scheduled call to be arranged.\n\nNurse signature on file.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3573,
+    "latency_ms": 3590,
     "problems": [],
     "usage": {
      "input_tokens": 460,
-     "output_tokens": 337,
-     "total_tokens": 797
+     "output_tokens": 328,
+     "total_tokens": 788
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0109",
-  "scenario_hash": "57c8cccc1c0a9c00",
+  "scenario_hash": "664dac04cbd4dc5d",
   "channel": "MI",
   "channel_received_date": "2025-09-27",
   "country": "FR",
-  "text": "Call received from Zofia B., physician, regarding Sertavix for patient GS, 22-year-old male. She reported that this is an update to earlier information under reference MIV-00031. New information was provided that serotonin syndrome occurred after a dose increase, with agitation, tremor and fever. She also stated that around 08/09/2025 the patient developed increased intracranial pressure and was admitted to hospital because of it. The reporter considers Sertavix to be the cause.",
+  "text": "Medical information call log entry from a physician, Zofia B., regarding Sertavix. She reported on patient XY, a 22-year-old male. An earlier report was being updated with new information: after a dose increase, the patient developed serotonin syndrome with agitation, tremor and fever. She also stated that intracranial pressure increased, beginning around 08/09/2025, and that the patient was admitted to hospital because of this. The reporter considered Sertavix to be the cause. Reference number: MIV-00031.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1352,
+    "latency_ms": 1123,
     "problems": [],
     "usage": {
      "input_tokens": 329,
@@ -3003,11 +2960,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 106,
+     "output_tokens": 115,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 435
+     "total_tokens": 444
     }
    }
   ]
@@ -3575,23 +3532,23 @@
  },
  {
   "record_id": "PSP-007-0130",
-  "scenario_hash": "6c98b9c0982a7527",
+  "scenario_hash": "218608336d63a416",
   "channel": "PSP",
   "channel_received_date": "2025-01-12",
   "country": "PL",
-  "text": "Patient Support Programme – Nurse Call Note\nDate: 12/01/2025 | Country: PL | Ref: PSPV-00039\nCaller: Anna G., nurse\nPatient: LL, male, 42 years old\nProduct: Sertavix\n\nPurpose of call: routine follow-up on adherence and general wellbeing.\n\nSummary: Nurse Anna G. contacted the programme regarding patient LL. She noted that this is the same patient and the same event that she has already reported previously, and that nothing has changed since that earlier report. Around 15/12/2024 the patient developed upper abdominal pain and was admitted to hospital because of it. No new information was provided during today's call.\n\nAdherence: no further details given on this contact.\nWellbeing check: no additional concerns raised.\n\nAction: note filed against existing record. No further follow-up scheduled at this time.\n\nNurse signature: programme advisor",
+  "text": "PATIENT SUPPORT PROGRAMME – NURSE CALL NOTE\nDate of call: 12/01/2025 | Country: PL | Ref: PSPV-00039\nCaller: Anna G., nurse\nPatient: JI, male, 42 years\nProduct: Sertavix\n\nPurpose: scheduled follow-up call, adherence and wellbeing check.\n\nAdherence: Anna G. confirmed the patient has continued Sertavix as prescribed, with no missed doses mentioned during the call.\n\nWellbeing: Patient reported upper abdominal pain starting around 15/12/2024, which led to his admission to hospital. Anna G. stated this is the same patient and event already reported to us previously and that nothing has changed since that report. No new symptoms were mentioned.\n\nOther: No additional concerns raised. No new products or changes to treatment discussed.\n\nPlan: Case details left unchanged. Next routine follow-up call to be scheduled per programme.\n\nCall closed. Nurse's contact details are on file.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3101,
+    "latency_ms": 3189,
     "problems": [],
     "usage": {
      "input_tokens": 460,
-     "output_tokens": 297,
-     "total_tokens": 757
+     "output_tokens": 340,
+     "total_tokens": 800
     }
    }
   ]
@@ -3965,23 +3922,23 @@
  },
  {
   "record_id": "PQC-007-0144",
-  "scenario_hash": "daa798b38ecd0f29",
+  "scenario_hash": "3bc8235b51bf92e9",
   "channel": "PQC",
   "channel_received_date": "2024-11-14",
   "country": "IT",
-  "text": "Complaint regarding Venlaris tablets, purchased at my local pharmacy in Italy. I am writing on behalf of my husband, BR, 57 years old. Around 28/10/2024 he began having great difficulty passing urine, and he was eventually diagnosed with urinary retention. I believe Venlaris caused this, as nothing else in his routine had changed. I would like the company to check whether the product itself could be at fault. I kept the box and the leaflet, and can send photos of the packaging if needed. Submitted by Clara T. (consumer), 14/11/2024.",
+  "text": "Product: Venlaris tablets, purchased at my usual pharmacy. I could not find the batch number on the outer carton, only on the blister, which is partly illegible (starts with \"VL4...\"). The tablets look normal, no crumbling or odd smell, and the packaging was intact when opened.\n\nMy complaint concerns my husband, VT, 57 years old. Around 28/10/2024, a few days after he started taking this medicine, he developed urinary retention and could hardly pass urine. I am convinced Venlaris caused it, as nothing like this had happened before. I would like the quality of this batch to be checked.\n\nClara T., consumer, Italy, 14/11/2024",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2806,
+    "latency_ms": 2940,
     "problems": [],
     "usage": {
      "input_tokens": 373,
-     "output_tokens": 190,
-     "total_tokens": 563
+     "output_tokens": 220,
+     "total_tokens": 593
     }
    }
   ]
@@ -4094,18 +4051,18 @@
  },
  {
   "record_id": "MI-007-0149",
-  "scenario_hash": "0437f5072c22e446",
+  "scenario_hash": "f1fe1d7bfe2ebab8",
   "channel": "MI",
   "channel_received_date": "2026-04-27",
   "country": "FR",
-  "text": "Consumer Luca L. contacted the call centre regarding Venlaris for patient NM, a 19-year-old female. He asked whether the medicine could have caused a bezoar, as the patient developed this condition around 14/04/2026 and was admitted to hospital because of it. He stated that he considered Venlaris to be the possible cause. This contact was received as an update to an earlier report under reference MIV-00040. New information provided: the patient was also admitted for palpitations and an irregular heartbeat, described as arrhythmia.",
+  "text": "Consumer Luca L. called regarding Venlaris for patient OD, 19-year-old female. The caller asked to update a previous report under reference MIV-00040. He stated that the patient developed a bezoar, with onset around 14/04/2026, and was admitted to hospital because of it. He also added new information that the patient was admitted for palpitations and an irregular heartbeat, described as arrhythmia. The caller considered that Venlaris may have caused the event.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1200,
+    "latency_ms": 960,
     "problems": [],
     "usage": {
      "input_tokens": 320,
@@ -4113,11 +4070,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 119,
+     "output_tokens": 107,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 439
+     "total_tokens": 427
     }
    }
   ]
@@ -4336,23 +4293,23 @@
  },
  {
   "record_id": "SOCIAL-007-0158",
-  "scenario_hash": "9dd2934713129e50",
+  "scenario_hash": "670e39649d9614ee",
   "channel": "SOCIAL",
   "channel_received_date": "2025-01-19",
   "country": "CZ",
-  "text": "Hi all, it's PB here (22, female), posting as quietlemon_22. Just a quick update since a few of you asked. Around 5 January I took an intentional overdose of my Sertavix and ended up being admitted to hospital. I've already told this exact thing to the people I contacted earlier about me and this event, and nothing has changed since then, so there's nothing new to add. I'm just not great at keeping up with replies right now. Thanks for the kind messages, they do help.",
+  "text": "Posting as moonlit_fern here, but I'm OW, 22, female. I'm on Sertavix and wanted to update the thread. Around 5 January 2025 I took an intentional overdose and ended up being admitted to hospital. I know I already told the team about this, same me and same event, and I'm only writing again because there's nothing new to add. Nothing has changed since I last wrote. I just didn't want anyone reading to think I'd vanished or that this was a different case. Thanks for being around.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4923,
+    "latency_ms": 4732,
     "problems": [],
     "usage": {
      "input_tokens": 452,
-     "output_tokens": 460,
-     "total_tokens": 912
+     "output_tokens": 408,
+     "total_tokens": 860
     }
    }
   ]
@@ -4624,30 +4581,30 @@
  },
  {
   "record_id": "PSP-007-0169",
-  "scenario_hash": "84b654932f0925f4",
+  "scenario_hash": "77aab37d0e6d037e",
   "channel": "PSP",
   "channel_received_date": "2026-02-24",
   "country": "IT",
-  "text": "PSP follow-up call note for patient MC, 50-year-old female, regarding Duloxane. Call completed by Hugo R., nurse, in Italy, under reference PSPV-00049. During the wellbeing and adherence check, the patient reported that her blood pressure has increased. She said this began around 28/01/2026. The reporter considers the medicine to be the likely cause. No other concerns were raised during the contact.",
+  "text": "On 24/02/2026, nurse Hugo R. contacted ZO, a 50-year-old female, as part of the patient support programme. ZO reported that she has been taking Duloxane and that, since around 28/01/2026, her blood pressure has increased. She stated that the change began approximately on that date and she had noticed it during her wellbeing checks. The nurse documented the report and noted that, in his view, the medicine may have caused the rise in blood pressure. Reference number: PSPV-00049.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1111,
+    "latency_ms": 1602,
     "problems": [],
     "usage": {
-     "input_tokens": 275,
+     "input_tokens": 276,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 94,
+     "output_tokens": 119,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 369
+     "total_tokens": 395
     }
    }
   ]
@@ -4954,18 +4911,18 @@
  },
  {
   "record_id": "SOCIAL-007-0181",
-  "scenario_hash": "44bb917ec1d4bd75",
+  "scenario_hash": "d4930eb8960e21c4",
   "channel": "SOCIAL",
   "channel_received_date": "2026-01-13",
   "country": "FR",
-  "text": "Hi everyone, I’m posting under a nickname, just to share my own experience. I’m a 24-year-old man, initials NK, and I’ve been taking Duloxane. Around 04/01/2026, I started having an auditory disorder. I’m writing again because I had already mentioned this same patient and the same issue before, and since then nothing has changed.",
+  "text": "Hi, I’m posting again under my forum nickname about Duloxane. I’m KH, 24, male. I already wrote about this same issue before, and nothing has changed since then. Around 04/01/2026, I started having an auditory disorder. I’m just updating the thread because it’s still the same situation as before.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 981,
+    "latency_ms": 787,
     "problems": [],
     "usage": {
      "input_tokens": 303,
@@ -4973,11 +4930,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 83,
+     "output_tokens": 76,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 386
+     "total_tokens": 379
     }
    }
   ]
@@ -5166,18 +5123,18 @@
  },
  {
   "record_id": "MI-007-0189",
-  "scenario_hash": "9994a5c0c40fea18",
+  "scenario_hash": "6e6eaae46d8301b3",
   "channel": "MI",
   "channel_received_date": "2026-02-21",
   "country": "SK",
-  "text": "Consumer Hugo S. called from SK regarding Sertavix for patient FL, a 55-year-old female. He asked about sexual dysfunction described as loss of libido. He stated that the issue began around 17/01/2026. He also said this same patient and event had already been reported before and that there has been no change since then. Reference number MIV-00055 was noted.",
+  "text": "Caller was Hugo S., consumer, calling from SK regarding Sertavix. He asked about a 55-year-old female patient with initials SQ who had been experiencing sexual dysfunction with loss of libido since around 17/01/2026. He stated that this same patient and event had already been reported previously and that there has been no change since then. Reference number MIV-00055 was noted.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 874,
+    "latency_ms": 934,
     "problems": [],
     "usage": {
      "input_tokens": 300,
@@ -5219,30 +5176,30 @@
  },
  {
   "record_id": "CRM-007-0191",
-  "scenario_hash": "901e975371550476",
+  "scenario_hash": "a44000adf581b3ec",
   "channel": "CRM",
   "channel_received_date": "2026-04-10",
   "country": "PT",
-  "text": "Visit in PT on 10/04/2026. Spoke w/ Karl S., physician, who mentioned Sertavix during the call. He said he already reported the same case before for pt PD, 78 yo female, and there’s been no change since the last update. Event still noted as gait inability, with onset around 08/03/2026. No new info from the contact, just a quick follow-up on the same patient.",
+  "text": "Visited Dr. Karl S. in PT on 10/04/2026 re Sertavix. He mentioned pt YZ, 78 yo female, and said this same case was already reported earlier for the same patient/event. Since then, no change noted. Around 08/03/2026 she developed gait inability and the situation is still as before. Dr. S. didn’t add anything new clinically, just confirmed the update for the file and asked to keep him posted if any further info comes in.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1134,
+    "latency_ms": 1084,
     "problems": [],
     "usage": {
-     "input_tokens": 294,
+     "input_tokens": 295,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 98,
+     "output_tokens": 109,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 392
+     "total_tokens": 404
     }
    }
   ]
@@ -5378,30 +5335,30 @@
  },
  {
   "record_id": "PQC-007-0197",
-  "scenario_hash": "8c38f1793e906ab4",
+  "scenario_hash": "a157a346f50882dc",
   "channel": "PQC",
   "channel_received_date": "2026-08-02",
   "country": "IT",
-  "text": "Sertavix was reported by Anna G., pharmacist, regarding patient FA, 20-year-old female. This is an update to an earlier report and includes new information: she had a seizure at home and was taken to hospital. Around 20/07/2026, the patient developed coma and was admitted to hospital because of it. The reporter considers that the medicine may have caused the condition.",
+  "text": "Anna G., pharmacist, is submitting an update on an earlier report for Sertavix concerning patient YI, a 20-year-old female. New information indicates that on around 20/07/2026 she had a seizure at home and was taken to hospital. She later developed coma and was admitted to hospital because of it. The reporter considers that the medicine may have caused this reaction.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 832,
+    "latency_ms": 969,
     "problems": [],
     "usage": {
-     "input_tokens": 297,
+     "input_tokens": 298,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 85,
+     "output_tokens": 83,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 382
+     "total_tokens": 381
     }
    }
   ]
@@ -5431,18 +5388,18 @@
  },
  {
   "record_id": "PSP-007-0199",
-  "scenario_hash": "6afd46f3fc3bef39",
+  "scenario_hash": "31e690e905feb77e",
   "channel": "PSP",
   "channel_received_date": "2025-11-04",
   "country": "FR",
-  "text": "PSPV-00053. Support programme nurse call note for TA, an 80-year-old female using Venlaris. Contact made by Elena D., nurse. This update adds that the patient developed decreased appetite around 30/09/2025 and was admitted to hospital because of it. The reporter considers Venlaris to be the likely cause. New information also includes arrhythmia, with admission for palpitations and an irregular heartbeat. Wellbeing and treatment review discussed during the call. The patient remains under hospital care.",
+  "text": "Elena D., nurse, completed a follow-up call regarding DE, an 80-year-old female patient receiving Venlaris. This is an update to reference number PSPV-00053. The patient reported a decreased appetite starting around 30/09/2025 and stated that she was admitted to hospital because of this. The patient also reported arrhythmia and said she was admitted for palpitations and an irregular heartbeat. The nurse noted the patient’s view that Venlaris may have caused the decreased appetite. Wellbeing and treatment check were reviewed during the contact.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1238,
+    "latency_ms": 1074,
     "problems": [],
     "usage": {
      "input_tokens": 316,
@@ -5450,11 +5407,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 112,
+     "output_tokens": 120,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 428
+     "total_tokens": 436
     }
    }
   ]
@@ -5567,23 +5524,23 @@
  },
  {
   "record_id": "PQC-007-0204",
-  "scenario_hash": "edfc55b9bb803d7b",
+  "scenario_hash": "c2c712a44af37df4",
   "channel": "PQC",
   "channel_received_date": "2025-05-12",
   "country": "DE",
-  "text": "Complaint regarding Venlaris tablets, purchased at my local pharmacy in Germany. I am Luca G., filling this in for my father, CL, 49 years old, male. The box and blister looked normal and I noticed no problem with tablet colour, smell or packaging, but I am unable to find the batch number on the outer carton, which seems to be missing the print. Around 02/05/2025 my father was diagnosed with an autoimmune disorder. I am convinced the medicine caused it, since nothing like this happened before he started taking Venlaris. Please check the product and tell me which batch it came from. Date: 12/05/2025.",
+  "text": "Product: Venlaris tablets, box from my local pharmacy. I'm filling this in for my husband, RH, 49 years old, male. The batch number is printed on the carton, but I have kept the box and can send it in. The tablets look normal and there is nothing wrong with the packaging, blister or taste, so my complaint is not about how it looks. Around 2 May 2025 my husband was diagnosed with an autoimmune disorder, and I am convinced Venlaris caused it, so I would like the batch checked for contamination or a manufacturing fault. Please contact me. Luca G., consumer, Germany. 12/05/2025.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3412,
+    "latency_ms": 2744,
     "problems": [],
     "usage": {
      "input_tokens": 379,
-     "output_tokens": 207,
-     "total_tokens": 586
+     "output_tokens": 208,
+     "total_tokens": 587
     }
    }
   ]
@@ -5738,35 +5695,23 @@
  },
  {
   "record_id": "SOCIAL-007-0210",
-  "scenario_hash": "031de753d5ffb183",
+  "scenario_hash": "59dc5f3e4d933d8c",
   "channel": "SOCIAL",
   "channel_received_date": "2026-08-16",
   "country": "DE",
-  "text": "Hi all, I post here as nightowl_b. I'm DG, a 49-year-old woman, and I've been taking Duloxane. Around 22 July (2026) my belly started swelling up. It was proper abdominal distension, really tight and hard, like I was blown up like a balloon, and it kept getting worse. It got so bad that I ended up being admitted to hospital. I honestly believe the Duloxane caused it, because nothing else in my routine changed. Has anyone else had a swollen, distended belly on this medicine? I'd love to hear your experiences.",
+  "text": "Posted by greenfern_77\n\nHi all, I'm CZ, 49 and female, on Duloxane. Around 22/07/2026 my belly started swelling up badly. It felt tight and bloated, and it got so uncomfortable that I ended up being admitted to hospital because of it. I'm convinced Duloxane caused this, since nothing else in my routine changed and the timing fits too well. Has anyone else had this kind of abdominal distension on Duloxane or on duloxetine? I'd really like to hear your experiences before I decide what to do next.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2324,
-    "problems": [
-     "event 'Abdominal distension' not described"
-    ],
-    "usage": {
-     "input_tokens": 414,
-     "output_tokens": 160,
-     "total_tokens": 574
-    }
-   },
-   {
-    "attempt": 2,
-    "latency_ms": 5293,
+    "latency_ms": 4324,
     "problems": [],
     "usage": {
-     "input_tokens": 450,
-     "output_tokens": 488,
-     "total_tokens": 938
+     "input_tokens": 415,
+     "output_tokens": 428,
+     "total_tokens": 843
     }
    }
   ]
@@ -5803,23 +5748,23 @@
  },
  {
   "record_id": "MI-007-0212",
-  "scenario_hash": "0a1ca6ca00482815",
+  "scenario_hash": "2709ebc5392a8014",
   "channel": "MI",
   "channel_received_date": "2026-07-10",
   "country": "FR",
-  "text": "Medical Information Call Log – Ref. MIV-00057\nDate: 10/07/2026. Country: France.\nCaller: Karl G., pharmacist (inbound call).\n\nQuestion asked: Caller wanted to know whether interstitial lung disease has been described with Sertavix. He explained that his patient, TN, a 64-year-old woman, developed interstitial lung disease at about 25/06/2026 and was admitted to hospital because of it. In his opinion Sertavix is the cause.\n\nAgent response: Caller was told that product information on Sertavix would be checked and sent to him by email. No further clinical details were available during the call. Caller agreed to be contacted again if needed.\n\nCall closed. Logged by call-centre agent.",
+  "text": "Medical Information Call Log – Ref. MIV-00057\nDate: 10/07/2026. Country: France.\nCaller: Karl G., pharmacist (community pharmacy). Inbound call.\nProduct: Sertavix.\nPatient: LP, female, 64 years old.\nQuery: Caller asked whether interstitial lung disease has been described in patients taking Sertavix and requested available safety information. He stated that the patient developed interstitial lung disease around 25/06/2026 and was admitted to hospital because of it. In his opinion, Sertavix caused the condition.\nAgent actions: Standard product information on the respiratory section of the label was explained verbally. Caller was told a written reply would follow by email.\nCall closed. No further questions.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2845,
+    "latency_ms": 3177,
     "problems": [],
     "usage": {
      "input_tokens": 416,
-     "output_tokens": 240,
-     "total_tokens": 656
+     "output_tokens": 245,
+     "total_tokens": 661
     }
    }
   ]
@@ -5985,18 +5930,18 @@
  },
  {
   "record_id": "MI-007-0219",
-  "scenario_hash": "208b2c91f5bfeaee",
+  "scenario_hash": "59a32182849490a4",
   "channel": "MI",
   "channel_received_date": "2026-10-02",
   "country": "FI",
-  "text": "Caller type: physician. Maja T. reported on behalf of patient JR, a 54-year-old female. She contacted the centre with a question about Duloxane and a bladder disorder that the patient developed. The issue started around 01/09/2026. The reporter considers Duloxane to be the likely cause. Reference number: MIV-00060.",
+  "text": "Call centre agent recorded a physician caller, Maja T., regarding patient TM, a 54-year-old female who is taking Duloxane. The physician asked about a bladder disorder that the patient developed, with onset around 2026-09-01. The caller considered the medicine to be the likely cause. Reference number: MIV-00060.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1093,
+    "latency_ms": 1411,
     "problems": [],
     "usage": {
      "input_tokens": 278,
@@ -6004,11 +5949,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 80,
+     "output_tokens": 76,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 358
+     "total_tokens": 354
     }
    }
   ]
@@ -6258,23 +6203,23 @@
  },
  {
   "record_id": "PQC-007-0228",
-  "scenario_hash": "64336e9ab8d5fcab",
+  "scenario_hash": "2fd5c141f52360a5",
   "channel": "PQC",
   "channel_received_date": "2025-02-17",
   "country": "FR",
-  "text": "Product complaint – free text\n\nProduct: Sertavix tablets, dispensed by our pharmacy in France. I am Maja B., the pharmacist completing this form on 17/02/2025. Batch number and expiry date were not recorded at dispensing, and the patient has not yet returned the box so I cannot confirm them.\n\nPatient TA, female, 48 years old, reports that around 02/02/2025 she developed epilepsy and was admitted to hospital. I believe Sertavix caused this and suspect a problem with the product itself. I would like the manufacturer to check for a possible quality defect and to advise me on the next steps.",
+  "text": "Product complaint – free text:\n\nProduct: Sertavix tablets, dispensed from our pharmacy. Batch number and expiry were not recorded on the patient's receipt, and the box has not yet been returned to us. Patient SU, female, 48 years old, contacted us on 17/02/2025. Tablets looked normal in appearance and packaging, with no visible defect reported. However, around 02/02/2025 she developed epilepsy and was admitted to hospital as a result. In my opinion as the pharmacist, Sertavix caused this, and I suspect a possible problem with the product itself. I request that the batch be investigated and the quality of the tablets checked. Remaining packs will be quarantined here pending your reply. Maja B., pharmacist.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2599,
+    "latency_ms": 3119,
     "problems": [],
     "usage": {
      "input_tokens": 400,
-     "output_tokens": 204,
-     "total_tokens": 604
+     "output_tokens": 246,
+     "total_tokens": 646
     }
    }
   ]
@@ -6334,18 +6279,18 @@
  },
  {
   "record_id": "PSP-007-0231",
-  "scenario_hash": "55d33740b3f6cf36",
+  "scenario_hash": "9564f1d3a7402b1a",
   "channel": "PSP",
   "channel_received_date": "2025-08-12",
   "country": "IT",
-  "text": "On 12/08/2025, Elena R., nurse, completed a support programme call regarding GG, a 67-year-old male using Sertavix. This note is an update to reference PSPV-00058. The patient reported that he developed hallucinations, mixed, beginning around 15/07/2025, and said he was admitted to hospital because of this. He also reported that he had been admitted for palpitations and an irregular heartbeat. The reporter considered the medicine to be the likely cause.",
+  "text": "Patient support programme nurse call note for Sertavix. Patient RJ, 67-year-old male, was followed up by Elena R., nurse. This is an update to reference PSPV-00058. The patient reported that around 15/07/2025 he developed hallucinations, mixed, and was admitted to hospital because of this. He also provided new information that he was admitted for palpitations and an irregular heartbeat. The reporter considered Sertavix to be the likely cause. Current wellbeing and adherence could not be fully reviewed due to the hospital admission.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1275,
+    "latency_ms": 970,
     "problems": [],
     "usage": {
      "input_tokens": 320,
@@ -6353,11 +6298,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 110,
+     "output_tokens": 118,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 430
+     "total_tokens": 438
     }
    }
   ]
@@ -6470,11 +6415,11 @@
  },
  {
   "record_id": "SOCIAL-007-0236",
-  "scenario_hash": "8f6b2973079464c7",
+  "scenario_hash": "f2c70335c8ce84bf",
   "channel": "SOCIAL",
   "channel_received_date": "2025-10-30",
   "country": "FR",
-  "text": "Posted by nightowl_jh\n\nHi all, I'm 30, male (JH for short). Since around 29/09/2025 I've been aspirating when I eat or drink. Food and sometimes water go down into my windpipe instead of my stomach, and I end up coughing and choking. It never used to happen to me before. The only thing that changed is that I'm on Venlaris, and I'm convinced it's the cause because the timing fits so well. Has anyone else on venlafaxine had trouble swallowing like this, or the feeling of things going down the wrong way? Would love to hear your experiences.",
+  "text": "Posted by blue_heron30\n\nHi all, I'm WP, 30, male, and I've been on Venlaris for a while. Since around 29/09/2025 I've been aspirating. Food and sometimes water go down the wrong way, straight into my airway instead of my stomach, and I end up coughing and choking on them. It never happened before this started. I honestly think Venlaris is the cause, because I can't think of anything else that changed. Has anyone else on it had swallowing go wrong like this, with things going into the windpipe?",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": false,
   "validator_problems": [
@@ -6483,56 +6428,56 @@
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 5414,
+    "latency_ms": 2803,
     "problems": [
      "event 'Aspiration' not described"
     ],
     "usage": {
      "input_tokens": 385,
-     "output_tokens": 475,
-     "total_tokens": 860
+     "output_tokens": 172,
+     "total_tokens": 557
     }
    },
    {
     "attempt": 2,
-    "latency_ms": 4904,
+    "latency_ms": 4381,
     "problems": [
      "event 'Aspiration' not described"
     ],
     "usage": {
      "input_tokens": 419,
-     "output_tokens": 413,
-     "total_tokens": 832
+     "output_tokens": 451,
+     "total_tokens": 870
     }
    },
    {
     "attempt": 3,
-    "latency_ms": 4800,
+    "latency_ms": 3932,
     "problems": [
      "event 'Aspiration' not described"
     ],
     "usage": {
      "input_tokens": 419,
-     "output_tokens": 421,
-     "total_tokens": 840
+     "output_tokens": 390,
+     "total_tokens": 809
     }
    }
   ]
  },
  {
   "record_id": "CRM-007-0237",
-  "scenario_hash": "f544ee0e4e599c8e",
+  "scenario_hash": "9fa3c10bcae39ee6",
   "channel": "CRM",
   "channel_received_date": "2025-05-10",
   "country": "SE",
-  "text": "Visited prescriber in SE today, quick follow-up on Venlaris. Clara S., pharmacist, updated us on pt FR, 32 y/o male. She said he developed a pruritic rash starting around 21/04/2025 and was admitted to hospital because of it. Her view is that Venlaris caused the skin reaction. Also got new info for the earlier note: after a dose increase, he had serotonin syndrome with agitation, tremor, and fever. Will keep tracking and share back any further updates.",
+  "text": "Visited prescriber in SE today, note from Clara S., pharmacist, on Venlaris. She updated an earlier case for pt PY, 32 yo male. New info: around 2025-04-21 he developed a pruritic rash, and due to this he was admitted to hospital. Clara feels Venlaris was the cause. She also mentioned that after a dose increase there was serotonin syndrome with agitation, tremor and fever. Will keep in touch and follow up if anything else comes in.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 938,
+    "latency_ms": 987,
     "problems": [],
     "usage": {
      "input_tokens": 313,
@@ -6540,11 +6485,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 112,
+     "output_tokens": 108,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 425
+     "total_tokens": 421
     }
    }
   ]
@@ -6680,18 +6625,18 @@
  },
  {
   "record_id": "CRM-007-0243",
-  "scenario_hash": "05bd10235f1326d9",
+  "scenario_hash": "6034838b01ea0794",
   "channel": "CRM",
   "channel_received_date": "2026-07-26",
   "country": "FR",
-  "text": "Visite du Dr Ingrid L. today. Spoke about Venlaris and her pt BC, 77 yo male. She mentioned that around 28/06/2026 he developed a drug interaction while on treatment. Dr L. feels the medicine may be the cause. We briefly reviewed the case and she said she’ll keep an eye on him. Overall, good exchange on Venlaris in routine practice and she remains interested in follow-up info.",
+  "text": "Visit done with Ingrid L., physician, in FR. Discussed Venlaris during the call. She mentioned a 77-year-old male patient, initials PO, who developed a drug interaction, with onset around 28/06/2026. Ingrid L. feels the medicine was the likely cause. No other details shared.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1111,
+    "latency_ms": 951,
     "problems": [],
     "usage": {
      "input_tokens": 269,
@@ -6699,11 +6644,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 96,
+     "output_tokens": 70,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 365
+     "total_tokens": 339
     }
    }
   ]
@@ -7293,23 +7238,23 @@
  },
  {
   "record_id": "SOCIAL-007-0266",
-  "scenario_hash": "97b5070f2caa77c8",
+  "scenario_hash": "e99c997a0aad05e9",
   "channel": "SOCIAL",
   "channel_received_date": "2025-11-23",
   "country": "FR",
-  "text": "Posted by lunar_moth19\n\nUpdate to my earlier post for anyone following. I'm GD, 19, female, and I've been on Venlaris. Around 7/11/2025 I had a cardio-respiratory arrest and ended up in hospital. I'm convinced the Venlaris caused it, there's no other explanation I can think of. Something new since I last wrote: when I was admitted I was really confused, and the blood tests showed my sodium was very low. The doctors called it hyponatraemia. Has anyone else on Venlaris or venlafaxine had low sodium? I'd love to hear your experiences.",
+  "text": "Update to my earlier post, for anyone following. I'm WW, 19, female, posting as usual under this nickname. Around 7 November I had a cardio-respiratory arrest and ended up in hospital. I'm convinced Venlaris caused it, because nothing else changed before it happened. The new info is that the doctors also found hyponatraemia. I was admitted confused, and my blood tests showed low sodium. I'm still trying to understand it all. If anyone on Venlaris has had low sodium or something similar, please tell me your story.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 5307,
+    "latency_ms": 4507,
     "problems": [],
     "usage": {
      "input_tokens": 461,
-     "output_tokens": 463,
-     "total_tokens": 924
+     "output_tokens": 410,
+     "total_tokens": 871
     }
    }
   ]
@@ -7399,23 +7344,23 @@
  },
  {
   "record_id": "CRM-007-0270",
-  "scenario_hash": "313b4952f5761ea7",
+  "scenario_hash": "45f0de5578b4a28a",
   "channel": "CRM",
   "channel_received_date": "2026-04-10",
   "country": "DE",
-  "text": "Visit 10/04/2026, Dr. Jonas L., GP practice, 15 min between patients. Mostly Escitrel talk: he's happy with the samples and wants the new patient leaflets next time. Also followed up on the PL case he told me about before (male, 36). Update: pt had a seizure at home and was taken to hospital. Dr. L. says the erectile dysfunction began around 02/03/2026 and pt was admitted to hospital because of it. He's convinced Escitrel is the cause. Didn't push any detailed discussion, he was short on time. Next: send info material, call back in ~3 wks. Pls log the update from today.",
+  "text": "Visit 10/04/26 – Dr. Jonas L., Praxis, DE. Short call, ~15 min, lots of waiting-room chaos. Discussed Escitrel formulary status + new sample request (will send next wk). He brought up his pt LX, 36 y/o male, on Escitrel. Around 02/03/26 pt developed erectile dysfunction, ended up admitted to hospital bc of it. Dr. L. is convinced Escitrel caused it. Follow-up to what he told me before: pt had a seizure at home, taken to hospital. No further details from him. Doc seemed quite worried, so keep tone careful at next visit. Left updated brochure. Next visit early May.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4653,
+    "latency_ms": 4464,
     "problems": [],
     "usage": {
      "input_tokens": 445,
-     "output_tokens": 443,
-     "total_tokens": 888
+     "output_tokens": 440,
+     "total_tokens": 885
     }
    }
   ]
@@ -7505,23 +7450,23 @@
  },
  {
   "record_id": "PSP-007-0274",
-  "scenario_hash": "7236026a443586b4",
+  "scenario_hash": "acfcea4d05dfd510",
   "channel": "PSP",
   "channel_received_date": "2025-11-27",
   "country": "ES",
-  "text": "PSP Nurse Call Note – 27/11/2025 (Spain)\nRef: PSPV-00066\n\nCaller: Marie G. (consumer), calling about patient GB, male, 78 years old.\nProduct: Venlaris.\n\nPurpose of call: routine follow-up on adherence and wellbeing.\n\nDetails: Marie G. said that around 19/11/2025 the patient developed a drug interaction and was admitted to hospital because of it. She stated that she has already reported this same patient and event to us previously and that nothing has changed since that earlier contact. No new information was given on the hospital stay.\n\nAdherence: not further discussed during this call, as the caller focused on the admission.\nWellbeing check: no additional complaints or concerns raised by the caller.\n\nActions: call documented under the reference above. Caller thanked for her time and reminded she can contact the programme line at any time.\n\nNurse signature on file.",
+  "text": "PSP NURSE CALL NOTE\nDate: 27/11/2025 | Country: ES | Ref: PSPV-00066\nCaller: Marie G. (consumer), calling about patient BO, male, 78 years old\nProduct: Venlaris\n\nReason for call: Follow-up wellbeing and adherence check.\n\nSummary: Marie G. said she had already reported this same patient and event to us previously and that nothing has changed since then. Around 19/11/2025 BO developed a drug interaction and was admitted to hospital because of it. She had no new information on his condition, treatment or discharge at this call. No other new complaints or concerns were raised.\n\nAdherence: Not discussed in detail, as the caller had no further information on current dosing.\n\nActions: Details noted against the existing record. Caller was advised she can contact the programme again if anything changes. Call closed.\n\nNurse signature on file.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3083,
+    "latency_ms": 3296,
     "problems": [],
     "usage": {
      "input_tokens": 454,
-     "output_tokens": 298,
-     "total_tokens": 752
+     "output_tokens": 292,
+     "total_tokens": 746
     }
    }
   ]
@@ -7736,41 +7681,41 @@
  },
  {
   "record_id": "PSP-007-0282",
-  "scenario_hash": "077e6cb70fd9750e",
+  "scenario_hash": "c29a1ab9fff6dde4",
   "channel": "PSP",
   "channel_received_date": "2026-09-06",
   "country": "FR",
-  "text": "Patient Support Programme – Nurse Call Note\nDate: 06/09/2026 | Country: FR | Ref: PSPV-00069\n\nCaller: Ines V. (consumer), calling on behalf of patient ED, 47-year-old male, prescribed Sertavix.\n\nPurpose of call: Follow-up wellbeing and adherence check.\n\nSummary: Ines V. said she had already contacted the programme about ED and his kidney problem, and wanted to confirm nothing has changed since her earlier report. Around 30/07/2026 ED developed acute kidney injury and was admitted to hospital because of it. No new information was given today. She did not describe any further symptoms or other events during this call.\n\nAdherence: Not discussed in detail; caller had no further details to add.\n\nActions: Details noted against the existing reference. Caller thanked and advised she can contact the programme again if she has questions. No further follow-up scheduled.\n\nNurse signature on file.",
+  "text": "PSP Nurse Call Note – 06/09/2026\nCountry: France | Ref: PSPV-00069\n\nCaller: Ines V. (consumer), calling about the patient, OP, male, 47 years old. Product: Sertavix.\n\nPurpose: routine follow-up call.\n\nAdherence/wellbeing check: Ines V. said she had already contacted the programme about OP and his kidney problem and wanted to confirm that nothing has changed since her earlier report. Around 30/07/2026 OP developed acute kidney injury and was admitted to hospital. She gave no further details beyond what was reported before, and no new information was provided during this call.\n\nOther concerns raised: none.\n\nAdvice: Ines V. was invited to call the programme again if she has any questions or if anything new arises. Note filed against the existing reference.\n\nCall closed. Nurse signature on file.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3329,
+    "latency_ms": 3292,
     "problems": [],
     "usage": {
      "input_tokens": 458,
-     "output_tokens": 313,
-     "total_tokens": 771
+     "output_tokens": 281,
+     "total_tokens": 739
     }
    }
   ]
  },
  {
   "record_id": "PSP-007-0283",
-  "scenario_hash": "76e9460cb6f214a4",
+  "scenario_hash": "6756849750b4467a",
   "channel": "PSP",
   "channel_received_date": "2026-02-19",
   "country": "FR",
-  "text": "PSPV-00070. Support programme call completed by Mateo G., nurse, with CJ, a 73-year-old male, in France. CJ confirmed he is taking Venlaris as prescribed and discussed his general wellbeing. He reported that around 13/01/2026 he developed atrial fibrillation. He said he had not noted any other new health concerns during the call. Mateo G. documented that the timing suggests Venlaris may have been the cause. CJ was advised to continue to follow his usual care plan and to seek medical review for ongoing symptoms.",
+  "text": "PSPV-00070. Patient support programme nurse call note for LI, 73-year-old male, contacted in France. Reporter Mateo G., nurse, reviewed treatment use and general wellbeing with the patient. LI reported that while taking Venlaris, he developed atrial fibrillation, with onset around 13/01/2026. The patient described the condition as ongoing at the time of the call. Mateo G. noted that, in his view, the medicine may have contributed to the heart rhythm problem. No other concerns were raised during the discussion.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1288,
+    "latency_ms": 1072,
     "problems": [],
     "usage": {
      "input_tokens": 277,
@@ -7778,11 +7723,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 120,
+     "output_tokens": 116,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 397
+     "total_tokens": 393
     }
    }
   ]
@@ -8077,18 +8022,18 @@
  },
  {
   "record_id": "MI-007-0295",
-  "scenario_hash": "7bef0586a97c0233",
+  "scenario_hash": "048d7dc88edbf373",
   "channel": "MI",
   "channel_received_date": "2026-08-25",
   "country": "FR",
-  "text": "Pharmacist Ines V. contacted the call centre in France regarding Venlaris for patient DF, a 69-year-old male. She asked to document that the patient developed a fall and was admitted to hospital because of it, with onset around 08/08/2026. She stated that this same patient and event had already been reported previously and that nothing has changed since the earlier report. Reference number provided: MIV-00074.",
+  "text": "Pharmacist Ines V. called regarding Venlaris for patient TH, a 69-year-old male. She stated that the patient developed a fall around 08/08/2026 and was admitted to hospital because of it. She said this same patient and event had already been reported previously and that nothing has changed since that report. The call was logged under reference number MIV-00074.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1807,
+    "latency_ms": 1119,
     "problems": [],
     "usage": {
      "input_tokens": 317,
@@ -8096,34 +8041,34 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 95,
+     "output_tokens": 86,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 412
+     "total_tokens": 403
     }
    }
   ]
  },
  {
   "record_id": "PQC-007-0296",
-  "scenario_hash": "8301b8df25de5f3c",
+  "scenario_hash": "56c0026373eef44e",
   "channel": "PQC",
   "channel_received_date": "2026-07-28",
   "country": "FR",
-  "text": "Follow-up to my earlier complaint concerning Sertavix, dispensed at our pharmacy in France. Batch number still to be confirmed from the patient's box; the packaging itself looked normal. The patient, SN, a 76-year-old man, is the person concerned. Since the first form I have learned that he developed serotonin syndrome, with agitation, tremor and fever, after a dose increase. Around 04/07/2026 he made a suicide attempt and was admitted to hospital. In my opinion as the pharmacist, Sertavix caused this, so I would like the product investigated. Marie W., pharmacist, 28/07/2026.",
+  "text": "Complaint concerning Sertavix tablets, dispensed to patient WO, male, 76. This is a follow-up to my earlier submission. I am a pharmacist (Marie W.) at a community pharmacy in France. The family has now told us that after a dose increase the patient developed agitation, tremor and fever, which the hospital attributed to serotonin syndrome. Around 04/07/2026 he made a suicide attempt and was admitted to hospital. I believe Sertavix caused this. Tablet appearance and packaging looked normal on inspection, but I would like the batch checked. Form completed 28/07/2026.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4248,
+    "latency_ms": 3264,
     "problems": [],
     "usage": {
      "input_tokens": 444,
-     "output_tokens": 466,
-     "total_tokens": 910
+     "output_tokens": 204,
+     "total_tokens": 648
     }
    }
   ]
@@ -8183,18 +8128,18 @@
  },
  {
   "record_id": "MI-007-0299",
-  "scenario_hash": "491850c2a950f861",
+  "scenario_hash": "54f984dc76cc07c2",
   "channel": "MI",
   "channel_received_date": "2024-11-19",
   "country": "FR",
-  "text": "Caller was a physician, Elena P., who contacted the centre regarding Venlaris. She reported a female patient with initials NF, 47 years old. The question raised was about a possible drug interaction. According to the reporter, the patient developed a drug interaction that began around 18/10/2024, and the medicine was considered by the reporter to be the cause. Reference number: MIV-00075.",
+  "text": "Incoming call from Elena P., physician, regarding Venlaris. She reported on behalf of patient AI, a 47-year-old female. The patient developed a drug interaction, with onset around 18/10/2024. The reporter considered the medicine to be the likely cause. Reference number: MIV-00075.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1023,
+    "latency_ms": 962,
     "problems": [],
     "usage": {
      "input_tokens": 277,
@@ -8202,34 +8147,34 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 89,
+     "output_tokens": 70,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 366
+     "total_tokens": 347
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0300",
-  "scenario_hash": "ed0c6c3c39bb0c92",
+  "scenario_hash": "6260843b44604e00",
   "channel": "MI",
   "channel_received_date": "2026-05-30",
   "country": "FR",
-  "text": "Medical Information Call Log – Ref. MIV-00076\n\nDate: 30/05/2026. Country: France. Channel: inbound telephone call.\n\nCaller: Marie P., pharmacist (community pharmacy).\n\nProduct concerned: Sertavix.\n\nPatient: KM, female, 82 years old.\n\nQuestion asked: The caller wanted to know whether worsening of the patient's existing condition has been described with Sertavix and whether the product information addresses this. She explained that the patient's condition aggravated from around 17/05/2026 and that the patient was subsequently admitted to hospital because of it. The caller stated that she believes Sertavix caused the deterioration.\n\nAction: Query logged, caller informed that the information would be passed to the relevant team. No further details available at time of call.",
+  "text": "Medical Information Call Log – Ref. MIV-00076\nDate: 30/05/2026. Country: France.\nCaller: Marie P., pharmacist (community).\nProduct: Sertavix.\nQuery: The caller asked whether worsening of an existing condition has been linked to Sertavix in elderly patients. She is calling about a patient with the initials LR, an 82-year-old woman. According to the caller, LR's condition became worse around 17/05/2026, and she was subsequently admitted to hospital because of this deterioration. The pharmacist stated that she believes Sertavix caused the aggravation. She requested any available information on this.\nAction: Query logged with the product team. Caller informed that a written response will follow. Caller's contact details noted on file.\nAgent: Call-centre, Medical Information.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3585,
+    "latency_ms": 3100,
     "problems": [],
     "usage": {
      "input_tokens": 412,
-     "output_tokens": 254,
-     "total_tokens": 666
+     "output_tokens": 263,
+     "total_tokens": 675
     }
    }
   ]
@@ -8319,53 +8264,72 @@
  },
  {
   "record_id": "MI-007-0304",
-  "scenario_hash": "ac7d25db2eb9ecf6",
+  "scenario_hash": "0a60cdb9d1483edf",
   "channel": "MI",
   "channel_received_date": "2026-02-10",
   "country": "FR",
-  "text": "Call log – MIV-00077\nDate: 10/02/2026. Country: France. Channel: inbound phone call.\n\nCaller: Sofia S., consumer (calling on behalf of the patient, JD, 74-year-old male).\n\nQuery: Caller states that around 13/01/2026 JD developed a drug interaction while taking Sertavix, and that he was admitted to hospital because of it. She believes Sertavix caused the problem and asked whether an interaction with his other medicines is known and what she should do about his treatment. She wanted to know if the company has information on this type of situation.\n\nAction: Caller's details and the account of events recorded. No medical advice given by the agent. Caller advised to discuss the treatment with the hospital doctor or the patient's prescriber. Request logged under reference MIV-00077 and forwarded to the medical information team for follow-up.\n\nCall closed by agent.",
+  "text": "MEDICAL INFORMATION CALL LOG\n\nRef: MIV-00077\nDate: 10/02/2026\nCountry: France\nCaller type: Consumer (Sofia S.)\n\nSummary: Caller telephoned about her father-in-law's medicine, Sertavix. The patient is a 74-year-old man, initials VU. She reported that around 13/01/2026 he developed a drug interaction and was subsequently admitted to hospital because of it. Caller stated that she believes Sertavix caused the problem.\n\nQuestion asked: Caller wanted to know whether Sertavix is known to interact with other medicines and what information is available on this.\n\nAction: Query logged. Caller advised that the information would be reviewed and that she may be contacted again if further details are needed. No further information was provided during the call.\n\nAgent: Medical Information Centre, France",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2976,
+    "latency_ms": 3142,
     "problems": [],
     "usage": {
      "input_tokens": 409,
-     "output_tokens": 288,
-     "total_tokens": 697
+     "output_tokens": 275,
+     "total_tokens": 684
     }
    }
   ]
  },
  {
   "record_id": "CRM-007-0305",
-  "scenario_hash": "0dae44086665c109",
+  "scenario_hash": "b29f8904ad25b21f",
   "channel": "CRM",
   "channel_received_date": "2024-12-06",
   "country": "FR",
-  "text": "Visite du Dr Olivier W. today. We discussed Venlaris and his patient RG, F, 61 yo. He said she started having an acute pancreatitis around 14/11/2024 and was admitted to hospital because of it. Dr W. feels the medicine may be the cause. He mentioned the case while we were talking about current use and follow-up of Venlaris in his practice.",
+  "text": "Met Dr Olivier W. in FR today re Venlaris. He mentioned a pt, BD, 61 yo female, who developed an acute pancreatitis around 14/11/2024. He said the situation led to hospital admission, and in his view Venlaris is the likely cause. We briefly discussed the case and he was quite clear on the suspected link.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1089,
-    "problems": [],
+    "latency_ms": 1245,
+    "problems": [
+     "hospital admission missing"
+    ],
     "usage": {
      "input_tokens": 287,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 88,
+     "output_tokens": 124,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 375
+     "total_tokens": 411
+    }
+   },
+   {
+    "attempt": 2,
+    "latency_ms": 930,
+    "problems": [],
+    "usage": {
+     "input_tokens": 305,
+     "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+     },
+     "output_tokens": 80,
+     "output_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "total_tokens": 385
     }
    }
   ]
@@ -8501,18 +8465,18 @@
  },
  {
   "record_id": "SOCIAL-007-0311",
-  "scenario_hash": "7296a4bf3817cf28",
+  "scenario_hash": "ddb1fb92dd3b330b",
   "channel": "SOCIAL",
   "channel_received_date": "2025-06-28",
   "country": "ES",
-  "text": "Hi, I’m posting again under my forum nickname about Duloxane. I’m FB, 40, female, and this is written by me myself, not under my real name. Around 23/06/2025 I developed delirium and ended up being admitted to hospital because of it. I already reported the same patient and the same event before, and nothing has changed since then.",
+  "text": "I’m posting again about Duloxane. I’m RH, 40, female, and I’m writing this myself under my forum nickname, not my real name. Around 23/06/2025 I developed delirium and ended up being admitted to hospital because of it. I already mentioned this same patient and event before, and since then nothing has changed. I’m just updating here in case it helps anyone following along.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 800,
+    "latency_ms": 819,
     "problems": [],
     "usage": {
      "input_tokens": 319,
@@ -8520,11 +8484,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 84,
+     "output_tokens": 91,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 403
+     "total_tokens": 410
     }
    }
   ]
@@ -8766,18 +8730,18 @@
  },
  {
   "record_id": "SOCIAL-007-0321",
-  "scenario_hash": "aecd18103a7b3b95",
+  "scenario_hash": "c3b6173772e8a69e",
   "channel": "SOCIAL",
   "channel_received_date": "2025-10-15",
   "country": "FR",
-  "text": "Hi, I’m SS, 24F, posting under my forum nick because I wanted to update my earlier message about Venlaris. Around 12/09/2025 I started having dyspnoea, and it got bad enough that I was admitted to hospital because of it. I still think Venlaris was the cause. Also, I need to add new info: I had black stools and was kept in hospital overnight for a gastrointestinal haemorrhage.",
+  "text": "Hi everyone, I’m posting under a forum nickname, not my real name. I’m BT, 24, female, and I’ve been on Venlaris. Around 12/09/2025 I started having dyspnoea, and it got bad enough that I had to be admitted to hospital because of it. I honestly think Venlaris caused it. This is an update to my earlier post: I also had gastrointestinal bleeding with black stools, and I was kept in overnight.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 869,
+    "latency_ms": 949,
     "problems": [],
     "usage": {
      "input_tokens": 318,
@@ -8785,11 +8749,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 99,
+     "output_tokens": 105,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 417
+     "total_tokens": 423
     }
    }
   ]
@@ -8849,41 +8813,41 @@
  },
  {
   "record_id": "PSP-007-0324",
-  "scenario_hash": "1e92c99105dfc222",
+  "scenario_hash": "eadc07439ddb4df6",
   "channel": "PSP",
   "channel_received_date": "2025-05-01",
   "country": "ES",
-  "text": "PATIENT SUPPORT PROGRAMME – NURSE CALL NOTE\nDate: 01/05/2025 | Country: Spain | Ref: PSPV-00085\nNurse: Sofia K.\n\nPatient: CF, male, 48 years\nProduct: Escitrel\n\nPurpose of call: scheduled follow-up on adherence and general wellbeing.\n\nAdherence: Patient's family member reports he had been taking Escitrel as instructed up to the time of the problem. No missed-dose concerns were raised.\n\nPatient-reported information: Around 31/03/2025 he began to have cerebellar ataxia, with marked unsteadiness and difficulty coordinating movement. Because of this he was admitted to hospital. Details of the hospital course were not available during this call.\n\nNurse assessment: In my opinion Escitrel caused this event.\n\nWellbeing check: Patient and family were asked about current status and support needs. Contact details confirmed.\n\nPlan: Continue programme follow-up and update the record when further information is received.\n\nSofia K., Nurse",
+  "text": "Patient Support Programme – Nurse Call Note\nDate: 01/05/2025 | Country: Spain | Ref: PSPV-00085\n\nNurse: Sofia K.\nPatient: ZE, male, 48 years old\nProduct: Escitrel\n\nPurpose of call: routine follow-up on adherence and general wellbeing.\n\nContact summary: Spoke with the patient's contact by phone. Patient reported that around 31/03/2025 he began to develop cerebellar ataxia, with unsteadiness on his feet and poor coordination. Because of this he was admitted to hospital. Adherence to Escitrel prior to the onset was discussed and no concerns about intake were raised at the time of the call.\n\nNurse assessment: In my clinical opinion the Escitrel is the cause of the ataxia.\n\nPlan: Continue to monitor the patient's wellbeing through the programme and document any further updates from the hospital team. Next scheduled call to be arranged once the patient's situation is clarified.\n\nSigned: Sofia K., RN",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 4141,
+    "latency_ms": 3635,
     "problems": [],
     "usage": {
-     "input_tokens": 426,
-     "output_tokens": 352,
-     "total_tokens": 778
+     "input_tokens": 427,
+     "output_tokens": 344,
+     "total_tokens": 771
     }
    }
   ]
  },
  {
   "record_id": "SOCIAL-007-0325",
-  "scenario_hash": "759a9e28287b8385",
+  "scenario_hash": "c93d3c53e9e2e52e",
   "channel": "SOCIAL",
   "channel_received_date": "2025-10-15",
   "country": "IT",
-  "text": "Hi everyone, I’m posting under a forum nickname and I’m LM, 21, female. I’ve been taking Sertavix, and around 20/09/2025 I developed bronchostenosis. It got bad enough that I was admitted to hospital because of it. I really think the medicine caused it. This is an update to my earlier post: I was also admitted for palpitations and an irregular heartbeat, which turned out to be arrhythmia.",
+  "text": "Hi, I’m KT, 21F, posting here under my forum nickname. I’ve been on Sertavix, and around 20/09/2025 I developed bronchostenosis. It got bad enough that I was admitted to hospital because of it. I really think the medicine caused this. Also, this is an update to my earlier post: I was admitted for palpitations and an irregular heartbeat, and they told me it was arrhythmia.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 891,
+    "latency_ms": 885,
     "problems": [],
     "usage": {
      "input_tokens": 318,
@@ -8891,34 +8855,34 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 100,
+     "output_tokens": 99,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 418
+     "total_tokens": 417
     }
    }
   ]
  },
  {
   "record_id": "SOCIAL-007-0326",
-  "scenario_hash": "5db11264620216e2",
+  "scenario_hash": "7271db3421f08c3e",
   "channel": "SOCIAL",
   "channel_received_date": "2024-11-11",
   "country": "FR",
-  "text": "Hi all, posting again under the same nickname. I'm JA, 80, male, and I take Venlaris. Around 5 October 2024 I had a haemorrhagic stroke and ended up in hospital as an emergency admission. I already wrote about this same thing here and to the people handling these reports earlier, and nothing has changed since then, so there's no new update from me. I'm only posting again because I saw the thread had moved on and didn't want anyone thinking I'd disappeared. Writing from France, by the way. Thanks for all the kind messages so far.",
+  "text": "Posting as grandpapy_ox here, no real name. I'm OX, 80, male, and I've been on Venlaris for a while now. Around 5 October this year I had a haemorrhagic stroke and was taken straight into hospital. I know I already put this same thing up before, about me and what happened, and honestly nothing has changed since then, so I'm just repeating it for anyone new reading. Writing from France, 11/11/2024. Anyone else my age on Venlaris here?",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3067,
+    "latency_ms": 2560,
     "problems": [],
     "usage": {
      "input_tokens": 459,
-     "output_tokens": 180,
-     "total_tokens": 639
+     "output_tokens": 156,
+     "total_tokens": 615
     }
    }
   ]
@@ -9031,30 +8995,30 @@
  },
  {
   "record_id": "MI-007-0331",
-  "scenario_hash": "045218db1d63de95",
+  "scenario_hash": "358a07b16f3b3c6d",
   "channel": "MI",
   "channel_received_date": "2025-09-01",
   "country": "FR",
-  "text": "Medical information call log entry from physician Sofia L. regarding Venlaris. The caller reported that the patient, HP, a 61-year-old female, developed acute pancreatitis around 06/08/2025 and was admitted to hospital because of it. The physician considered that the medicine may have caused the condition. This was provided as an update to an earlier report, with new information that gastrointestinal haemorrhage had occurred, described as black stools, and that the patient was admitted overnight. Reference number: MIV-00084.",
+  "text": "Medical information call log entry, France, 01/09/2025. Reporter Sofia L., physician, provided an update on reference number MIV-00084 regarding Venlaris in patient QX, a 61-year-old female. The reporter asked whether Venlaris could have caused an acute pancreatitis that started around 06/08/2025, with the patient being admitted to hospital because of it. The reporter considered the medicine a possible cause. This call was an update to the earlier report and added new information of gastrointestinal haemorrhage with black stools, with overnight admission.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1126,
+    "latency_ms": 1158,
     "problems": [],
     "usage": {
-     "input_tokens": 320,
+     "input_tokens": 321,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 112,
+     "output_tokens": 124,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 432
+     "total_tokens": 445
     }
    }
   ]
@@ -9114,23 +9078,23 @@
  },
  {
   "record_id": "PSP-007-0334",
-  "scenario_hash": "61806b00ee3e3d3d",
+  "scenario_hash": "da35521111d3bd9a",
   "channel": "PSP",
   "channel_received_date": "2026-02-06",
   "country": "PL",
-  "text": "PATIENT SUPPORT PROGRAMME – NURSE CALL NOTE\n\nRef: PSPV-00086\nDate of call: 06/02/2026 | Country: PL\nNurse: Lena G.\n\nPatient: MH, 28-year-old female\nProduct: Venlaris\n\nAdherence check: Patient says she has been taking Venlaris as instructed, with no missed doses mentioned during this call.\n\nWellbeing check: Patient sounded tired and hesitant at times. She reported that around 22/01/2026 she began experiencing confusional state, with difficulty keeping track of conversations and tasks. This is still being discussed with her at follow-up. She was able to confirm her name, the date and the purpose of the call.\n\nNurse assessment: In my opinion the confusional state is related to Venlaris, given the timing relative to her treatment.\n\nPlan: Document in patient file. Next scheduled support call to be arranged. Patient knows how to reach the programme line.\n\nSigned: Lena G., RN",
+  "text": "PSP Nurse Call Note\nRef: PSPV-00086\nDate: 06/02/2026 | Country: Poland | Call handled by: Lena G., nurse\n\nPatient: FR, 28-year-old female, enrolled on Venlaris.\n\nAdherence check: Patient confirms she has been taking Venlaris as directed and reports no missed doses since the last contact. Supply on hand is adequate.\n\nWellbeing check: Patient described feeling generally unwell in her thinking. Around 22/01/2026 she began to experience a confusional state, with difficulty keeping track of conversations and tasks. She says this began after she had been on the treatment for some time and has not felt like herself since. In my assessment the episode is related to Venlaris.\n\nNo other concerns raised during the call. Patient understood the information given and agreed to a follow-up call.\n\nLena G., Nurse\nPatient Support Programme",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3761,
+    "latency_ms": 3502,
     "problems": [],
     "usage": {
      "input_tokens": 390,
-     "output_tokens": 334,
-     "total_tokens": 724
+     "output_tokens": 297,
+     "total_tokens": 687
     }
    }
   ]
@@ -9379,23 +9343,23 @@
  },
  {
   "record_id": "MI-007-0344",
-  "scenario_hash": "5d07638d1efd8494",
+  "scenario_hash": "029e142b292f0e93",
   "channel": "MI",
   "channel_received_date": "2026-07-05",
   "country": "FR",
-  "text": "MEDICAL INFORMATION CALL LOG – 05/07/2026\nRef: MIV-00088 (follow-up to earlier contact)\nCountry: France\nCaller: Maja D., pharmacist\nProduct: Sertavix\nPatient: EK, male, 85 years old\n\nCaller phoned with an update on a case already logged. She reports that a routine ECG, around 02/06/2026, showed a prolonged QT interval in the patient. New information: he was admitted to hospital with confusion and low sodium (hyponatraemia). Caller believes Sertavix caused the findings. Question asked: whether there is any guidance on the QT effect and sodium changes with this product in elderly patients. Caller's details confirmed and the earlier reference linked to this entry. Information request forwarded to the medical team for a written reply.",
+  "text": "Medical Information Call Log – Ref. MIV-00088\n\nDate: 05/07/2026. Country: France. Caller: Maja D., pharmacist. Type: follow-up call to an earlier contact.\n\nProduct: Sertavix.\n\nPatient: male, initials YQ, 85 years old.\n\nQuery: Caller provided new information on the earlier case. Around 02/06/2026 a routine ECG showed a prolonged QT interval. The patient has since been admitted to hospital, presenting with confusion and low sodium (hyponatraemia). Caller believes Sertavix caused the event. She asked whether this combination of findings is known with the product and what monitoring is advised.\n\nAction: Information added to the existing record MIV-00088. Query forwarded to the medical team for a written reply.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3187,
+    "latency_ms": 2933,
     "problems": [],
     "usage": {
-     "input_tokens": 444,
-     "output_tokens": 271,
-     "total_tokens": 715
+     "input_tokens": 445,
+     "output_tokens": 257,
+     "total_tokens": 702
     }
    }
   ]
@@ -9432,23 +9396,23 @@
  },
  {
   "record_id": "CRM-007-0346",
-  "scenario_hash": "bec12cea807a835e",
+  "scenario_hash": "bdb3f311eadd4431",
   "channel": "CRM",
   "channel_received_date": "2025-03-20",
   "country": "CZ",
-  "text": "Visit 20/03/2025, Dr. Maja N., GP, Brno clinic. Quick 15 min catch-up between her patients. Venlaris still on her list for new starts, asked for more samples + updated leaflet, will drop off next visit. She brought up pt LH, 44 y/o female, who has been dizzy when standing up since around 07/03/2025. Maja said she already reported this same pt and event earlier, nothing changed since, no update from her side. Didn't push it further. Discussed pricing / reimbursement change from April, she's fine with it. Next visit mid-April, bring Venlaris starter packs. Follow up on e-detailing invite too.",
+  "text": "Visit 20/03/2025 – Dr. Maja N., GP, Brno clinic. Quick 15 min catch-up, caught her between patients. Still happy w/ Venlaris overall, asked for 2 more sample packs + the updated leaflet for next visit. Said her pt numbers on it are steady, no formulary issues. She brought up pt FU, 44 y/o female, who has been dizzy when standing up since about 07/03/2025. Dr. N. says she already reported this same pt and event earlier, nothing has changed since then, so no new info. Didn't push further. Next: drop off samples + leaflet, check in again mid-April. Also mention the Q2 CME evening, she might join.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3369,
+    "latency_ms": 3227,
     "problems": [],
     "usage": {
      "input_tokens": 424,
-     "output_tokens": 220,
-     "total_tokens": 644
+     "output_tokens": 232,
+     "total_tokens": 656
     }
    }
   ]
@@ -9508,18 +9472,18 @@
  },
  {
   "record_id": "MI-007-0349",
-  "scenario_hash": "c4b0b6337627d6ca",
+  "scenario_hash": "bb34e3146f7de841",
   "channel": "MI",
   "channel_received_date": "2025-10-03",
   "country": "SE",
-  "text": "Consumer Hugo G. contacted the call centre regarding Sertavix. He reported that patient MK, 23-year-old male, developed a suspected drug interaction around 2025-09-10 and was subsequently admitted to hospital because of it. The caller asked whether Sertavix could have caused the reaction and stated that he believes the medicine was the cause. Reference number MIV-00091.",
+  "text": "Consumer Hugo G. called regarding Sertavix for patient FX, a 23-year-old male. The reporter asked whether Sertavix could be linked to a suspected drug interaction. He stated that the patient developed a drug interaction around 10 Sep 2025 and was admitted to hospital because of it. Hugo G. considered the medicine to be the likely cause. Reference number MIV-00091 was noted.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1102,
+    "latency_ms": 1133,
     "problems": [],
     "usage": {
      "input_tokens": 293,
@@ -9527,34 +9491,34 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 83,
+     "output_tokens": 87,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 376
+     "total_tokens": 380
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0350",
-  "scenario_hash": "4417ec709c98b892",
+  "scenario_hash": "8422d0ff4fb3866d",
   "channel": "MI",
   "channel_received_date": "2025-10-31",
   "country": "SE",
-  "text": "Call log – MIV-00092\nDate: 31/10/2025\nCountry: Sweden\nCaller type: Physician (Olivier F.)\nProduct: Sertavix\n\nDr Olivier F. phoned the medical information line about a 24-year-old female patient, initials MJ, who is taking Sertavix. He reported that her periods stopped around 30/09/2025 and she has had amenorrhoea since. She was admitted to hospital because of this. The caller stated that in his opinion Sertavix is the cause of the amenorrhoea.\n\nQuestion asked: whether amenorrhoea is a known effect of Sertavix and what information is available on its occurrence with this product.\n\nCaller was given the current product information and asked to quote reference MIV-00092 in any follow-up contact. No further questions at end of call.",
+  "text": "Medical Information Call Log | Ref: MIV-00092\nDate: 31/10/2025 | Country: Sweden\n\nCaller: Olivier F., physician (HCP).\n\nProduct: Sertavix.\n\nPatient: GE, female, 24 years old.\n\nQuery: The caller phoned about a patient on Sertavix who developed amenorrhoea around 30/09/2025. The patient was admitted to hospital because of this. The caller asked whether amenorrhoea is a recognised effect of the product and what is known about its onset in patients on Sertavix. He stated that in his clinical opinion the medicine caused the event.\n\nAction: Query logged and the caller's details recorded. Standard product information to be provided in a written reply to the caller. No further information was given during the call.\n\nCall closed.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2947,
+    "latency_ms": 2970,
     "problems": [],
     "usage": {
-     "input_tokens": 413,
-     "output_tokens": 262,
-     "total_tokens": 675
+     "input_tokens": 412,
+     "output_tokens": 255,
+     "total_tokens": 667
     }
    }
   ]
@@ -9591,41 +9555,41 @@
  },
  {
   "record_id": "CRM-007-0352",
-  "scenario_hash": "a2cde113d266f81c",
+  "scenario_hash": "252529a01814257c",
   "channel": "CRM",
   "channel_received_date": "2026-07-04",
   "country": "ES",
-  "text": "Visita 04/07/2026 – Dra. Zofia N., consulta CAP, Madrid. Wait, must be English.\n\nVisit 04/07/2026 – Dr Zofia N., GP, health centre, Spain. Quick catch-up, ~20 min. Still happy w/ Sertavix for her older pts, asked for more samples + the new leaflet, will drop them next visit. Mentioned pt AR, 76 yo F, on Sertavix: condition got worse around 22/06 and she ended up admitted to hospital. Dr N. said she already told us about this same pt and event before, nothing new since, no update from the hospital side. Didn't push on it, moved on. Talked about formulary listing at the area clinic, she'll raise it at next meeting. Follow-up call in 2 wks, check sample stock.",
+  "text": "Visit 04/07/2026 – Dra. Zofia N., consulta externa, Madrid. Quick 15 min catch-up. Asked about Sertavix uptake in her older patients, she said she's keeping the same patients on it, no plans to switch for now. Wants updated leaflet + a few samples for next visit, will send via mail. Mentioned pt VQ, 76 y/o female, whose condition got worse around 22/06/2026 and she ended up admitted to hospital. Says she already reported this same patient and event previously, nothing new since then, so no further update. Left promo material, confirmed next visit end of Sept. Competitor reps also pushing hard in her centre, keep an eye. Follow up on samples request next week.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3603,
+    "latency_ms": 3067,
     "problems": [],
     "usage": {
-     "input_tokens": 454,
-     "output_tokens": 272,
-     "total_tokens": 726
+     "input_tokens": 455,
+     "output_tokens": 241,
+     "total_tokens": 696
     }
    }
   ]
  },
  {
   "record_id": "MI-007-0353",
-  "scenario_hash": "71226d773b470151",
+  "scenario_hash": "b3291015a278b372",
   "channel": "MI",
   "channel_received_date": "2026-01-23",
   "country": "FR",
-  "text": "Consumer Maja D. called regarding Escitrel for patient HR, an 84-year-old female. She asked whether the medicine could have caused a cerebral haemorrhage. According to the caller, the patient developed cerebral haemorrhage around 14/12/2025. The reporter believes the treatment may have been responsible. Reference number: MIV-00094.",
+  "text": "Consumer Maja D. called regarding Escitrel for patient PB, an 84-year-old female. She reported that the patient developed a cerebral haemorrhage, with onset around 14/12/2025, and stated that she believes the medicine may have caused the event. The caller asked to document the information and requested reference number MIV-00094.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 853,
+    "latency_ms": 901,
     "problems": [],
     "usage": {
      "input_tokens": 282,
@@ -9633,11 +9597,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 79,
+     "output_tokens": 78,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 361
+     "total_tokens": 360
     }
    }
   ]
@@ -9750,11 +9714,11 @@
  },
  {
   "record_id": "CRM-007-0358",
-  "scenario_hash": "bc24767535b22db2",
+  "scenario_hash": "7a38b71a59cf7c81",
   "channel": "CRM",
   "channel_received_date": "2025-10-16",
   "country": "ES",
-  "text": "Visit 16/10 – Dr. Hugo M., GP, centro de salud (Valencia). Quick catch-up, 15 min. He keeps Sertavix as first choice for new starts, asked for more samples + the updated leaflet, will send by email. Mentioned a pt of his, BT, 37 y/o male, who has been on it and since around 02/10 has been eating much less, says he has no appetite at all, skips meals, hardly interested in food. Hugo thinks it's down to Sertavix, no other explanation he can see. Said he'd keep an eye on him. Also moaned about pharmacy stock delays in the area, will check with distributor. Next visit mid Nov, bring pricing sheet.",
+  "text": "Visita 16/10/25 – Dr. Hugo M. (médico, centro de salud). Buena reunión, le dejé muestras y el material nuevo de Sertavix. Dice que le encaja bien en pacientes ambulatorios y que seguirá prescribiendo. Comentó un caso: paciente AW, varón de 37 años, que desde más o menos el 02/10/2025 empezó con pérdida de apetito, o sea come bastante menos de lo habitual y se le pasan las comidas sin ganas. Hugo cree que es por Sertavix, no ve otra causa. Le dije que lo pasaría a la compañía. Pide más fichas técnicas y que volvamos a hablar en 3 semanas. Próxima visita: principios de noviembre, llevar el dossier actualizado.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": false,
   "validator_problems": [
@@ -9763,38 +9727,38 @@
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3673,
+    "latency_ms": 3621,
     "problems": [
      "event 'Decreased appetite' not described"
     ],
     "usage": {
      "input_tokens": 392,
-     "output_tokens": 269,
-     "total_tokens": 661
+     "output_tokens": 229,
+     "total_tokens": 621
     }
    },
    {
     "attempt": 2,
-    "latency_ms": 3118,
+    "latency_ms": 3466,
     "problems": [
      "event 'Decreased appetite' not described"
     ],
     "usage": {
      "input_tokens": 428,
-     "output_tokens": 237,
-     "total_tokens": 665
+     "output_tokens": 280,
+     "total_tokens": 708
     }
    },
    {
     "attempt": 3,
-    "latency_ms": 3124,
+    "latency_ms": 3456,
     "problems": [
      "event 'Decreased appetite' not described"
     ],
     "usage": {
      "input_tokens": 428,
-     "output_tokens": 235,
-     "total_tokens": 663
+     "output_tokens": 273,
+     "total_tokens": 701
     }
    }
   ]
@@ -10202,23 +10166,23 @@
  },
  {
   "record_id": "PSP-007-0374",
-  "scenario_hash": "e736ebdd940e96bc",
+  "scenario_hash": "2e12f04a60b8e174",
   "channel": "PSP",
   "channel_received_date": "2025-12-04",
   "country": "CZ",
-  "text": "Patient Support Programme – Nurse Call Note\n\nDate: 04/12/2025 | Country: CZ | Ref: PSPV-00096\nNurse: Karl R.\nPatient: EF, female, 41 years\n\nProduct: Sertavix\n\nPurpose of contact: Follow-up check on adherence and wellbeing.\n\nSummary: This is a repeat contact regarding a case already submitted for this same patient. Around 03/11/2025 EF took an intentional overdose of Sertavix and was admitted to hospital. No new information has emerged since the earlier report and the situation is unchanged from what was previously documented.\n\nAdherence: No further details obtained on current dosing during this call.\n\nWellbeing check: Nothing additional reported by the patient or the contact.\n\nActions: Note filed under the existing reference. No other items raised.\n\nNext contact: Per programme schedule.\n\nSigned: Karl R., RN",
+  "text": "PATIENT SUPPORT PROGRAMME – NURSE CALL NOTE\nDate: 04/12/2025 | Country: CZ | Ref: PSPV-00096\nCaller/documenting nurse: Karl R., nurse\n\nPatient: PE, female, 41 years\nProduct: Sertavix\n\nPurpose of call: Follow-up contact regarding the patient's ongoing participation in the programme.\n\nSummary: I am contacting you again about this same patient and the same event, which I already reported earlier. Nothing has changed since that report. Around 03/11/2025 the patient took an intentional overdose of Sertavix and was admitted to hospital as a result. No new information was received during today's contact.\n\nAdherence check: Not assessed beyond the above; no further details available.\nWellbeing check: No additional concerns raised by the patient or the family today.\n\nNext step: Keep the file open under the same reference number and record any new information if it arrives.\n\nKarl R., nurse",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3194,
+    "latency_ms": 3817,
     "problems": [],
     "usage": {
      "input_tokens": 457,
-     "output_tokens": 299,
-     "total_tokens": 756
+     "output_tokens": 318,
+     "total_tokens": 775
     }
    }
   ]
@@ -10361,23 +10325,23 @@
  },
  {
   "record_id": "PSP-007-0380",
-  "scenario_hash": "586b6c44a3a6c452",
+  "scenario_hash": "246e803ca4d9adf9",
   "channel": "PSP",
   "channel_received_date": "2026-03-05",
   "country": "DE",
-  "text": "PSP Nurse Call Note\nRef: PSPV-00098\nDate: 05/03/2026 | Country: DE\nNurse: Ingrid L.\n\nPatient: RH, female, 38 years old\nProduct: Sertavix\n\nReason for call: Scheduled adherence and wellbeing check.\n\nAdherence: Patient reports taking Sertavix as prescribed, with no missed doses mentioned during this call.\n\nWellbeing: Patient states that she was diagnosed with breast cancer, with onset around 26/01/2026. She sounded worried but composed and was able to talk through her situation. I, as the nurse, believe Sertavix caused the breast cancer.\n\nPatient did not raise any other concerns during the call.\n\nPlan: Document call in programme record. Next routine check-in to be scheduled per programme protocol.\n\nSigned: Ingrid L., Nurse",
+  "text": "PSP Nurse Call Note\nRef: PSPV-00098 | Date: 05/03/2026 | Country: DE\nCaller: Ingrid L., nurse\nPatient: FV, female, 38 years\n\nPurpose: Scheduled follow-up call for patient on Sertavix.\n\nAdherence: Patient reports taking Sertavix as prescribed, no missed doses mentioned.\n\nWellbeing check: Patient sounded tired but orientated and cooperative. She reported that she was diagnosed with breast cancer, with onset of symptoms and findings around 26/01/2026. Ingrid L. stated she believes Sertavix caused the breast cancer.\n\nActions: Patient's account documented as given. Patient encouraged to keep in contact with her treating physicians. Next scheduled call to be arranged.\n\nSigned: Ingrid L., nurse",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3078,
+    "latency_ms": 3101,
     "problems": [],
     "usage": {
      "input_tokens": 394,
-     "output_tokens": 290,
-     "total_tokens": 684
+     "output_tokens": 288,
+     "total_tokens": 682
     }
    }
   ]
@@ -10437,18 +10401,18 @@
  },
  {
   "record_id": "SOCIAL-007-0383",
-  "scenario_hash": "58c216f3ea8ee2ee",
+  "scenario_hash": "cdca4673ade5ebee",
   "channel": "SOCIAL",
   "channel_received_date": "2026-05-23",
   "country": "FR",
-  "text": "Hi everyone, I’m NL, 65, female, posting under my forum nickname. I’ve been taking Venlaris, and around 07/05/2026 I started having what I now think was a drug interaction. It got bad enough that I was admitted to hospital because of it. I can’t say for sure, but I really believe Venlaris caused this problem. Just wanted to share in case anyone else has had something similar.",
+  "text": "Hi everyone, I’m posting under a forum nickname, not my real name. I’m AU, 65, female, and I’ve been taking Venlaris. Around 07/05/2026, I started having a drug interaction issue that got bad enough that I was admitted to hospital because of it. I honestly think Venlaris caused this. It was a scary experience and I wanted to share in case anyone else has dealt with something similar.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 906,
+    "latency_ms": 933,
     "problems": [],
     "usage": {
      "input_tokens": 294,
@@ -10456,11 +10420,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 96,
+     "output_tokens": 97,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 390
+     "total_tokens": 391
     }
    }
   ]
@@ -10490,30 +10454,72 @@
  },
  {
   "record_id": "CRM-007-0385",
-  "scenario_hash": "f873b0089f91256a",
+  "scenario_hash": "5da789c4eb32b499",
   "channel": "CRM",
   "channel_received_date": "2026-07-12",
   "country": "FR",
-  "text": "Met Dr’s office in FR on 12/07/2026, had a quick chat re Escitrel. Sofia F., pharmacist, shared a case on PK, a 60 yo male patient. She said he developed a generalised tonic-clonic seizure, starting around 13/06/2026. Her view is that Escitrel may have caused it. डॉक्टर mentioned monitoring ongoing situation and would keep an eye on similar feedback.",
+  "text": "Visite du Dr prescripteur en FR le 12/07/2026. Discussion autour d’Escitrel, bien reçu côté com. Il m’a parlé d’un cas remonté par Sofia F., pharmacien: patient SM, homme de 60 ans. D’après elle, le patient a développé une crise tonico-clonique généralisée, avec début vers le 13/06/2026. Pour elle, le traitement Escitrel est en cause. Point noté pour suivi.",
   "generator": "foundry:gpt-5-4-mini",
-  "validated": true,
-  "validator_problems": [],
+  "validated": false,
+  "validator_problems": [
+   "event 'Generalised tonic-clonic seizure' not described"
+  ],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1111,
-    "problems": [],
+    "latency_ms": 1235,
+    "problems": [
+     "event 'Generalised tonic-clonic seizure' not described"
+    ],
     "usage": {
      "input_tokens": 277,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 94,
+     "output_tokens": 103,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 371
+     "total_tokens": 380
+    }
+   },
+   {
+    "attempt": 2,
+    "latency_ms": 1010,
+    "problems": [
+     "event 'Generalised tonic-clonic seizure' not described"
+    ],
+    "usage": {
+     "input_tokens": 303,
+     "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+     },
+     "output_tokens": 106,
+     "output_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "total_tokens": 409
+    }
+   },
+   {
+    "attempt": 3,
+    "latency_ms": 935,
+    "problems": [
+     "event 'Generalised tonic-clonic seizure' not described"
+    ],
+    "usage": {
+     "input_tokens": 303,
+     "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+     },
+     "output_tokens": 109,
+     "output_tokens_details": {
+      "reasoning_tokens": 0
+     },
+     "total_tokens": 412
     }
    }
   ]
@@ -10596,18 +10602,18 @@
  },
  {
   "record_id": "CRM-007-0389",
-  "scenario_hash": "de86db8f442a5783",
+  "scenario_hash": "b9514a733d181e48",
   "channel": "CRM",
   "channel_received_date": "2025-08-12",
   "country": "DE",
-  "text": "Visited Dr. Maja G. today in DE re Venlaris. She shared an update on pt ES, 49 yo male. Earlier case is now revised with new info: the pt had a seizure at home and was taken to hospital. She also mentioned he developed diabetes mellitus, onset approx. 20/07/2025, and was admitted to hospital because of this. Dr. G. feels Venlaris may have caused the diabetes. Good discussion overall, will keep her posted on any further feedback.",
+  "text": "Visited Dr. Maja G. today in DE re Venlaris. She gave an update on pt NB, 49yo male. Earlier case was already shared; new info added: he had a seizure at home and was taken to hospital. Dr. G. also said he developed diabetes mellitus, onset approx. 20/07/2025, and he was admitted to hospital because of it. She feels Venlaris is the likely cause. Discussed the case briefly and noted the update for follow-up.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1353,
+    "latency_ms": 953,
     "problems": [],
     "usage": {
      "input_tokens": 306,
@@ -10626,23 +10632,23 @@
  },
  {
   "record_id": "PQC-007-0390",
-  "scenario_hash": "54ba6d8edec4796d",
+  "scenario_hash": "d47c92a6c695dab2",
   "channel": "PQC",
   "channel_received_date": "2026-08-04",
   "country": "FR",
-  "text": "Follow-up to my earlier complaint form on Venlaris; batch details are as given on the first form. Patient ET, male, 77 years old. Around 13/07/2026 he developed interstitial lung disease and was admitted to hospital. New information since my first form: he was also admitted for palpitations and an irregular heartbeat, diagnosed as an arrhythmia. As the dispensing pharmacist, I believe Venlaris caused these problems and am concerned about the quality of the product supplied. Please investigate and tell me whether other complaints have been received. Jonas N., pharmacist, 04/08/2026.",
+  "text": "Complaint form – free text\n\nProduct: Venlaris (batch number not yet retrieved from the patient's box; will forward). Packaging and tablets looked normal on inspection, no defect noted.\n\nThis is a follow-up to my earlier submission. Patient TL, male, 77, developed interstitial lung disease around 13/07/2026 and was admitted to hospital. I believe Venlaris is responsible. New information since my first form: he was also admitted for palpitations and an irregular heartbeat, diagnosed as arrhythmia. I am asking the manufacturer to check this lot and the company's records for similar cases.\n\nJonas N., pharmacist, France, 04/08/2026",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 5689,
+    "latency_ms": 3574,
     "problems": [],
     "usage": {
      "input_tokens": 449,
-     "output_tokens": 523,
-     "total_tokens": 972
+     "output_tokens": 223,
+     "total_tokens": 672
     }
    }
   ]
@@ -10755,18 +10761,18 @@
  },
  {
   "record_id": "PSP-007-0395",
-  "scenario_hash": "9d84ba01aaed7584",
+  "scenario_hash": "1a09d9a7647a93b7",
   "channel": "PSP",
   "channel_received_date": "2025-12-28",
   "country": "DE",
-  "text": "Patient support programme nurse call note. Country: DE. Record date: 28/12/2025. Patient MA, 41-year-old female, taking Escitrel. Follow-up call completed to review wellbeing and adherence. Reporter Rafael M., consumer, stated that the patient developed a haematoma with onset around 22/11/2025 and was admitted to hospital because of it. He believes the medicine may have caused the event. Reference number: PSPV-00104.",
+  "text": "PSPV-00104. Patient support programme nurse call note from DE. Reporter Rafael M., consumer, provided an update on patient XE, a 41-year-old female, receiving Escitrel. During the check-in, it was noted that she developed a haematoma with onset around 22/11/2025. The reporter stated that she was admitted to hospital because of this issue. He felt the medicine may have been the cause. Further wellbeing and adherence review was not completed during this contact.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 848,
+    "latency_ms": 1012,
     "problems": [],
     "usage": {
      "input_tokens": 291,
@@ -10774,11 +10780,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 103,
+     "output_tokens": 107,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 394
+     "total_tokens": 398
     }
    }
   ]
@@ -10808,18 +10814,18 @@
  },
  {
   "record_id": "SOCIAL-007-0397",
-  "scenario_hash": "9c6e39cf9bfa1ade",
+  "scenario_hash": "54708805d4cd74d8",
   "channel": "SOCIAL",
   "channel_received_date": "2026-08-24",
   "country": "FR",
-  "text": "Hi everyone, I’m posting under a nickname, not my real name. I’m GE, 51, male, and I’ve been taking Venlaris. Around 10/08/2026, I developed what doctors called an intestinal pseudo-obstruction. It was pretty scary, and I honestly think the medicine may have caused it. I just wanted to share in case anyone else has had something similar with Venlaris.",
+  "text": "Hi, I’m posting under a forum nickname, not my real name. I’m HT, a 51-year-old man, and I’ve been taking Venlaris. Around 10/08/2026, I developed what the doctors called an intestinal pseudo-obstruction. It came on pretty suddenly and has been really hard to deal with. I can’t prove it, but I strongly suspect Venlaris triggered it.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1088,
+    "latency_ms": 1118,
     "problems": [],
     "usage": {
      "input_tokens": 282,
@@ -10827,34 +10833,46 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 91,
+     "output_tokens": 90,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 373
+     "total_tokens": 372
     }
    }
   ]
  },
  {
   "record_id": "SOCIAL-007-0398",
-  "scenario_hash": "0519204cca53f862",
+  "scenario_hash": "ccec8bc9aa0d7a2f",
   "channel": "SOCIAL",
   "channel_received_date": "2026-03-10",
   "country": "IT",
-  "text": "Hi all, posting under my usual nickname because I need to share this. I'm 64, initials GP, female, and I started Duloxane a while back for my mood. Around 6 March I came out in an awful reaction, itchy, swollen, feeling really unwell. It was clearly an allergic-type thing, a drug hypersensitivity, and I ended up being admitted to hospital because of it. I'm writing from Italy, still shaken. I honestly believe the Duloxane caused it, nothing else changed in my routine. Has anyone else had something similar with this one?",
+  "text": "Posting this as a warning for anyone on Duloxane. I'm a 64-year-old woman (TI for short, but here I'm just \"nonna_sole64\"). Around 6 March I developed a drug hypersensitivity reaction, basically my body reacted as if allergic to the medicine, and I ended up being admitted to hospital because of it. I'm convinced Duloxane caused it, since nothing else changed in my routine. Has anyone else here had an allergic reaction to Duloxane or to duloxetine in general? I'd really like to hear your experiences, because it was quite frightening.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 2952,
-    "problems": [],
+    "latency_ms": 2872,
+    "problems": [
+     "event 'Drug hypersensitivity' not described"
+    ],
     "usage": {
      "input_tokens": 420,
-     "output_tokens": 183,
-     "total_tokens": 603
+     "output_tokens": 200,
+     "total_tokens": 620
+    }
+   },
+   {
+    "attempt": 2,
+    "latency_ms": 4079,
+    "problems": [],
+    "usage": {
+     "input_tokens": 459,
+     "output_tokens": 408,
+     "total_tokens": 867
     }
    }
   ]
@@ -10914,18 +10932,18 @@
  },
  {
   "record_id": "PQC-007-0401",
-  "scenario_hash": "94a8c5c096c674d2",
+  "scenario_hash": "e322c411d09ea7b3",
   "channel": "PQC",
   "channel_received_date": "2026-06-05",
   "country": "ES",
-  "text": "Sertavix was reported for patient MB, an 81-year-old female. The report was made by Ines D., pharmacist. The patient developed diarrhoea, with onset around 15/05/2026. The reporter considers that the medicine may have caused this reaction.",
+  "text": "Sertavix was used in an 81-year-old female patient, KU. According to the pharmacist, Ines D., the patient developed diarrhoea, with onset around 15/05/2026. The reporter considers that this medicine may have been the cause of the reaction.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 897,
+    "latency_ms": 801,
     "problems": [],
     "usage": {
      "input_tokens": 266,
@@ -10933,11 +10951,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 62,
+     "output_tokens": 63,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 328
+     "total_tokens": 329
     }
    }
   ]
@@ -10997,23 +11015,23 @@
  },
  {
   "record_id": "PSP-007-0404",
-  "scenario_hash": "3a063d70f0ad419d",
+  "scenario_hash": "8994dd583d799b0d",
   "channel": "PSP",
   "channel_received_date": "2025-12-20",
   "country": "IT",
-  "text": "Patient Support Programme – Nurse Call Note\nDate: 20/12/2025 | Country: Italy | Ref: PSPV-00107\nNurse: Jonas R.\n\nPatient: HR, female, 54 years old. Product: Venlaris.\n\nPurpose of call: routine adherence and wellbeing check.\n\nAdherence: Patient admitted she has not been taking Venlaris as directed. She has been taking extra doses on her own and finishing supplies early. This began around 21/11/2025. She describes a strong urge to keep taking it and says she feels unable to cut back.\n\nWellbeing: Mood low-to-moderate and she sounded anxious. She said she is worried about running out. Sleep and appetite were not discussed in detail.\n\nAssessment: In my view this pattern of drug abuse is related to Venlaris.\n\nActions: Discussed the importance of taking the medicine only as prescribed. Encouraged her to contact her prescriber. Follow-up call to be scheduled.\n\nJonas R., Nurse",
+  "text": "Patient Support Programme – Nurse Call Note\nRef: PSPV-00107\nDate: 20/12/2025 | Country: Italy\nNurse: Jonas R.\n\nPatient: RK, female, 54 years old. Product: Venlaris.\n\nPurpose of call: routine adherence and wellbeing check.\n\nAdherence: Patient's use of Venlaris no longer follows the prescribed schedule. She admits taking it outside the instructions and in larger amounts than directed, and describes a strong urge to keep taking it. This pattern began around 21/11/2025 and has continued since then. She is open about it and appears worried.\n\nWellbeing: Mood is low-to-moderate and sleep is unsettled. She reports no other concerns during this call.\n\nAssessment: In my clinical opinion the drug abuse is related to Venlaris.\n\nPlan: Document in the patient file. Next scheduled programme call to be arranged.\n\nJonas R., Nurse",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3435,
+    "latency_ms": 3660,
     "problems": [],
     "usage": {
      "input_tokens": 393,
-     "output_tokens": 340,
-     "total_tokens": 733
+     "output_tokens": 318,
+     "total_tokens": 711
     }
    }
   ]
@@ -11085,18 +11103,18 @@
  },
  {
   "record_id": "MI-007-0407",
-  "scenario_hash": "86e94c9a0ea379d5",
+  "scenario_hash": "163fe9a720ce7505",
   "channel": "MI",
   "channel_received_date": "2026-05-01",
   "country": "FR",
-  "text": "Incoming call from Zofia W., pharmacist in France, regarding Duloxane for patient KN, an 18-year-old female. She requested to provide an update to report MIV-00100. She stated that the patient developed agranulocytosis, with onset around 19/03/2026, and was admitted to hospital because of this condition. The reporter considered Duloxane to be the likely cause. She also added new information that the patient was admitted for palpitations and an irregular heartbeat, described as arrhythmia.",
+  "text": "Incoming call from Zofia W., pharmacist, regarding Duloxane for patient HE, 18-year-old female. She stated that this is an update to earlier information under reference MIV-00100. She reported that the patient developed agranulocytosis, with onset around 19/03/2026, and was admitted to hospital because of it. She also added new information that the patient was admitted for palpitations and an irregular heartbeat, described as arrhythmia. The reporter considered Duloxane to be the cause of the agranulocytosis.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1409,
+    "latency_ms": 1038,
     "problems": [],
     "usage": {
      "input_tokens": 327,
@@ -11104,11 +11122,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 114,
+     "output_tokens": 120,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 441
+     "total_tokens": 447
     }
    }
   ]
@@ -11138,11 +11156,11 @@
  },
  {
   "record_id": "PQC-007-0409",
-  "scenario_hash": "bcd5623273468d37",
+  "scenario_hash": "b2e223f0a5eb95c5",
   "channel": "PQC",
   "channel_received_date": "2026-03-19",
   "country": "PT",
-  "text": "Marie G., pharmacist, reports a quality complaint for Sertavix in an 84-year-old female patient, initials DK. The patient started to develop lack of effect when the medicine was used for an unapproved indication, beginning around 11/02/2026. In the reporter’s opinion, the medicine caused this lack of efficacy.",
+  "text": "Marie G., pharmacist, reports a quality complaint for Sertavix in an 84-year-old female patient, PX. Around 11/02/2026, the patient developed lack of effect when the medicine was used for an unapproved indication. The reporter believes the medicine caused this lack of response.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": false,
   "validator_problems": [
@@ -11151,7 +11169,7 @@
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 914,
+    "latency_ms": 842,
     "problems": [
      "event 'Drug ineffective for unapproved indication' not described"
     ],
@@ -11161,16 +11179,16 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 63,
+     "output_tokens": 65,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 334
+     "total_tokens": 336
     }
    },
    {
     "attempt": 2,
-    "latency_ms": 937,
+    "latency_ms": 947,
     "problems": [
      "event 'Drug ineffective for unapproved indication' not described"
     ],
@@ -11180,16 +11198,16 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 81,
+     "output_tokens": 84,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 378
+     "total_tokens": 381
     }
    },
    {
     "attempt": 3,
-    "latency_ms": 914,
+    "latency_ms": 907,
     "problems": [
      "event 'Drug ineffective for unapproved indication' not described"
     ],
@@ -11199,11 +11217,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 72,
+     "output_tokens": 65,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 369
+     "total_tokens": 362
     }
    }
   ]
@@ -11233,53 +11251,53 @@
  },
  {
   "record_id": "PSP-007-0411",
-  "scenario_hash": "d067510285fddac6",
+  "scenario_hash": "f136c62ae0ce48e0",
   "channel": "PSP",
   "channel_received_date": "2025-05-29",
   "country": "DE",
-  "text": "PSPV-00108. Nurse call note from Luca W. regarding KJ, a 73-year-old male using Venlaris. This update to the earlier report includes new information that the patient developed gastrointestinal haemorrhage with black stools and was admitted overnight. The patient also experienced circulatory collapse, starting around 11/05/2025, and was admitted to hospital because of it. The reporter considers Venlaris to be the likely cause. No further wellbeing concerns were discussed during this contact.",
+  "text": "Patient support programme nurse call note, DE, 29/05/2025. Product: Venlaris. Patient TM, 73-year-old male. Reporter: Luca W., nurse. This is an update to reference number PSPV-00108. The patient was contacted for a routine wellbeing and adherence check. He reported that around 11/05/2025 he developed circulatory collapse and was admitted to hospital because of it. The reporter considers Venlaris to be the likely cause. New information provided in this update: gastrointestinal haemorrhage with black stools, with an overnight hospital admission. Patient remains under follow-up.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 918,
+    "latency_ms": 997,
     "problems": [],
     "usage": {
-     "input_tokens": 317,
+     "input_tokens": 316,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 107,
+     "output_tokens": 132,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 424
+     "total_tokens": 448
     }
    }
   ]
  },
  {
   "record_id": "CRM-007-0412",
-  "scenario_hash": "e322d0a3a49f76ea",
+  "scenario_hash": "628b91bda2b7e47b",
   "channel": "CRM",
   "channel_received_date": "2026-10-21",
   "country": "FR",
-  "text": "Visit 21/10/2026 – Dr Karl M., cabinet, 25 min. Good chat re Escitrel, he's still keen, said he'd keep it for new starts in his younger pts. Left the new starter pack leaflets + 2 sample boxes.\n\nHe brought up pt MF (F, 21 y) – around 03/10 she developed hypotension and was admitted to hospital. He says he already reported this same pt/event previously, nothing new since, no update to give. I just noted it, didn't push.\n\nAsked for a follow-up slot in Nov to go over the hospital formulary listing. He's OK for 14h, Tuesday. Remind him to send the local pharmacy contact. Next visit: 18/11.",
+  "text": "Visit 21/10/2026 – Dr Karl M., cabinet, Lyon. Quick 15 min catch-up between consultations. Discussed Escitrel: he's still happy with it overall, asked for new patient leaflets + 2 sample boxes for next week. Mentioned in passing the young patient HA (F, 21) who developed hypotension around 03/10/2026 and ended up admitted to hospital. He said he already reported this same patient and event earlier, nothing new since, no update to give. Didn't push. Also wants to know about the next local CME evening in Nov, I'll check dates with the team. Next visit end of Nov, bring leaflets.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3507,
+    "latency_ms": 3178,
     "problems": [],
     "usage": {
      "input_tokens": 449,
-     "output_tokens": 237,
-     "total_tokens": 686
+     "output_tokens": 218,
+     "total_tokens": 667
     }
    }
   ]
@@ -11392,18 +11410,18 @@
  },
  {
   "record_id": "MI-007-0417",
-  "scenario_hash": "27a141215cf30482",
+  "scenario_hash": "401b7c36523516d4",
   "channel": "MI",
   "channel_received_date": "2025-03-31",
   "country": "FR",
-  "text": "Consumer Ingrid L. called regarding Venlaris for patient BE, 24-year-old female. She reported that BE had a seizure at home and was taken to hospital. The episode started around 03/03/2025. Ingrid L. said she believed the medicine may have caused the event. The caller asked for advice and noted reference number MIV-00103.",
+  "text": "Consumer Ingrid L. called regarding Venlaris for patient ZZ, a 24-year-old female. The caller asked whether the medicine could have been responsible for a seizure that occurred at home, after which the patient was taken to hospital. The episode reportedly began around 03/03/2025. The caller stated that she believed Venlaris may have caused the event. Reference number: MIV-00103.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 823,
+    "latency_ms": 807,
     "problems": [],
     "usage": {
      "input_tokens": 278,
@@ -11411,11 +11429,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 79,
+     "output_tokens": 88,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 357
+     "total_tokens": 366
     }
    }
   ]
@@ -11805,30 +11823,30 @@
  },
  {
   "record_id": "MI-007-0431",
-  "scenario_hash": "c4fd7a01975e1134",
+  "scenario_hash": "a195ddbd1108e0e0",
   "channel": "MI",
   "channel_received_date": "2026-05-01",
   "country": "IT",
-  "text": "Pharmacist Maja S. called from Italy regarding Sertavix. She asked whether the medicine could be linked to a case in a 32-year-old male patient, initials RD. She reported that the patient developed anxiety, with onset around 25/03/2026, and was admitted to hospital because of it. The reporter considered Sertavix to be the possible cause. Reference number: MIV-00106.",
+  "text": "Caller: Maja S., pharmacist, Italy. She contacted the medical information service regarding Sertavix and reported a 32-year-old male patient, initials ZD. She stated that the patient developed anxiety, with onset around 25/03/2026, and was admitted to hospital because of this condition. The reporter considered Sertavix to be the possible cause. Reference number provided: MIV-00106.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 922,
+    "latency_ms": 837,
     "problems": [],
     "usage": {
-     "input_tokens": 292,
+     "input_tokens": 293,
      "input_tokens_details": {
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 91,
+     "output_tokens": 89,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 383
+     "total_tokens": 382
     }
    }
   ]
@@ -11858,18 +11876,18 @@
  },
  {
   "record_id": "PQC-007-0433",
-  "scenario_hash": "d64e8d2e9914e829",
+  "scenario_hash": "8e901fbcc94fe7b0",
   "channel": "PQC",
   "channel_received_date": "2025-10-16",
   "country": "DE",
-  "text": "Consumer Hugo M. reports a concern regarding Duloxane for patient KP, a 56-year-old male. Around 2025-09-27, the patient developed cholestatic liver injury. The reporter believes the medicine may have caused this condition. No other details were provided.",
+  "text": "Consumer Hugo M. reports a quality complaint for Duloxane. The product was used by patient LO, a 56-year-old male. Around 2025-09-27, the patient developed cholestatic liver injury. The reporter believes the medicine caused this reaction.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 784,
+    "latency_ms": 872,
     "problems": [],
     "usage": {
      "input_tokens": 269,
@@ -11877,11 +11895,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 61,
+     "output_tokens": 59,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 330
+     "total_tokens": 328
     }
    }
   ]
@@ -11911,18 +11929,18 @@
  },
  {
   "record_id": "CRM-007-0435",
-  "scenario_hash": "f6c4e2bef97171c5",
+  "scenario_hash": "bd3c3f368a1fdd83",
   "channel": "CRM",
   "channel_received_date": "2026-03-12",
   "country": "NL",
-  "text": "Visited Marie S. (physician) in NL today re Sertavix. She mentioned a female pt, initials HD, 19 yo, who developed neutropenia around 23/02/2026. Marie said this same pt/event had already been mentioned in an earlier report and there’s been no change since then. We kept the discussion brief and focused on follow-up status; no further updates from her side at this visit.",
+  "text": "Visited dr. Marie S. in NL today. Spoke briefly about Sertavix and she mentioned patient XX, 19 yo female. She said this same pt / event was already reported earlier and there’s been no change since then. Pt developed neutropenia, onset around 23/02/2026. No new update from her side, just keeping me posted on the case. Discussed ongoing use of Sertavix in her practice and asked if she needed any more info, but she only repeated the above details.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 1151,
+    "latency_ms": 997,
     "problems": [],
     "usage": {
      "input_tokens": 296,
@@ -11930,11 +11948,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 92,
+     "output_tokens": 111,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 388
+     "total_tokens": 407
     }
    }
   ]
@@ -12047,23 +12065,23 @@
  },
  {
   "record_id": "MI-007-0440",
-  "scenario_hash": "f88e3c03ed24fa56",
+  "scenario_hash": "4b41e987a6b567fe",
   "channel": "MI",
   "channel_received_date": "2024-11-19",
   "country": "ES",
-  "text": "Medical Information Call Log – Ref. MIV-00108\nDate: 19/11/2024 | Country: Spain | Channel: inbound phone call\n\nCaller: Sofia G., physician.\n\nQuery: The caller asked whether ischaemic colitis is a recognised problem with Venlaris. She is treating a 63-year-old female patient, initials MP, who developed ischaemic colitis at about 27/10/2024. The caller stated that she believes Venlaris caused the condition and wanted to know if the company has information on similar cases and whether there is any guidance on the product's use in such a situation.\n\nAction: Query logged under ref. MIV-00108. Caller was told that the available product information would be reviewed and that a written reply would follow. Caller agreed to be contacted again by phone if further clinical details are needed.",
+  "text": "Medical Information Call Log – Ref. MIV-00108\n\nDate: 19/11/2024. Country: Spain. Inbound telephone call.\n\nCaller: Sofia G., physician.\n\nQuery: The caller asked whether Venlaris has been associated with ischaemic colitis and whether any guidance exists on managing patients who develop it. She explained that her patient, RU, a 63-year-old woman, developed ischaemic colitis around 27/10/2024. The physician considers Venlaris to be the cause of the event.\n\nAgent response: Caller was advised that the enquiry would be recorded under reference MIV-00108. The relevant product information was offered, and the caller was told that a written reply would follow if further details were needed. No additional patient data were provided during the call.\n\nCall closed.",
   "generator": "anthropic:claude-sonnet-5-5",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 3460,
+    "latency_ms": 3281,
     "problems": [],
     "usage": {
      "input_tokens": 389,
-     "output_tokens": 265,
-     "total_tokens": 654
+     "output_tokens": 254,
+     "total_tokens": 643
     }
    }
   ]
@@ -12176,18 +12194,18 @@
  },
  {
   "record_id": "SOCIAL-007-0445",
-  "scenario_hash": "12419bf6208834ac",
+  "scenario_hash": "309847f165a988d7",
   "channel": "SOCIAL",
   "channel_received_date": "2026-02-12",
   "country": "FR",
-  "text": "Hi everyone, I’m posting under a forum nickname. I’m FT, 63, female, and I’ve been taking Sertavix. Around 27/01/2026, I developed acute pancreatitis and ended up being admitted to hospital because of it. It was a scary experience. From what happened, I honestly believe Sertavix may have caused this.",
+  "text": "Hi everyone, I’m posting under a forum nickname. I’m IF, a 63-year-old woman, and I’ve been taking Sertavix. Around 27/01/2026, I developed acute pancreatitis and had to be admitted to hospital because of it. It was a pretty scary experience. From my side, I really think the medicine may have caused this.",
   "generator": "foundry:gpt-5-4-mini",
   "validated": true,
   "validator_problems": [],
   "attempts": [
    {
     "attempt": 1,
-    "latency_ms": 954,
+    "latency_ms": 865,
     "problems": [],
     "usage": {
      "input_tokens": 296,
@@ -12195,11 +12213,11 @@
       "cache_write_tokens": 0,
       "cached_tokens": 0
      },
-     "output_tokens": 79,
+     "output_tokens": 81,
      "output_tokens_details": {
       "reasoning_tokens": 0
      },
-     "total_tokens": 375
+     "total_tokens": 377
     }
    }
   ]

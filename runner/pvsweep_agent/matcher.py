@@ -48,19 +48,21 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
         age_min: Annotated[float | None, "minimum age in years or null"] = None,
         age_max: Annotated[float | None, "maximum age in years or null"] = None,
         event_term: Annotated[str | None, "a Preferred Term-style name to rank by, or null"] = None,
+        initials: Annotated[str | None, "patient initials to filter by, e.g. AB, or null"] = None,
         date_from: Annotated[str | None, "earliest receipt date YYYY-MM-DD or null"] = None,
         date_to: Annotated[str | None, "latest receipt date YYYY-MM-DD or null"] = None,
     ) -> str:
         """Search the safety database for cases with a suspect product of the given substance."""
         if len(ctx.calls) >= MAX_TOOL_CALLS:
             return _json({"error": "tool-call limit reached; submit your decision"})
-        sql = ("SELECT case_id, initial_receipt_date, latest_receipt_date, event_date, case_version, reporter_type, age_years, sex, "
-               "occurrence_country, serious, hospitalisation, death, substances, products, events FROM AGENT_API.SAFETY_CASE_SUMMARY "
-               "WHERE list_contains(substances, ?)" if backend.dialect == "duckdb" else
-               "SELECT case_id, initial_receipt_date, latest_receipt_date, event_date, case_version, reporter_type, age_years, sex, "
-               "occurrence_country, serious, hospitalisation, death, substances, products, events FROM AGENT_API.SAFETY_CASE_SUMMARY "
-               "WHERE ARRAY_CONTAINS(?::VARIANT, substances)")
+        cols = ("case_id, patient_initials, initial_receipt_date, latest_receipt_date, event_date, case_version, reporter_type, "
+                "age_years, sex, occurrence_country, serious, hospitalisation, death, substances, products, events")
+        sql = (f"SELECT {cols} FROM AGENT_API.SAFETY_CASE_SUMMARY WHERE list_contains(substances, ?)" if backend.dialect == "duckdb"
+               else f"SELECT {cols} FROM AGENT_API.SAFETY_CASE_SUMMARY WHERE ARRAY_CONTAINS(?::VARIANT, substances)")
         params: list = [substance.lower()]
+        if initials:
+            sql += " AND upper(patient_initials) = ?"
+            params.append(initials.upper())
         if sex:
             sql += " AND (sex = ? OR sex = 'unknown')"
             params.append(sex)
@@ -84,7 +86,7 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
         rows = rows[:15]
         ctx.seen_ids |= {r["case_id"] for r in rows}
         ctx.log("search_safety_cases", {"substance": substance, "sex": sex, "age_min": age_min, "age_max": age_max,
-                                        "event_term": event_term, "date_from": date_from, "date_to": date_to}, rows)
+                                        "event_term": event_term, "initials": initials, "date_from": date_from, "date_to": date_to}, rows)
         return _json(rows)
 
     @tool(approval_mode="never_require")

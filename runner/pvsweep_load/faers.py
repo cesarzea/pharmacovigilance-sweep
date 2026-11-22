@@ -58,6 +58,9 @@ def build(con: duckdb.DuckDBPyConnection, reference_date: str, brands: dict[str,
     CREATE OR REPLACE TABLE safety_case AS
     SELECT 'CONTOSO-' || d.caseid                         AS case_id,
            d.caseid                                        AS source_case_id,
+           -- FAERS has no patient initials; safety databases do. Deterministic synthetic initials let the
+           -- matching step use the identifier a real database would offer.
+           chr(65 + (hash(d.caseid) % 26)::INTEGER) || chr(65 + ((hash(d.caseid) // 26) % 26)::INTEGER) AS patient_initials,
            d.caseversion::INTEGER                          AS case_version,
            {shifted('d.init_fda_dt')}                      AS initial_receipt_date,
            {shifted('d.fda_dt')}                           AS latest_receipt_date,

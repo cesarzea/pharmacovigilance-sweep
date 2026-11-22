@@ -6,6 +6,7 @@ USE DATABASE PVSWEEP;
 -- Tool search_safety_cases: one row per case with the suspect products and events aggregated.
 CREATE OR REPLACE SECURE VIEW AGENT_API.SAFETY_CASE_SUMMARY AS
 SELECT c.case_id,
+       c.patient_initials,
        c.initial_receipt_date,
        c.latest_receipt_date,
        c.event_date,

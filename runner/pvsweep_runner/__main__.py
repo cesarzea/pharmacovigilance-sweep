@@ -59,9 +59,15 @@ def cmd_sweep(args) -> int:
     if args.record_file:
         record_ids += [ln.strip() for ln in open(args.record_file) if ln.strip()]
     records = store.records(args.channels, args.limit, record_ids or None)
-    run_id = store.start_run(args.provider, steps.screen_version, code_version(),
-                             {"channels": args.channels, "limit": args.limit, "records": len(records), "match": args.match,
-                              "as_of": args.as_of})
+    if args.resume:
+        run_id = args.resume
+        done = {r[0] for r in store.query("SELECT record_id FROM SWEEP.SCREENING WHERE run_id = ?", [run_id])}
+        records = [r for r in records if r["record_id"] not in done]
+        print(f"resuming {run_id}: {len(done)} records already screened", flush=True)
+    else:
+        run_id = store.start_run(args.provider, steps.screen_version, code_version(),
+                                 {"channels": args.channels, "limit": args.limit, "records": len(records), "match": args.match,
+                                  "as_of": args.as_of})
     print(f"{run_id}: {len(records)} records, provider {args.provider} ({args.small}{' + ' + args.large if args.large else ''}), "
           f"match={args.match}", flush=True)
 
@@ -87,6 +93,13 @@ def cmd_sweep(args) -> int:
     t0 = time.perf_counter()
 
     def work(rec):
+        try:
+            return _work(rec)
+        except Exception as exc:  # noqa: BLE001 - one record must not stop the sweep
+            print(f"  {rec['record_id']}: failed: {type(exc).__name__}: {str(exc)[:200]}", flush=True)
+            return {"cls": "INVALID", "valid": None, "match": None}
+
+    def _work(rec):
         out = {"cls": steps.screen(run_id, rec), "valid": None, "match": None}
         if out["cls"] not in ("ADVERSE_EVENT", "SPECIAL_SITUATION"):
             return out
@@ -106,7 +119,7 @@ def cmd_sweep(args) -> int:
         cands = blocking.candidates(store, substance=rule["substance"], sex=None if patient.get("sex") == "unknown" else patient.get("sex"),
                                     age=patient.get("age_years"), terms=terms, channel_received=rec["channel_received_date"],
                                     vendor_code=rec.get("vendor_code"), vendor_reference=rec.get("vendor_reference"),
-                                    product_name=product)
+                                    product_name=product, initials=patient.get("initials"))
         store.insert_candidates(run_id, rec["record_id"], cands)
         if args.match == "none":
             return out
@@ -228,6 +241,7 @@ def main() -> int:
     s.add_argument("--channels", nargs="*", default=None)
     s.add_argument("--record", nargs="*", default=None)
     s.add_argument("--record-file", default=None, help="file with one record id per line (same records on both providers)")
+    s.add_argument("--resume", default=None, help="run id to continue: records already screened in it are skipped")
     s.add_argument("--limit", type=int, default=None)
     s.add_argument("--concurrency", type=int, default=4)
     args = ap.parse_args()
