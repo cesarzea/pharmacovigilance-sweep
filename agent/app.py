@@ -11,7 +11,6 @@ Authentication is Entra ID for the models (the agent identity) and key-pair for 
 
 from __future__ import annotations
 
-import asyncio
 import json
 import os
 
@@ -34,15 +33,24 @@ def build_agent():
     """A thin Agent whose single tool runs the matcher: keeps the host's Invocations contract simple."""
     from agent_framework import Agent, tool
 
-    backend = from_env()
     client = _client()
+    state: dict = {}
 
     @tool(approval_mode="never_require")
-    def match(payload_json: str) -> str:
+    async def match(payload_json: str) -> str:
         """Run the matching agent on the JSON payload and return its decision JSON."""
-        payload = json.loads(payload_json)
-        decision = asyncio.run(run_matching(client, backend, payload, name=f"pvsweep-matcher-{PROVIDER}"))
-        return json.dumps(decision, default=str)
+        # Async on purpose: the host runs tools inside its own event loop, where asyncio.run() is not allowed.
+        try:
+            if "backend" not in state:
+                state["backend"] = from_env()  # Snowflake connection, opened on first use so start-up never fails
+            payload = json.loads(payload_json)
+            decision = await run_matching(client, state["backend"], payload, name=f"pvsweep-matcher-{PROVIDER}")
+            return json.dumps(decision, default=str)
+        except Exception as exc:  # noqa: BLE001 - the runner records the reason as a BLOCKED decision
+            key = os.environ.get("PVSWEEP_SNOWFLAKE_PRIVATE_KEY", "")
+            return json.dumps({"error": f"{type(exc).__name__}: {str(exc)[:300]}",
+                               "snowflake_account_set": bool(os.environ.get("PVSWEEP_SNOWFLAKE_ACCOUNT")),
+                               "snowflake_key_is_pem": key.startswith("-----BEGIN"), "snowflake_key_chars": len(key)})
 
     return Agent(client=client, name=f"pvsweep-matcher-{PROVIDER}", tools=[match],
                  instructions="The user message is a JSON payload. Call match with it exactly once and reply with the "

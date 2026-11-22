@@ -43,6 +43,9 @@ param largeCapacity int = 50
 param deployRunnerJob bool = false
 param runnerImageTag string = 'latest'
 param snowflakeAccount string = ''
+@description('PEM private key of the PVSWEEP_AGENT service user, stored in a project connection for the hosted agents. Empty skips the connection.')
+@secure()
+param snowflakeAgentPrivateKey string = ''
 
 var baseName = 'pvsweep-${environmentName}'
 var suffix = take(uniqueString(subscription().id, baseName), 6)
@@ -111,6 +114,17 @@ module foundry 'modules/foundry.bicep' = {
   }
 }
 
+module connections 'modules/connections.bicep' = if (!empty(snowflakeAgentPrivateKey) && !empty(snowflakeAccount)) {
+  name: 'connections'
+  scope: rg
+  params: {
+    accountName: foundry.outputs.accountName
+    projectName: foundry.outputs.projectName
+    snowflakeAccount: snowflakeAccount
+    snowflakeAgentPrivateKey: snowflakeAgentPrivateKey
+  }
+}
+
 module platform 'modules/platform.bicep' = {
   name: 'platform'
   scope: rg
@@ -158,6 +172,7 @@ output keyVaultName string = runner.?outputs.keyVaultName ?? ''
 output anthropicBaseUrl string = foundry.outputs.anthropicBaseUrl
 output openaiBaseUrl string = foundry.outputs.openaiBaseUrl
 output projectEndpoint string = foundry.outputs.projectEndpoint
+output snowflakeAgentConnection string = connections.?outputs.snowflakeAgentConnection ?? ''
 output claudeSmallDeployment string = foundry.outputs.claudeSmallDeployment
 output claudeLargeDeployment string = foundry.outputs.claudeLargeDeployment
 output gptLargeDeployment string = foundry.outputs.gptLargeDeployment

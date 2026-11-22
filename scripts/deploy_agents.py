@@ -28,7 +28,8 @@ AGENT_PREFIX = "pvsweep-matcher"
 
 
 def deploy(project: AIProjectClient, image: str, provider: str, deployment: str, resource: str,
-           project_endpoint: str, cpu: str, memory: str) -> str:
+           project_endpoint: str, cpu: str, memory: str, snowflake_account: str = "",
+           snowflake_connection: str = "") -> str:
     name = f"{AGENT_PREFIX}-{provider}"
     # FOUNDRY_* and AGENT_* names are reserved by the platform (it injects FOUNDRY_PROJECT_ENDPOINT).
     env = {
@@ -38,6 +39,11 @@ def deploy(project: AIProjectClient, image: str, provider: str, deployment: str,
         "PVSWEEP_PROJECT_ENDPOINT": project_endpoint,
         "PVSWEEP_FOUNDRY_RESOURCE": resource,
     }
+    if snowflake_account and snowflake_connection:
+        # The platform resolves the placeholder from the project connection at runtime
+        # (infra/modules/connections.bicep), so the key is never part of the agent definition.
+        env["PVSWEEP_SNOWFLAKE_ACCOUNT"] = snowflake_account
+        env["PVSWEEP_SNOWFLAKE_PRIVATE_KEY"] = "${{connections." + snowflake_connection + ".credentials.private_key}}"
     version = project.agents.create_version(
         agent_name=name,
         definition=HostedAgentDefinition(
@@ -71,6 +77,8 @@ def main() -> int:
     ap.add_argument("--deployment", action="append", required=True, help="one per --provider, same order")
     ap.add_argument("--cpu", default="0.5")
     ap.add_argument("--memory", default="1Gi")
+    ap.add_argument("--snowflake-account", default="")
+    ap.add_argument("--snowflake-connection", default="", help="project connection holding the agent's private key")
     args = ap.parse_args()
     if len(args.provider) != len(args.deployment):
         ap.error("--provider and --deployment must be given the same number of times")
@@ -78,7 +86,8 @@ def main() -> int:
     resource = args.project_endpoint.split("//")[1].split(".")[0]
     project = AIProjectClient(endpoint=args.project_endpoint, credential=DefaultAzureCredential())
     for provider, deployment in zip(args.provider, args.deployment, strict=True):
-        deploy(project, args.image, provider, deployment, resource, args.project_endpoint, args.cpu, args.memory)
+        deploy(project, args.image, provider, deployment, resource, args.project_endpoint, args.cpu, args.memory,
+               args.snowflake_account, args.snowflake_connection)
     return 0
 
 

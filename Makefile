@@ -9,9 +9,14 @@ IMAGE_TAG  ?= $(shell git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M
 
 .PHONY: deploy outputs build-agent deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
 
+# The Snowflake agent key (from `make snow-keys`) goes into a Foundry project connection when it exists;
+# SNOWFLAKE_ACCOUNT comes from .env (PVSWEEP_SNOWFLAKE_ACCOUNT) unless given on the command line.
+SNOWFLAKE_ACCOUNT ?= $(shell grep -s '^PVSWEEP_SNOWFLAKE_ACCOUNT=' .env | cut -d= -f2)
+AGENT_KEY_PARAMS   = $(if $(and $(wildcard .secrets/snowflake_agent.p8),$(SNOWFLAKE_ACCOUNT)),-p snowflakeAccount='$(SNOWFLAKE_ACCOUNT)' -p snowflakeAgentPrivateKey="$$(cat .secrets/snowflake_agent.p8)",)
+
 deploy:
 	az deployment sub create -n pvsweep-$(ENV)-$$(date +%Y%m%d%H%M%S) -l $(LOCATION) \
-	  -f infra/main.bicep -p @$(PARAMS) --only-show-errors -o none
+	  -f infra/main.bicep -p @$(PARAMS) $(AGENT_KEY_PARAMS) --only-show-errors -o none
 	$(MAKE) outputs
 
 # Writes the deployment outputs to .env.$(ENV) (ignored by git) for the other targets.
@@ -27,6 +32,7 @@ deploy-agents:
 	. ./.env.$(ENV) && uv run -q --no-project --with azure-ai-projects --with azure-identity python -I scripts/deploy_agents.py \
 	  --project-endpoint $$PROJECTENDPOINT --image $$REGISTRYLOGINSERVER/pvsweep-agent:$(IMAGE_TAG) \
 	  --provider gpt --deployment $$GPTSMALLDEPLOYMENT \
+	  --snowflake-account '$(SNOWFLAKE_ACCOUNT)' --snowflake-connection "$$SNOWFLAKEAGENTCONNECTION" \
 	  $(if $(CLAUDE_DEPLOYMENT),--provider claude --deployment $(CLAUDE_DEPLOYMENT),)
 
 spike-models:
