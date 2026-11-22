@@ -162,6 +162,15 @@ def cmd_sweep(args) -> int:
             })
         elif args.match == "hosted":
             decision = matching.match_hosted(args.project_endpoint, f"pvsweep-matcher-{args.provider}", token, payload)
+            store.insert_model_call({  # one audit row per invocation: latency and session, no token counts (billed per session)
+                "call_id": uuid.uuid4().hex, "run_id": run_id, "record_id": rec["record_id"], "step": "match",
+                "provider": args.provider, "deployment": f"pvsweep-matcher-{args.provider}", "agent_name": f"pvsweep-matcher-{args.provider}",
+                "agent_version": "hosted", "prompt_version": "matching:v1", "schema_version": "submit_match_decision:v1",
+                "raw_output": json.dumps({k: v for k, v in decision.items() if k != "reply_text"}, default=str),
+                "input_tokens": 0, "output_tokens": 0, "cached_tokens": 0,
+                "latency_ms": decision.get("latency_ms"), "status": "ok" if decision.get("submitted") else "blocked",
+                "error": None if decision.get("submitted") else decision.get("justification"),
+            })
         else:
             decision = matching.match_baseline(large or small, MATCH_PROMPT.read_text(), payload)
             res = decision.pop("_model")

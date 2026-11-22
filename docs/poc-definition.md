@@ -375,8 +375,7 @@ Full detail, flows and decisions: [architecture.md](architecture.md).
    same agent package run in-process by the runner.
 4. Real forum text: ask the rights holder for commercial use of an annotated corpus, or stay
    synthetic.
-5. Fictional brand names: Sertavix, Escitrel, Duloxane and Venlaris are used (`config/brands.json`; web searches on 2026-11-23 found no medicine with any of these names, and a direct lookup in CIMA and the EMA register is still to be done before publication);
-   still to be checked against EU product registers before publication.
+5. Fictional brand names: Sertavix, Escitrel, Duloxane and Venlaris are used (`config/brands.json`; web searches on 2026-11-23 found no medicine with any of these names, and a direct lookup in CIMA and the EMA register is still to be done before publication).
 6. Optional extras: conversational assistant for the PV operations manager, Azure API Management
    as a model gateway, multilingual intake, a Databricks variant documented as an architecture
    decision record.

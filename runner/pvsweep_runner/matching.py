@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import threading
 import time
 
 import httpx
@@ -111,11 +112,48 @@ class AgentRunner:
         return decision
 
 
+# Hosted sessions: a sandbox costs about six seconds to start and one second to reuse (spike item 4), so
+# each agent keeps a pool of free session ids. A call takes one (or starts a new session when none is
+# free) and returns it afterwards, so at most `concurrency` sessions exist per agent. The hosted agent
+# keeps no state between invocations, so reuse cannot leak one record into the next.
+_SESSION_POOL: dict[str, list[str]] = {}
+_SESSION_LOCK = threading.Lock()
+
+
+def _take_session(agent_name: str) -> str | None:
+    with _SESSION_LOCK:
+        free = _SESSION_POOL.setdefault(agent_name, [])
+        return free.pop() if free else None
+
+
+def _give_session(agent_name: str, session_id: str | None) -> None:
+    if session_id:
+        with _SESSION_LOCK:
+            _SESSION_POOL.setdefault(agent_name, []).append(session_id)
+
+
 def match_hosted(project_endpoint: str, agent_name: str, token: str, payload: dict, timeout: float = 300) -> dict:
     url = f"{project_endpoint}/agents/{agent_name}/endpoint/protocols/invocations"
+    params = {"api-version": "v1"}
+    session_id = _take_session(agent_name)
+    if session_id:
+        params["agent_session_id"] = session_id  # the platform reads the session id from the query string only
     t0 = time.perf_counter()
-    rsp = httpx.post(url, params={"api-version": "v1"}, headers={"Authorization": f"Bearer {token}"},
-                     json={"message": json.dumps(payload, default=str)}, timeout=timeout)
+    rsp = None
+    for attempt in range(3):  # transient TLS/connection errors on the client side; the sandbox is not involved yet
+        try:
+            rsp = httpx.post(url, params=params, headers={"Authorization": f"Bearer {token}"},
+                             json={"message": json.dumps(payload, default=str)}, timeout=timeout)
+            break
+        except httpx.TransportError as exc:
+            last_exc = exc
+            time.sleep(2 * (attempt + 1))
+    if rsp is None:
+        _give_session(agent_name, session_id)
+        ms = round((time.perf_counter() - t0) * 1000)
+        return {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": f"transport error: {type(last_exc).__name__}: {str(last_exc)[:160]}",
+                "confidence": "low", "tool_calls": [], "submitted": False, "latency_ms": ms}
+    _give_session(agent_name, rsp.headers.get("x-agent-session-id") or session_id)
     ms = round((time.perf_counter() - t0) * 1000)
     if not rsp.is_success:
         return {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": f"HTTP {rsp.status_code}: {rsp.text[:200]}",
