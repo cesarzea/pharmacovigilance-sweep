@@ -101,8 +101,8 @@ def data() -> Data:
     return Data()
 
 
+st.set_page_config(page_title="Pharmacovigilance Sweep", layout="wide")  # first Streamlit command, required by older versions
 D = data()
-st.set_page_config(page_title="Pharmacovigilance Sweep", layout="wide")
 st.title("Pharmacovigilance Sweep: review")
 
 runs = D.df("SELECT run_id, provider, started_at, status, counts FROM SWEEP.RUN ORDER BY started_at DESC")

@@ -47,6 +47,8 @@ param deployRunnerJobs bool = true
 @description('With deployRunnerJob: also create the data load job.')
 param deployLoadJob bool = false
 param snowflakeAccount string = ''
+@description('Deploy an Azure Databricks workspace as the second data platform (databricks/).')
+param deployDatabricks bool = false
 @description('PEM private key of the PVSWEEP_AGENT service user, stored in a project connection for the hosted agents. Empty skips the connection.')
 @secure()
 param snowflakeAgentPrivateKey string = ''
@@ -75,7 +77,7 @@ resource budget 'Microsoft.Consumption/budgets@2023-05-01' = {
       dimensions: {
         name: 'ResourceGroupName'
         operator: 'In'
-        values: [rg.name]
+        values: [rg.name, 'rg-${baseName}-dbx-managed']   // the Databricks managed resource group holds its storage account
       }
     }
     notifications: {
@@ -126,6 +128,17 @@ module connections 'modules/connections.bicep' = if (!empty(snowflakeAgentPrivat
     projectName: foundry.outputs.projectName
     snowflakeAccount: snowflakeAccount
     snowflakeAgentPrivateKey: snowflakeAgentPrivateKey
+  }
+}
+
+module databricks 'modules/databricks.bicep' = if (deployDatabricks) {
+  name: 'databricks'
+  scope: rg
+  params: {
+    location: location
+    tags: tags
+    baseName: baseName
+    suffix: suffix
   }
 }
 
@@ -181,6 +194,8 @@ output sweepJobName string = runner.?outputs.sweepJobName ?? ''
 output anthropicBaseUrl string = foundry.outputs.anthropicBaseUrl
 output openaiBaseUrl string = foundry.outputs.openaiBaseUrl
 output projectEndpoint string = foundry.outputs.projectEndpoint
+output databricksWorkspaceUrl string = databricks.?outputs.workspaceUrl ?? ''
+output databricksWorkspaceName string = databricks.?outputs.workspaceName ?? ''
 output snowflakeAgentConnection string = connections.?outputs.snowflakeAgentConnection ?? ''
 output claudeSmallDeployment string = foundry.outputs.claudeSmallDeployment
 output claudeLargeDeployment string = foundry.outputs.claudeLargeDeployment
