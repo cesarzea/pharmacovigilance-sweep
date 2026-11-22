@@ -11,6 +11,7 @@ repository. Public and synthetic data only; not a validated system.
 
 - What it does and why: [docs/poc-definition.md](docs/poc-definition.md)
 - How it is built: [docs/architecture.md](docs/architecture.md)
+- What it is worth and what it costs: [docs/business-case.md](docs/business-case.md)
 - Spike results and operational notes: [docs/ops/](docs/ops/)
 
 ## Layout
@@ -73,7 +74,7 @@ holds the data, the results and the review app; both hosted agents (GPT and Clau
 Foundry sandbox. The sweep also runs unattended as a Container Apps job
 ([docs/ops/runner-job.md](docs/ops/runner-job.md)), and every processed record ends as a prioritised
 finding with a proposed case intake package that the review app turns into the confirmed package and
-compliance findings. Open items: the full 450-record run through Claude on Foundry and the business case.
+compliance findings. Open item: the full 450-record run through Claude on Foundry.
 
 ## Data and licences
 
