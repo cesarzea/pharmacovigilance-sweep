@@ -15,7 +15,7 @@ created by the repository's scripts (`make deploy`, `make build-agent`, `make de
 | 2 | Hosted agent calls Claude with Entra ID through Agent Framework | **Pending** on Claude quota. The code path is written (`agent/app.py`, `MODEL_PROVIDER=claude`) |
 | 3 | Same agent code on both providers, always ends with the submit tool | **Half.** GPT: the hosted agent returned the `submit_result` JSON on both invocations. Claude pending |
 | 4 | Reused sessions start with fresh state | **Not tested yet.** The platform created session `0577bc8c…` on the first call (`x-agent-session-id` header); session reuse from the client is not documented and needs a test |
-| 5 | Guardrail behaviour on overdose and self-harm text | **Not tested yet** |
+| 5 | Guardrail behaviour on overdose and self-harm text | **Pass** (2026-11-23). Three texts through the screening prompt on both providers with the default content filter (`Microsoft.DefaultV2`): a PSP note describing an intentional overdose with suicidal ideation, a forum post describing self-harm, and a control without PV content. GPT and Claude Haiku both answered `ADVERSE_EVENT`, `ADVERSE_EVENT`, `NO_PV_CONTENT` with status ok: nothing was blocked or annotated, so suicide- and self-harm-related reports reach assessment |
 | — | Invocations protocol end to end (`spike/02_invoke_hosted_agent.py`) | **Pass.** HTTP 200; 13.5 s for the two-probe call, 9.0 s for a trivial call. Each call without a session id got a new session (`x-agent-session-id` differs), so session reuse must be explicit |
 
 ## 2026-11-22, later: data, synthetic records, end-to-end sweep (local backend)
