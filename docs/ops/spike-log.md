@@ -99,6 +99,15 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Execution `job-pvsweep-dev-sweep-fbcccyc` (`make run-sweep-job`, `--limit 6`, GPT) | **Pass.** 3 min 07 s wall-clock (146 s for the sweep itself); `SWEEP.RUN` row `run-054e4b5e2af1` with 6 screened, routed, extracted and matched, 5 potential-case findings, 18 audited calls, about $0.02. Console logs reach Log Analytics about five minutes after the end; `az containerapp job logs show` answers "No replicas found" once the execution is over |
 | Guard rails | `scripts/run_sweep_job.sh` refuses to start without `--limit` unless `ALLOW_FULL_SWEEP=1`, starts the job through the ARM API with an args override, and stops the execution if the override did not reach it. The 50 EUR budget on the resource group covers the new resources. `SWEEP.RUN.code_version` records the image tag |
 
+## 2026-11-23: round 3 on the evaluated path, Claude on Foundry over Snowflake, 450 records
+
+| Check | Result |
+|---|---|
+| Sweep, 450 records, Claude on Foundry (Haiku 5.5 screening and extraction, Sonnet 5.5 agent, Entra ID), Snowflake backend, in-process agent, concurrency 2 (`run-fe888fb4684e`) | **Pass.** Screening recall 0.976 (9 records lost to Haiku's invalid JSON twice, 1 false positive), extraction valid 370/370 after 51 escalations, causality 0.938, seriousness 0.973, **matching 0.954** (349/366, 3 blocked). 2 h 51 min wall-clock; 1,237 audited calls, $1.15 for screening and extraction at list prices (the agent's Sonnet tokens are not reported by the framework) |
+| Same code, Anthropic API vs Claude on Foundry (`comparison-round3-foundry.md` and the Anthropic run of round 3) | Within half a point on every metric: matching 0.956 vs 0.954, screening recall 0.968 vs 0.976, causality 0.929 vs 0.938. The two hosting paths are interchangeable for quality; the Foundry path adds Entra ID, EU billing and the audit in Snowflake |
+| Throughput at 50 K TPM per deployment | About 2.6 records per minute: screening 2 s, extraction 11 s (Sonnet 21 s), matching 32 s average per record with 429 back-offs up to 10 minutes on single calls. Levers for production, none in code: deployment capacity to the 80 K TPM granted (`largeCapacity` in Bicep), concurrency 4, Haiku in the agent if a sample shows the accuracy holds |
+| Snapshot of a Snowflake run to a local file (`pvsweep_runner.snapshot`) | **Pass.** Copies a run's result and audit rows by column name into a LocalStore file, so `evaluate` and `compare` work on Snowflake runs; the same mapping serves a platform migration |
+
 ## Facts learned
 
 - **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep

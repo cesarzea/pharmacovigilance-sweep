@@ -69,12 +69,12 @@ rounds over 450 synthetic records are in [docs/ops/spike-log.md](docs/ops/spike-
 provider comparison in [docs/ops/comparison-round3.md](docs/ops/comparison-round3.md). Claude on
 Foundry is deployed (quota granted on 2026-11-22, ticket in
 [docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md)); the 450-record Claude numbers
-come from the Anthropic API with the same code, and the Foundry path is verified on samples. Snowflake
+are measured on Foundry over Snowflake and match the Anthropic API run of the same code. Snowflake
 holds the data, the results and the review app; both hosted agents (GPT and Claude) read it from the
 Foundry sandbox. The sweep also runs unattended as a Container Apps job
 ([docs/ops/runner-job.md](docs/ops/runner-job.md)), and every processed record ends as a prioritised
 finding with a proposed case intake package that the review app turns into the confirmed package and
-compliance findings. Open item: the full 450-record run through Claude on Foundry.
+compliance findings. Every planned check is done; what remains is the publication decision.
 
 ## Data and licences
 
