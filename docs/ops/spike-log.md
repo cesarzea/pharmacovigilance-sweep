@@ -80,6 +80,16 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Sweep, 8 records, Claude on Foundry, `--match hosted`, Snowflake backend | **Pass.** Screening 8/8, matching 7/7; one record lost to a transient TLS error on the laptop's Haiku call (`ConnectError`, counted as invalid, re-runnable with `--resume`); 152 s |
 | Spike items 1 to 3 of section 17 | Closed: Snowflake egress from the sandbox, Claude with Entra ID through Agent Framework, same code on both providers ending with the submit tool. Items 4 (session reuse) and 5 (guardrails) stay open |
 
+## 2026-11-23: findings, case intake package, review flow on Snowflake
+
+| Check | Result |
+|---|---|
+| Findings step (`runner/pvsweep_runner/findings.py`) | **Pass.** Every routed record that is new, a significant follow-up or blocked becomes a `potential_case` finding with a priority score and a proposed case intake package (JSON, `case-intake-package:v1`); a ranked 5 % sample of screened-out records becomes `qc_sample` findings. 36 unit tests pass |
+| Post-match clock | Records already held by PV (in the safety database, in the intake queue, non-significant follow-up) get `no_new_clock` after matching; `REPORT.CHANNEL_KPI.overdue_at_detection` on the 450-record GPT run falls from 181 to 136 once those stop counting |
+| Overdue evaluation | The gold timing labels contradict the planted dates for 71 of 120 labelled records ([matching-analysis.md](matching-analysis.md), "Gold timing labels"), so the check now derives the expected flag from the gold day 0 and seriousness: 144 of 170 agree on the 450-record run, and all 26 misses are records whose extraction found the minimum criteria incomplete |
+| Sweep on Snowflake with findings (4 records, GPT) | **Pass.** 3 potential cases written to `SWEEP.FINDING` with packages; V009 applied |
+| Review app on Snowflake | **Pass.** Queue from `SWEEP.FINDING` by priority; opening a finding shows the package; recording outcome D with a confirmed day 0 wrote `REVIEW.DECISION`, `REVIEW.CASE_INTAKE_PACKAGE` (deadline recomputed from the confirmed day 0) and `REVIEW.COMPLIANCE_FINDING` (`late_submission`) in one click, with the viewer's name from `st.user` |
+
 ## Facts learned
 
 - **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep
