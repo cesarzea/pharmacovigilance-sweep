@@ -164,6 +164,7 @@ module runner 'modules/runner.bicep' = if (deployRunnerJob) {
 
 output resourceGroup string = rg.name
 output foundryAccountName string = foundry.outputs.accountName
+output foundryAccountId string = foundry.outputs.accountId
 output foundryProjectName string = foundry.outputs.projectName
 output registryName string = platform.outputs.registryName
 output registryLoginServer string = platform.outputs.registryLoginServer

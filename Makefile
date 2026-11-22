@@ -33,6 +33,7 @@ deploy-agents:
 	  --project-endpoint $$PROJECTENDPOINT --image $$REGISTRYLOGINSERVER/pvsweep-agent:$(IMAGE_TAG) \
 	  --provider gpt --deployment $$GPTSMALLDEPLOYMENT \
 	  --snowflake-account '$(SNOWFLAKE_ACCOUNT)' --snowflake-connection "$$SNOWFLAKEAGENTCONNECTION" \
+	  --account-id "$$FOUNDRYACCOUNTID" \
 	  $(if $(CLAUDE_DEPLOYMENT),--provider claude --deployment $(CLAUDE_DEPLOYMENT),)
 
 spike-models:

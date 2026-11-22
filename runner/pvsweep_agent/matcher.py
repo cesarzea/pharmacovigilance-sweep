@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import re
 from pathlib import Path
 from typing import Annotated
@@ -19,7 +20,18 @@ from .backend import Backend
 OUTCOMES = ("IN_SAFETY_DB", "SIGNIFICANT_FOLLOW_UP", "NON_SIGNIFICANT_FOLLOW_UP", "IN_INTAKE_QUEUE",
             "DUPLICATE_IN_SWEEP", "NO_MATCH")
 MAX_TOOL_CALLS = 6
-PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "matching.md"
+def _prompt_path() -> Path:
+    """prompts/ sits two levels up in the repository (runner/pvsweep_agent) and one level up in the agent image (/app)."""
+    here = Path(__file__).resolve()
+    candidates = [Path(os.environ["PVSWEEP_PROMPTS_DIR"])] if os.environ.get("PVSWEEP_PROMPTS_DIR") else []
+    candidates += [here.parents[2] / "prompts", here.parents[1] / "prompts"]
+    for d in candidates:
+        if (d / "matching.md").is_file():
+            return d / "matching.md"
+    raise FileNotFoundError(f"matching.md not found in {[str(c) for c in candidates]}")
+
+
+PROMPT_PATH = _prompt_path()
 
 
 def _json(rows) -> str:
