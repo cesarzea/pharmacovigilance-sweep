@@ -55,7 +55,9 @@ def cost_of(usage) -> float:
     total = 0.0
     for step, dep, n, inp, cached, outp, *_ in usage:
         pi, po = PRICE_PER_M.get(dep, (0, 0))
-        total += ((inp or 0) - (cached or 0)) / 1e6 * pi + (cached or 0) / 1e6 * pi * 0.1 + (outp or 0) / 1e6 * po
+        # OpenAI reports cached tokens inside prompt_tokens; Anthropic reports cache reads apart from input_tokens.
+        uncached = (inp or 0) - (cached or 0) if not dep.startswith("claude") else (inp or 0)
+        total += uncached / 1e6 * pi + (cached or 0) / 1e6 * pi * 0.1 + (outp or 0) / 1e6 * po
     return total
 
 

@@ -63,8 +63,12 @@ uv run --project runner python -I -m pvsweep_runner sweep --account <foundry-acc
 
 ## Status
 
-See [docs/ops/spike-log.md](docs/ops/spike-log.md). Claude deployments wait on a Foundry quota
-request (support ticket in [docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md)).
+Infrastructure, data, the local sweep and the hosted GPT agent work end to end; three evaluation
+rounds over 450 synthetic records are in [docs/ops/spike-log.md](docs/ops/spike-log.md), with the
+provider comparison in [docs/ops/comparison-round3.md](docs/ops/comparison-round3.md). Claude on
+Foundry got quota on 2026-11-22 (ticket in [docs/ops/claude-quota-request.md](docs/ops/claude-quota-request.md))
+and its deployment is being created; the Claude numbers so far come from the Anthropic API with the
+same code. Snowflake deployment and the runner job are the open items.
 
 ## Data and licences
 

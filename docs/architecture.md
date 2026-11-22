@@ -566,23 +566,23 @@ the plan works with the defaults: smaller CI subsets, the release evaluation as 
 Azure job, and runs one at a time. GPT quotas are read after the resource providers are
 registered.
 
-### Indicative cost (Claude models only)
+### Cost per sweep (450 records)
 
-Assumptions: 450 records; 60 % routed to PV assessment, and every routed record goes through
-extraction and matching; screening 1,500 input and 500 output tokens; extraction 2,000 and 1,000;
-matching about 24,000 input and 1,500 output over the whole loop. List prices without caching:
-Haiku 5.5 $0.10 / $0.50 and Sonnet 5.5 $2 / $10 per million input / output tokens.
+Measured in round 3 (`AUDIT`, list prices, 2026-11-22). Screening and extraction are audited call
+by call; the matching agent runs inside Agent Framework, which does not yet report its token usage
+to the audit, so the matching line is an estimate from the prompt sizes (about 24,000 input and
+1,500 output tokens per record over the whole loop, 375 records).
 
-| Step | Model | Estimate per sweep |
+| Step | GPT (`gpt-5-4-mini`, $0.75 / $4.50 per M) | Claude (Haiku 5.5 $0.10 / $0.50, Sonnet 5.5 $2 / $10 per M) |
 |---|---|---|
-| Screen | Haiku 5.5 | about $0.20 |
-| Extract | Haiku 5.5 | about $0.20 |
-| Match | Sonnet 5.5 | about $17 |
-| **Total model cost** | | **about $17 per sweep; about $50 for three repetitions** |
+| Screen (measured) | 450 calls, 380 K in / 42 K out, $0.47 | 450 Haiku calls, 101 K in + 666 K cached / 126 K out, $0.08 |
+| Extract (measured) | 385 calls, 524 K in (55 K cached) / 135 K out, $0.96 | 366 Haiku + 61 Sonnet calls, 1.3 M cached, $1.23 |
+| Match (estimate) | 375 agent runs, about $9 | 362 agent runs, about $23 without caching, about $10 at the cache hit rate seen above |
+| **Total** | **about $11** | **about $11** |
 
-These figures are estimates, to be replaced by the measured cost in `AUDIT`. GPT model costs and
-hosted-agent compute are measured, not estimated here. Snowflake compute for the POC fits in an
-extra-small warehouse.
+The Claude figures come from the Anthropic API; Claude on Foundry bills the same list prices. Snowflake
+compute for the POC fits in an extra-small warehouse; hosted-agent compute is billed per session
+(0.5 vCPU, 1 GiB) and was negligible in the spike.
 
 ## 12. Security, privacy and compliance
 
