@@ -9,7 +9,7 @@
     "budgetContactEmails": { "value": ["you@example.com"] },
     "claudeOrganizationName": { "value": "Your name or company" },
     "claudeCountryCode": { "value": "ES" },
-    "claudeIndustry": { "value": "Professional Services" },
+    "claudeIndustry": { "value": "healthcare" },
     "principalId": { "value": "" },
     "claudeSmallModel": { "value": "claude-haiku-5-5" },
     "claudeLargeModel": { "value": "" },

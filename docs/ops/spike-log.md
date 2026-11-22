@@ -45,6 +45,30 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Sweep, same 450 records, Claude (Haiku 5.5 screening and extraction, Sonnet 5.5 agent, Anthropic API) | Screening recall 0.989 (4 records answered with invalid JSON twice), 0 false positives. Extraction valid 374/374 after 50 escalations to Sonnet; causality 350/374. Seriousness 364/374, ownership 363/374. **Matching 0.844** (314/372): only 2 lookalikes accepted, but 18 known cases and 16 significant follow-ups missed as NO_MATCH. Full side-by-side in [comparison-round2.md](comparison-round2.md): on the 406 records both runs share, GPT 0.729 vs Claude 0.903 matching, screening and extraction within a point of each other |
 | Conclusion | Without a patient identifier the safety database cannot be searched reliably: with 10,000 cases on four substances, same substance, sex, age and event within weeks is common. Real safety databases hold patient initials, and FAERS does not, so round 3 adds deterministic synthetic initials to the extract, carries them into the intake queue summaries and the agent's tools, and makes initials the primary identity rule in the prompt. Queue candidates are offered only when the event or the initials agree |
 
+## 2026-11-22, round 3: patient initials and prompt v3, both providers, 450 records
+
+| Check | Result |
+|---|---|
+| Changes (synthetic initials on every safety case and intake summary, `search_safety_cases(initials)`, queue candidates only when event or initials agree, prompt v3 with initials as the identity rule) | Done; 14 unit tests pass; the 450 records re-planned so anchored scenarios carry their case's initials |
+| Sweep, 450 records, GPT (`gpt-5-4-mini` everywhere) | Screening recall 0.997, 0 false positives. Extraction valid 375/377; causality 0.901, seriousness 0.968. **Matching 0.835** (313/375, was 0.694). Lookalikes are gone (3 NO_MATCH read as IN_SAFETY_DB, was 37); what remains is known cases missed as NO_MATCH (16) or sent to the intake queue (10), and follow-ups missed the same way (17 of 46). 2 blocked |
+| Sweep, same 450 records, Claude (Haiku 5.5 screening and extraction, Sonnet 5.5 agent, Anthropic API) | Screening recall 0.968: Haiku answered 14 records with invalid JSON twice and they were not routed, 0 false positives. Extraction valid 366/366 after 61 escalations to Sonnet; causality 0.929, seriousness 0.978. **Matching 0.956** (346/362, was 0.844): 1 lookalike accepted; the 16 errors are mostly follow-up labels (6 known cases read as significant follow-up, 3 non-significant read as significant) and 2 blocked |
+| Side by side ([comparison-round3.md](comparison-round3.md)) | By scenario kind, Claude is at or near 1.0 on every new-record kind and on follow-ups (28/28 significant); GPT's gaps are IN_SAFETY_DB 0.447, NON_SIGNIFICANT_FOLLOW_UP 0.333, SIGNIFICANT_FOLLOW_UP 0.393. Screening and extraction stay within two points of each other, with GPT ahead on routing (the invalid-JSON retries) and Claude ahead on causality and seriousness. Audited calls: GPT 1,210, Claude 1,239; prompt caching served 1.9 M of Claude's input tokens |
+| Foundry evaluation on the exports | Both round-3 exports graded by the three registered evaluators in the project. GPT: routing 449/450, matching 313/450, causality 338/450. Claude: routing 437/449, matching 346/450, causality 340/450. The same numbers as `pvsweep_runner.evaluate` on the laptop, with the reports in the Foundry portal |
+| Conclusion | With an identifier the problem is tractable: both providers stop accepting lookalikes. What separates them now is how they treat a candidate that fits on initials: Claude confirms it with `get_case_history` and reads the version history for the follow-up label; GPT more often rejects it after its own search returns nothing, or stops at the intake queue. Next steps are a screening retry on Sonnet for invalid JSON, a follow-up rubric in the prompt, and the same runs through Claude on Foundry once the deployment finishes |
+
+## 2026-11-22, night: Snowflake for real, Claude on Foundry for real
+
+| Check | Result |
+|---|---|
+| Snowflake account | The user's own account (AWS eu-west-3, Paris). CLI connections `pvsweep-admin` and `pvsweep`; `make snow-bootstrap`, `make snow-migrate` (V001 to V008), `make snow-load`, `make snow-app` all run from the repo. Three SQL fixes on the way: one grantee and one schema per `GRANT`, no `IDENTIFIER(CURRENT_USER())` in a grant, no `GRANT OWNERSHIP` on a Streamlit; details in [snowflake-setup.md](snowflake-setup.md) |
+| Data load | 14 Parquet files, 10,077 safety cases and all synthetic tables loaded with `MATCH_BY_COLUMN_NAME`. First load had every `TIMESTAMP` column in year 56 million: Snowflake reads DuckDB's microsecond timestamps as nanoseconds unless the file format says `USE_LOGICAL_TYPE = TRUE`. Also: `make snow-load` must re-stage first, or the records in Snowflake lag behind the committed synthetic set (the first sweep matched against texts without initials) |
+| Service users | `PVSWEEP_RUNNER` (pipeline role) and `PVSWEEP_AGENT` (AGENT_API views only) authenticate with their RSA keys from the runner; the agent user cannot read the `PV` schema, as designed |
+| Sweep, 8 records, GPT, Snowflake backend, in-process agent over the `AGENT_API` views | **Pass.** Screening 8/8, extraction 8/8, rules 8/8, matching 5/8 (three known cases read as NO_MATCH, the same gap as on the laptop); 24 audited calls in `AUDIT.MODEL_CALL`; 69 s |
+| Sweep, 8 records, **Claude on Foundry** (Haiku 5.5 screening and extraction, Sonnet 5.5 agent, Entra ID only), Snowflake backend | **Pass.** Screening 8/8, extraction 8/8 (1 escalation), rules 8/8, **matching 8/8**; 25 audited calls; 271 s. The same runner code that produced the Anthropic-API numbers above, now on the evaluated path |
+| Claude deployments from Bicep | **Pass after a fix.** `claude-haiku-5-5` and `claude-sonnet-5-5` (Global Standard, 50 K TPM each) are `Succeeded`. Two earlier attempts failed with `AnthropicOrganizationCreationFailed` because `modelProviderData.industry` was `Professional Services`; the field is a lowercase enum (`healthcare` here) and `infra/main.bicep` now constrains it |
+| Streamlit review app in Snowflake | **Pass.** `REVIEW.PVSWEEP_REVIEW` renders the sweep runs over the real tables (owner's rights, PVSWEEP_ADMIN); column names from Snowpark arrive upper-case, so the app lower-cases them |
+| Runner changes | Snowflake connector added to the runner project; `.env` is loaded at CLI start; the in-process agent backend serialises its shared connection and takes its own key variable; the end-of-run summary SQL is dialect-aware; `--account`/`--small` are required for Foundry providers; run-time role gets `UPDATE` on `SWEEP.RUN` only (V008) |
+
 ## Facts learned
 
 - **Anthropic API keys and workspaces:** an organisation-level key must send `anthropic-workspace-id`;
@@ -52,6 +76,10 @@ showed that anchored scenarios need dates consistent with their case, which the 
   with no rate-limit headers. The "Claude Code" workspace that Claude Code creates cannot be used for
   API calls (404 on messages). The runner reads `ANTHROPIC_WORKSPACE_ID` from `.env`.
 
+- **`modelProviderData.industry` is a lowercase enum** (technology, finance, healthcare, education, retail,
+  manufacturing, government, media, other). Any other spelling fails the deployment after minutes of
+  polling with `AnthropicOrganizationCreationFailed: Internal Server Error`, which looks like a backend
+  outage and is not. Quota was granted on the support ticket within the day.
 - **Claude quota is 0 by default on this pay-as-you-go subscription**, for every Claude model and both
   hosting versions. Microsoft's own portal diagnostics confirmed "no initial Claude quota allocated".
   The API support route needs a paid plan; the portal accepts quota tickets on the Basic plan under

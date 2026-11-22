@@ -5,7 +5,9 @@ Every tool runs a fixed, parameterised query over the AGENT_API views. The model
 
 from __future__ import annotations
 
+import logging
 import os
+import threading
 from pathlib import Path
 
 LOCAL_VIEWS = """
@@ -23,6 +25,9 @@ CREATE OR REPLACE VIEW AGENT_API.INTAKE_QUEUE AS SELECT * FROM PV.INTAKE_QUEUE;
 CREATE OR REPLACE VIEW AGENT_API.INTAKE_LOG AS SELECT * FROM PV.INTAKE_LOG;
 CREATE OR REPLACE VIEW AGENT_API.VENDOR_TX_LOG AS SELECT * FROM PV.VENDOR_TX_LOG;
 """
+
+
+log = logging.getLogger(__name__)
 
 
 class Backend:
@@ -64,7 +69,15 @@ class SnowflakeBackend(Backend):
         import snowflake.connector
         from cryptography.hazmat.primitives import serialization
 
-        key_pem = os.environ.get("PVSWEEP_SNOWFLAKE_PRIVATE_KEY") or Path(os.environ["PVSWEEP_SNOWFLAKE_PRIVATE_KEY_PATH"]).read_text()
+        # Hosted agents get the agent key as PVSWEEP_SNOWFLAKE_PRIVATE_KEY; in-process runs on a laptop also
+        # hold the runner key, so an AGENT_-prefixed variable wins when present.
+        key_pem = (
+            os.environ.get("PVSWEEP_SNOWFLAKE_AGENT_PRIVATE_KEY")
+            or (Path(os.environ["PVSWEEP_SNOWFLAKE_AGENT_PRIVATE_KEY_PATH"]).read_text()
+                if os.environ.get("PVSWEEP_SNOWFLAKE_AGENT_PRIVATE_KEY_PATH") else None)
+            or os.environ.get("PVSWEEP_SNOWFLAKE_PRIVATE_KEY")
+            or Path(os.environ["PVSWEEP_SNOWFLAKE_PRIVATE_KEY_PATH"]).read_text()
+        )
         key = serialization.load_pem_private_key(key_pem.encode(), password=None)
         der = key.private_bytes(serialization.Encoding.DER, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())
         self.con = snowflake.connector.connect(
@@ -72,13 +85,24 @@ class SnowflakeBackend(Backend):
             private_key=der, role="PVSWEEP_AGENT", warehouse="PVSWEEP_WH",
             database=os.environ.get("PVSWEEP_SNOWFLAKE_DATABASE", "PVSWEEP"), schema="AGENT_API",
         )
+        self.lock = threading.RLock()
 
     def rows(self, sql, params):
-        # Snowflake uses %s placeholders with the default paramstyle; the tools write '?'.
-        cur = self.con.cursor()
-        cur.execute(sql.replace("?", "%s"), params)
-        cols = [d[0].lower() for d in cur.description]
-        return [dict(zip(cols, r, strict=True)) for r in cur.fetchall()]
+        # Snowflake uses %s placeholders with the default paramstyle; the tools write '?'. One connection is
+        # shared by every in-process agent thread, and concurrent executes on it raise InterfaceError, so
+        # queries are serialised (a hosted agent handles one invocation at a time anyway).
+        with self.lock:
+            cur = self.con.cursor()
+            try:
+                cur.execute(sql.replace("?", "%s"), params)
+                cols = [d[0].lower() for d in cur.description]
+                return [dict(zip(cols, r, strict=True)) for r in cur.fetchall()]
+            except Exception as exc:
+                log.warning("agent query failed: %s: %s | sql=%s | param types=%s", type(exc).__name__, str(exc)[:200], sql,
+                            [type(p).__name__ for p in params])
+                raise
+            finally:
+                cur.close()
 
 
 def from_env(local_con=None) -> Backend:

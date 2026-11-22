@@ -45,12 +45,16 @@ class Data:
             from snowflake.snowpark.context import get_active_session
 
             self.session = get_active_session()
-            self.user = self.session.sql("SELECT CURRENT_USER()").collect()[0][0]
+            # Streamlit in Snowflake runs with owner's rights, where CURRENT_USER() is NULL; the viewer comes from st.user.
+            viewer = getattr(st, "user", None) or getattr(st, "experimental_user", None)
+            self.user = (viewer.get("user_name") if viewer else None) or self.session.sql("SELECT CURRENT_USER()").collect()[0][0]
 
     def df(self, sql: str, params: list | None = None) -> pd.DataFrame:
         if self.local:
             return self.con.execute(sql, params or []).df()
-        return self.session.sql(sql, params or []).to_pandas()
+        df = self.session.sql(sql, params or []).to_pandas()
+        df.columns = [c.lower() for c in df.columns]  # Snowflake returns upper-case names; the app uses lower-case
+        return df
 
     def execute(self, sql: str, params: list | None = None) -> None:
         if self.local:

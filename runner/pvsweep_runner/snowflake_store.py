@@ -3,8 +3,6 @@
 Environment: PVSWEEP_SNOWFLAKE_ACCOUNT, PVSWEEP_SNOWFLAKE_USER (default PVSWEEP_RUNNER),
 PVSWEEP_SNOWFLAKE_PRIVATE_KEY (PEM text) or PVSWEEP_SNOWFLAKE_PRIVATE_KEY_PATH, optional
 PVSWEEP_SNOWFLAKE_DATABASE (default PVSWEEP; CI points it at a clone).
-
-Not exercised yet: there is no Snowflake account at the time of writing (docs/ops/snowflake-setup.md).
 """
 
 from __future__ import annotations
@@ -31,6 +29,8 @@ def connect(role: str = "PVSWEEP_PIPELINE", user_env: str = "PVSWEEP_SNOWFLAKE_U
 
 
 class SnowflakeStore:
+    dialect = "snowflake"
+
     def __init__(self):
         self.con = connect()
         self.lock = threading.RLock()

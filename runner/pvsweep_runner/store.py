@@ -62,6 +62,8 @@ VENDOR_BY_CHANNEL = {"PSP": "PSPV", "MI": "MIV", "SOCIAL": "SOCV"}
 
 
 class LocalStore:
+    dialect = "duckdb"
+
     def __init__(self, path: str | Path, stage_dir: str | Path, synthetic_dir: str | Path):
         import duckdb
 

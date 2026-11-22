@@ -25,6 +25,8 @@ param budgetContactEmails array
 
 param claudeOrganizationName string
 param claudeCountryCode string
+@description('Lowercase value from the Anthropic attestation list: technology, finance, healthcare, education, retail, manufacturing, government, media, other. Other spellings make the deployment fail with AnthropicOrganizationCreationFailed.')
+@allowed(['technology', 'finance', 'healthcare', 'education', 'retail', 'manufacturing', 'government', 'media', 'other'])
 param claudeIndustry string
 
 @description('Object id of the engineer running the deployment, for RBAC on the Foundry resource.')
@@ -157,4 +159,6 @@ output anthropicBaseUrl string = foundry.outputs.anthropicBaseUrl
 output openaiBaseUrl string = foundry.outputs.openaiBaseUrl
 output projectEndpoint string = foundry.outputs.projectEndpoint
 output claudeSmallDeployment string = foundry.outputs.claudeSmallDeployment
+output claudeLargeDeployment string = foundry.outputs.claudeLargeDeployment
+output gptLargeDeployment string = foundry.outputs.gptLargeDeployment
 output gptSmallDeployment string = foundry.outputs.gptSmallDeployment

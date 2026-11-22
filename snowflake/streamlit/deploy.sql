@@ -10,5 +10,8 @@ CREATE OR REPLACE STREAMLIT REVIEW.PVSWEEP_REVIEW
   QUERY_WAREHOUSE = PVSWEEP_WH
   COMMENT = 'Pharmacovigilance Sweep review app';
 
-GRANT OWNERSHIP ON STREAMLIT REVIEW.PVSWEEP_REVIEW TO ROLE PVSWEEP_REVIEW_APP COPY CURRENT GRANTS;
+-- Snowflake does not allow GRANT OWNERSHIP on a Streamlit object, so the app stays owned by
+-- PVSWEEP_ADMIN (the deploying role) and runs with that role's rights. A dedicated owner role would
+-- need the app created from a session using that role.
 GRANT USAGE ON STREAMLIT REVIEW.PVSWEEP_REVIEW TO ROLE PVSWEEP_REVIEWER;
+GRANT USAGE ON STREAMLIT REVIEW.PVSWEEP_REVIEW TO ROLE PVSWEEP_REVIEW_APP;

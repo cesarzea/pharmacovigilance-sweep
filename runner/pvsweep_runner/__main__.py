@@ -22,6 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from . import blocking, matching, rules
+from .env import load_dotenv
 from .providers import make_provider
 from .steps import Steps
 from .store import LocalStore
@@ -47,6 +48,9 @@ def cmd_sweep(args) -> int:
         from .snowflake_store import SnowflakeStore
 
         store = SnowflakeStore()
+    if args.provider in ("gpt", "claude") and not (args.account and args.small):
+        raise SystemExit("--account and --small are required (or PVSWEEP_FOUNDRY_ACCOUNT / PVSWEEP_GPT_SMALL in the environment); "
+                         "`make outputs` writes .env.dev with the deployed names")
     small = make_provider(args.provider, args.account, args.small)
     large = make_provider(args.provider, args.account, args.large) if args.large else None
     steps = Steps(small, large, store, store.vocab())
@@ -179,7 +183,15 @@ def cmd_sweep(args) -> int:
     return 0
 
 
+def json_string(store):
+    """Return a function rendering 'JSON string at path' in the store's SQL dialect."""
+    if getattr(store, "dialect", "duckdb") == "snowflake":
+        return lambda col, path: f"{col}:{path}::string"
+    return lambda col, path: f"json_extract_string({col}, '$.{path}')"
+
+
 def print_eval(store, run_id: str):
+    js = json_string(store)
     rows = store.query("""
         SELECT g.gold_screening, s.screening_class, count(*)
         FROM SWEEP.SCREENING s JOIN EVAL.GOLD_RECORD g USING (record_id)
@@ -193,11 +205,11 @@ def print_eval(store, run_id: str):
     fp = sum(n for g, p, n in rows if g == "NO_PV_CONTENT" and p in routed)
     if tp + fn:
         print(f"routing recall {tp / (tp + fn):.3f}  (tp {tp}, fn {fn}, fp {fp})")
-    ext = store.query("""
+    ext = store.query(f"""
         SELECT count(*), count_if(e.valid), count_if(e.model_tier = 'large'),
-               count_if(json_extract_string(e.result, '$.causality_statement.value') = g.causality_statement),
-               count_if(json_extract_string(e.result, '$.patient.sex') = g.patient_sex),
-               count_if(try_cast(json_extract_string(e.result, '$.patient.age_years') AS INTEGER) = g.patient_age)
+               count_if({js('e.result', 'causality_statement.value')} = g.causality_statement),
+               count_if({js('e.result', 'patient.sex')} = g.patient_sex),
+               count_if(try_cast({js('e.result', 'patient.age_years')} AS INTEGER) = g.patient_age)
         FROM SWEEP.EXTRACTION e JOIN EVAL.GOLD_RECORD g USING (record_id) WHERE e.run_id = ?""", [run_id])
     n, valid, large, caus, sex, age = ext[0]
     if n:
@@ -223,6 +235,7 @@ def print_eval(store, run_id: str):
 
 
 def main() -> int:
+    load_dotenv()  # repository-root .env: Anthropic and Snowflake settings for local runs
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("sweep")

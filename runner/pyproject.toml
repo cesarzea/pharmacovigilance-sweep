@@ -13,6 +13,8 @@ dependencies = [
     "agent-framework==1.26.0",
     "agent-framework-foundry==1.16.2",
     "agent-framework-anthropic==1.0.0b261112",
+    "snowflake-connector-python>=5.2.0",
+    "cryptography>=45",
 ]
 
 [project.optional-dependencies]
