@@ -1,5 +1,10 @@
 # Pharmacovigilance Sweep
 
+![Pharmacovigilance Sweep in 65 seconds: the problem, what the sweep does, and the three systems it runs on](docs/demo/demo.gif)
+
+A narrated version of the same walkthrough is in [docs/demo/demo.mp4](docs/demo/demo.mp4); the
+script, frames and the commands that rebuild both are in [docs/demo/](docs/demo/).
+
 ## The problem
 
 A pharmacovigilance (PV) department only sees the adverse events that reach it. Every day, side
