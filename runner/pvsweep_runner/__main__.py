@@ -48,6 +48,10 @@ def code_version() -> str:
 def cmd_sweep(args) -> int:
     if args.backend == "local":
         store = LocalStore(args.db, args.stage, args.synthetic)
+    elif args.backend == "databricks":
+        from .databricks_store import DatabricksStore
+
+        store = DatabricksStore()
     else:
         from .snowflake_store import SnowflakeStore
 
@@ -88,6 +92,10 @@ def cmd_sweep(args) -> int:
                                                                 project_endpoint=args.project_endpoint, resource=args.account))
         if args.backend == "local":
             backend = DuckDBBackend(store.con)
+        elif args.backend == "databricks":
+            from pvsweep_agent.backend import DatabricksBackend
+
+            backend = DatabricksBackend()
         else:
             from pvsweep_agent.backend import SnowflakeBackend
 
@@ -261,7 +269,7 @@ def cmd_sweep(args) -> int:
 
 def json_string(store):
     """Return a function rendering 'JSON string at path' in the store's SQL dialect."""
-    if getattr(store, "dialect", "duckdb") == "snowflake":
+    if getattr(store, "dialect", "duckdb") in ("snowflake", "databricks"):
         return lambda col, path: f"{col}:{path}::string"
     return lambda col, path: f"json_extract_string({col}, '$.{path}')"
 
@@ -344,7 +352,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("sweep")
-    s.add_argument("--backend", choices=["local", "snowflake"], default="local")
+    s.add_argument("--backend", choices=["local", "snowflake", "databricks"], default="local")
     s.add_argument("--db", default="data/local/pvsweep.duckdb")
     s.add_argument("--stage", default="data/stage")
     s.add_argument("--synthetic", default="data/synthetic")

@@ -15,6 +15,7 @@ dependencies = [
     "agent-framework-anthropic==1.0.0b261112",
     "snowflake-connector-python>=5.2.0",
     "cryptography>=45",
+    "databricks-sql-connector==4.8.0",
 ]
 
 [project.optional-dependencies]

@@ -1,12 +1,14 @@
-"""Read-only data access for the agent's tools: DuckDB locally, Snowflake in the hosted agent.
+"""Read-only data access for the agent's tools: DuckDB locally, Snowflake or Databricks in the hosted agent.
 
 Every tool runs a fixed, parameterised query over the AGENT_API views. The model never writes SQL.
 """
 
 from __future__ import annotations
 
+import json
 import logging
 import os
+import re
 import threading
 from pathlib import Path
 
@@ -28,6 +30,15 @@ CREATE OR REPLACE VIEW AGENT_API.VENDOR_TX_LOG AS SELECT * FROM PV.VENDOR_TX_LOG
 
 
 log = logging.getLogger(__name__)
+
+
+def _loads_lenient(text: str):
+    """Databricks renders ARRAY<STRING> as JSON-like text without escaping backslashes inside strings
+    (e.g. "CALCIUM\\CHOLECALCIFEROL"), so a lone backslash is doubled before the second attempt."""
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return json.loads(re.sub(r'\\(?!["\\/bfnrtu])', r"\\\\", text))
 
 
 class Backend:
@@ -105,7 +116,54 @@ class SnowflakeBackend(Backend):
                 cur.close()
 
 
+class DatabricksBackend(Backend):
+    """Databricks SQL warehouse with an Entra token (see pvsweep_runner.databricks_store); prefers the agent
+    principal PVSWEEP_DATABRICKS_AGENT_CLIENT_ID / _SECRET when set."""
+
+    dialect = "databricks"
+    _NESTED = ("array", "map", "struct")
+
+    def __init__(self, con=None):
+        from pvsweep_runner.databricks_store import connect
+
+        self.con = con if con is not None else connect(agent=True)
+        self.lock = threading.RLock()
+
+    @classmethod
+    def _plain(cls, value, type_code):
+        # ARRAY/MAP/STRUCT arrive as JSON text without pyarrow and as numpy arrays with it; the tools expect lists.
+        if hasattr(value, "tolist"):
+            value = value.tolist()
+        elif isinstance(value, str) and str(type_code).lower() in cls._NESTED:
+            value = _loads_lenient(value)
+        return value
+
+    def rows(self, sql, params):
+        from pvsweep_runner.databricks_store import _bind
+
+        sql_b, bound = _bind(sql, params)
+        with self.lock:   # one connection shared by the agent's tool threads
+            cur = self.con.cursor()
+            try:
+                cur.execute(sql_b, bound)
+                desc = cur.description
+                cols = [d[0].lower() for d in desc]
+                return [{c: self._plain(v, d[1]) for c, v, d in zip(cols, r, desc, strict=True)} for r in cur.fetchall()]
+            except Exception as exc:
+                log.warning("agent query failed: %s: %s | sql=%s | param types=%s", type(exc).__name__, str(exc)[:200], sql,
+                            [type(p).__name__ for p in params])
+                raise
+            finally:
+                cur.close()
+
+
 def from_env(local_con=None) -> Backend:
+    """DuckDB when given the runner's local connection; otherwise PVSWEEP_PLATFORM: snowflake (default) or databricks."""
     if local_con is not None:
         return DuckDBBackend(local_con)
+    platform = os.environ.get("PVSWEEP_PLATFORM", "snowflake").lower()
+    if platform == "databricks":
+        return DatabricksBackend()
+    if platform != "snowflake":
+        raise ValueError(f"PVSWEEP_PLATFORM must be snowflake or databricks, got {platform!r}")
     return SnowflakeBackend()

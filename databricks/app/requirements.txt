@@ -1,0 +1,10 @@
+# Installed with pip on the Databricks Apps Python 3.11 image. The pins are the versions the platform pre-installs
+# (table "Pre-installed Python libraries", page updated 2026-11-13:
+#  https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/dependencies), so nothing is
+# overridden; the app is smoke-tested locally on the same Streamlit version (databricks/app/smoke_test.py).
+streamlit==1.38.0
+databricks-sql-connector==3.4.0
+databricks-sdk==0.33.0
+pandas>=2.0,<3
+# duckdb is only for local mode (PVSWEEP_LOCAL_DB) and is deliberately not installed in the app:
+#   uv run --no-project -p 3.11 --with streamlit==1.38.0 --with duckdb --with pandas streamlit run databricks/app/app.py

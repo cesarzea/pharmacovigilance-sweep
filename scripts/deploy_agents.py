@@ -45,7 +45,8 @@ def grant_model_access(project: AIProjectClient, name: str, version: str, accoun
 
 def deploy(project: AIProjectClient, image: str, provider: str, deployment: str, resource: str,
            project_endpoint: str, cpu: str, memory: str, snowflake_account: str = "",
-           snowflake_connection: str = "", account_id: str = "") -> str:
+           snowflake_connection: str = "", account_id: str = "", platform: str = "snowflake",
+           databricks: dict | None = None) -> str:
     name = f"{AGENT_PREFIX}-{provider}"
     # FOUNDRY_* and AGENT_* names are reserved by the platform (it injects FOUNDRY_PROJECT_ENDPOINT).
     env = {
@@ -55,6 +56,12 @@ def deploy(project: AIProjectClient, image: str, provider: str, deployment: str,
         "PVSWEEP_PROJECT_ENDPOINT": project_endpoint,
         "PVSWEEP_FOUNDRY_RESOURCE": resource,
     }
+    env["PVSWEEP_PLATFORM"] = platform
+    if platform == "databricks" and databricks:
+        # Host, HTTP path and catalog are identifiers, not secrets; the agent identity authenticates with Entra ID
+        # (registered in the workspace by scripts/dbx_principals.py).
+        env.update({"PVSWEEP_DATABRICKS_HOST": databricks["host"], "PVSWEEP_DATABRICKS_HTTP_PATH": databricks["http_path"],
+                    "PVSWEEP_DATABRICKS_CATALOG": databricks.get("catalog", "pvsweep")})
     if snowflake_account and snowflake_connection:
         # The platform resolves the placeholder from the project connection at runtime
         # (infra/modules/connections.bicep), so the key is never part of the agent definition.
@@ -99,6 +106,10 @@ def main() -> int:
     ap.add_argument("--snowflake-connection", default="", help="project connection holding the agent's private key")
     ap.add_argument("--account-id", default="", help="ARM id of the Foundry account, for the agent identity's model role")
     ap.add_argument("--roles-only", action="store_true", help="only (re)grant the model role to the latest active versions")
+    ap.add_argument("--platform", choices=["snowflake", "databricks"], default="snowflake", help="data platform the agents read")
+    ap.add_argument("--databricks-host", default="")
+    ap.add_argument("--databricks-http-path", default="")
+    ap.add_argument("--databricks-catalog", default="pvsweep")
     args = ap.parse_args()
     if len(args.provider) != len(args.deployment):
         ap.error("--provider and --deployment must be given the same number of times")
@@ -112,7 +123,8 @@ def main() -> int:
             grant_model_access(project, name, latest.version, args.account_id)
             continue
         deploy(project, args.image, provider, deployment, resource, args.project_endpoint, args.cpu, args.memory,
-               args.snowflake_account, args.snowflake_connection, args.account_id)
+               args.snowflake_account, args.snowflake_connection, args.account_id, args.platform,
+               {"host": args.databricks_host, "http_path": args.databricks_http_path, "catalog": args.databricks_catalog})
     return 0
 
 

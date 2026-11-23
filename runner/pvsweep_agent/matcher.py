@@ -69,8 +69,9 @@ def make_tools(backend: Backend, ctx: Context, payload_ids: set[str]):
             return _json({"error": "tool-call limit reached; submit your decision"})
         cols = ("case_id, patient_initials, initial_receipt_date, latest_receipt_date, event_date, case_version, reporter_type, "
                 "age_years, sex, occurrence_country, serious, hospitalisation, death, substances, products, events")
-        sql = (f"SELECT {cols} FROM AGENT_API.SAFETY_CASE_SUMMARY WHERE list_contains(substances, ?)" if backend.dialect == "duckdb"
-               else f"SELECT {cols} FROM AGENT_API.SAFETY_CASE_SUMMARY WHERE ARRAY_CONTAINS(?::VARIANT, substances)")
+        contains = {"duckdb": "list_contains(substances, ?)", "databricks": "array_contains(substances, ?)"}.get(
+            backend.dialect, "ARRAY_CONTAINS(?::VARIANT, substances)")
+        sql = f"SELECT {cols} FROM AGENT_API.SAFETY_CASE_SUMMARY WHERE {contains}"
         params: list = [substance.lower()]
         if initials:
             sql += " AND upper(patient_initials) = ?"

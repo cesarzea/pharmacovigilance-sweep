@@ -108,6 +108,17 @@ showed that anchored scenarios need dates consistent with their case, which the 
 | Throughput at 50 K TPM per deployment | About 2.6 records per minute: screening 2 s, extraction 11 s (Sonnet 21 s), matching 32 s average per record with 429 back-offs up to 10 minutes on single calls. Levers for production, none in code: deployment capacity to the 80 K TPM granted (`largeCapacity` in Bicep), concurrency 4, Haiku in the agent if a sample shows the accuracy holds |
 | Snapshot of a Snowflake run to a local file (`pvsweep_runner.snapshot`) | **Pass.** Copies a run's result and audit rows by column name into a LocalStore file, so `evaluate` and `compare` work on Snowflake runs; the same mapping serves a platform migration |
 
+## 2026-11-23: second data platform, Azure Databricks, without reprocessing anything
+
+| Check | Result |
+|---|---|
+| Workspace from Bicep (`infra/modules/databricks.bicep`, `make deploy DEPLOY_DATABRICKS=1`) | **Pass after one wait.** The `Microsoft.Databricks` provider registration sat in `Registering` for two hours before completing; the workspace itself took minutes. First access by the deploying user activates it and, on this account, attaches a Unity Catalog metastore with Default Storage, so `scripts/dbx_setup.py` creates the serverless SQL warehouse (2X-Small, auto-stop 10 min) and prints the managed location the catalog needs |
+| SQL port (`databricks/`: bootstrap, nine migrations, load; `scripts/dbx_migrate.py`, `scripts/dbx_load.py`) | **Pass at the first real run.** 27 bootstrap and 138 migration statements through the Statement Execution API, including VARIANT columns; grantees and owners are variables so a single-user run needs no account groups. Sources loaded from the same Parquet files as Snowflake (13 tables, counts identical, UTC timestamps verified) |
+| Processed results copied, not recomputed (`scripts/dbx_sync.py`) | **Pass.** 8,114 rows from 29 Snowflake runs (SWEEP, AUDIT, REVIEW; 1 MB) exported through a stage as Parquet with VARIANT as JSON text, uploaded to the volume and loaded with `COPY INTO` and per-column casts; `--replace` deletes by run id first |
+| Runner on Databricks (`--backend databricks`, in-process agent) | **Pass.** GPT: 8 screened, 8 extracted, matching 5/8, 101 s. Claude on Foundry: matching 8/8, 285 s. One fix on the way: Databricks renders `ARRAY<STRING>` as JSON-like text without escaping backslashes, so the agent backend parses leniently |
+| Review app as a Databricks App (`databricks/app`, `scripts/dbx_app.py`) | Deployed with its own service principal and Unity Catalog grants; the viewer's identity comes from the forwarded headers. Smoke-tested locally with AppTest (34 checks); in-workspace check pending the user's OAuth consent |
+| Hosted agents reading Databricks (`make deploy-agents PLATFORM=databricks`) | Pending at the time of writing; the agent identities are registered as workspace service principals with `AGENT_API` grants (`scripts/dbx_principals.py`) |
+
 ## Facts learned
 
 - **Hosted agents and secrets:** a `CustomKeys` project connection created from Bicep

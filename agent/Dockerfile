@@ -11,6 +11,8 @@ WORKDIR /app
 COPY agent/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY runner/pvsweep_agent ./pvsweep_agent
+# The Databricks backend shares its connection helper with the runner's store module (standard library only at import).
+COPY runner/pvsweep_runner/__init__.py runner/pvsweep_runner/databricks_store.py ./pvsweep_runner/
 COPY prompts ./prompts
 COPY agent/app.py .
 

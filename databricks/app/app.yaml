@@ -1,0 +1,15 @@
+# Databricks App pvsweep-review: runtime configuration, deployed by scripts/dbx_app.py.
+# Format (command, env with value/valueFrom) as documented in
+#   https://docs.databricks.com/aws/en/dev-tools/databricks-apps/app-runtime
+# `valueFrom: sql-warehouse` resolves to the id of the SQL warehouse resource with key `sql-warehouse`
+# (the default key; dbx_app.py declares the resource under that name with CAN_USE):
+#   https://docs.databricks.com/aws/en/dev-tools/databricks-apps/sql-warehouse
+# DATABRICKS_HOST, DATABRICKS_CLIENT_ID and DATABRICKS_CLIENT_SECRET are injected by the platform and are not set here.
+command: ['streamlit', 'run', 'app.py']
+env:
+  - name: 'DATABRICKS_WAREHOUSE_ID'
+    valueFrom: 'sql-warehouse'
+  - name: 'PVSWEEP_CATALOG'
+    value: 'pvsweep'
+  - name: 'STREAMLIT_GATHER_USAGE_STATS'
+    value: 'false'
