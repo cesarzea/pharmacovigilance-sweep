@@ -160,11 +160,11 @@ def frame_00(portrait: Path | None, total: int) -> Image.Image:
     big = load(SERIF, 150, "Light")
     d.text((96, 220), "Pharmacovigilance", font=big, fill=INK)
     d.text((96, 380), "Sweep.", font=big, fill=INK)
-    ital = load(SERIF, 112, "Light Italic")
-    d.text((96, 560), "Models propose.", font=ital, fill=GOLD)
-    d.text((96, 680), "A person decides.", font=ital, fill=GOLD)
+    ital = load(SERIF, 104, "Light Italic")
+    d.text((96, 560), "A Microsoft AI Foundry,", font=ital, fill=GOLD)
+    d.text((96, 675), "Snowflake and Databricks POC.", font=ital, fill=GOLD)
     small = load(MONO, 24)
-    d.text((96, 840), "MICROSOFT FOUNDRY  ·  SNOWFLAKE  ·  AZURE DATABRICKS  ·  GPT AND CLAUDE", font=small, fill=MUTED)
+    d.text((96, 840), "GPT AND CLAUDE  ·  HOSTED AGENTS  ·  MODELS PROPOSE, A PERSON DECIDES", font=small, fill=MUTED)
     footer(im, d, "An agentic sweep for adverse events pharmacovigilance never received", portrait, 0, total)
     return im
 
