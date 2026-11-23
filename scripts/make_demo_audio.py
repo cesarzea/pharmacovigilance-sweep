@@ -3,7 +3,7 @@ clip per frame, word timings, karaoke subtitles (the words light up as they are 
 
     <name>-narrated.mp4   frames + narration + burned-in karaoke subtitles
     <name>.mp4            the same without audio
-    <name>.gif            the same as a GIF for the README (the subtitles carry the narration, no sound)
+    <name>.gif            optional (--gif): the same as a GIF, for places that cannot embed a video
     <name>.srt / .ass     the subtitle tracks (captions for players; karaoke narration as burned in)
 
     uv run --no-project python -I scripts/make_demo_audio.py [--script docs/demo/script-full.md]
@@ -320,6 +320,7 @@ def main() -> int:
     ap.add_argument("--font-size", type=int, default=52)
     ap.add_argument("--only", default=None, metavar="N[,N...]", help="render these frames only (a quick preview)")
     ap.add_argument("--audio-name", default=None, help="clip cache to use (default: the output name)")
+    ap.add_argument("--gif", action="store_true", help="also write <name>.gif (off by default: the README embeds the MP4)")
     ap.add_argument("--gif-width", type=int, default=1280)
     ap.add_argument("--gif-fps", type=int, default=5)
     args = ap.parse_args()
@@ -432,12 +433,15 @@ def main() -> int:
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
                     "-filter_complex", ";".join([video_graph(30), "[vs]format=yuv420p[vout]"]), "-map", "[vout]",
                     "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", "-t", f"{total:.3f}", str(OUT / f"{args.name}.mp4")], check=True)
-    gif_tail = (f"[vs]scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
-                "[s1][p]paletteuse=dither=bayer:bayer_scale=5[gout]")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
-                    "-filter_complex", ";".join([video_graph(args.gif_fps), gif_tail]),
-                    "-map", "[gout]", "-loop", "0", "-t", f"{total:.3f}", str(OUT / f"{args.name}.gif")], check=True)
-    for p in (narrated, OUT / f"{args.name}.mp4", OUT / f"{args.name}.gif"):
+    outputs = [narrated, OUT / f"{args.name}.mp4"]
+    if args.gif:
+        gif_tail = (f"[vs]scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
+                    "[s1][p]paletteuse=dither=bayer:bayer_scale=5[gout]")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
+                        "-filter_complex", ";".join([video_graph(args.gif_fps), gif_tail]),
+                        "-map", "[gout]", "-loop", "0", "-t", f"{total:.3f}", str(OUT / f"{args.name}.gif")], check=True)
+        outputs.append(OUT / f"{args.name}.gif")
+    for p in outputs:
         print(f"{p}: {total:.0f} s, {p.stat().st_size / 1e6:.1f} MB")
     return 0
 

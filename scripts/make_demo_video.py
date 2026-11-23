@@ -1,13 +1,13 @@
 """Assemble the demo (docs/demo/script.md) from the rendered slides, the screenshots and the recorded
-clip into a silent GIF for the README and an MP4 (narration is added by scripts/make_demo_audio.py when
-an ElevenLabs key is available; without audio the MP4 is silent).
+clip into a silent MP4 (narration and subtitles are added by scripts/make_demo_audio.py). A GIF is
+optional (--gif), for places that cannot embed a video.
 
     uv run --no-project --with pillow python -I scripts/make_demo_video.py [--seconds 6] [--gif-width 1280]
 
 Inputs (docs/demo/frames/): NN.png slides from make_demo_frames.py; shots/NN-*.jpg screenshots and
 shots/07-decision-flow.gif. Screenshots are placed on the slide background with the same footer and
 caption as the slides. A missing screenshot renders a placeholder slide so the pipeline can run before
-every capture exists. Outputs: docs/demo/frames/NN.png for every frame, docs/demo/demo.gif, docs/demo/demo.mp4.
+every capture exists. Outputs: docs/demo/frames/NN.png for every frame and docs/demo/demo.mp4.
 """
 
 from __future__ import annotations
@@ -101,13 +101,14 @@ def render_frames(total: int, shots: bool = True) -> list[Path]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seconds", type=float, default=6.0, help="seconds per frame in the silent GIF")
+    ap.add_argument("--gif", action="store_true", help="also write <name>.gif (off by default: the README embeds the MP4)")
     ap.add_argument("--gif-width", type=int, default=1280)
     ap.add_argument("--gif-fps", type=int, default=4, help="frames per second in the GIF (only the progress line moves)")
     ap.add_argument("--bar-height", type=int, default=8, help="height in pixels of the progress line at 1920x1080")
     ap.add_argument("--total", type=int, default=11)
     ap.add_argument("--script", default=None, help="script file with the captions (default docs/demo/script.md)")
     ap.add_argument("--frames-dir", default=None, help="where the NN.png frames are (default docs/demo/frames)")
-    ap.add_argument("--name", default="demo", help="output base name: <name>.gif and <name>.mp4 in docs/demo")
+    ap.add_argument("--name", default="demo", help="output base name: <name>.mp4 (and <name>.gif with --gif) in docs/demo")
     ap.add_argument("--no-shots", action="store_true", help="frames are complete already; do not compose screenshots")
     ap.add_argument("--no-captions", action="store_true", help="leave the footer free for karaoke subtitles")
     args = ap.parse_args()
@@ -137,12 +138,15 @@ def main() -> int:
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
                     "-filter_complex", graph(30, ",format=yuv420p[out]"), "-map", "[out]",
                     "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", str(OUT / f"{args.name}.mp4")], check=True)
-    # GIF with one palette, reduced width, a few frames per second so the progress line moves
-    tail = (f",scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
-            "[s1][p]paletteuse=dither=bayer:bayer_scale=5[out]")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
-                    "-filter_complex", graph(args.gif_fps, tail), "-map", "[out]", "-loop", "0", str(OUT / f"{args.name}.gif")], check=True)
-    for p in (OUT / f"{args.name}.mp4", OUT / f"{args.name}.gif"):
+    outputs = [OUT / f"{args.name}.mp4"]
+    if args.gif:
+        # GIF with one palette, reduced width, a few frames per second so the progress line moves
+        tail = (f",scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
+                "[s1][p]paletteuse=dither=bayer:bayer_scale=5[out]")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
+                        "-filter_complex", graph(args.gif_fps, tail), "-map", "[out]", "-loop", "0", str(OUT / f"{args.name}.gif")], check=True)
+        outputs.append(OUT / f"{args.name}.gif")
+    for p in outputs:
         print(p, f"{p.stat().st_size / 1e6:.1f} MB")
     return 0
 

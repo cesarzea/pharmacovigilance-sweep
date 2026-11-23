@@ -1,7 +1,7 @@
 # Demo script
 
-One source for the three outputs: the silent GIF in the README (captions only), the narrated MP4
-(captions, narration, subtitles) and the Resolve timeline. Each frame has the screen to capture, the
+One source for the outputs: the narrated MP4 embedded in the README (captions, narration,
+karaoke subtitles), its silent twin, and an optional GIF for places that cannot embed a video. Each frame has the screen to capture, the
 caption shown on screen and the narration. Narration runs at about 2.5 words per second; the frame
 lasts as long as its narration plus half a second.
 
@@ -19,13 +19,12 @@ lasts as long as its narration plus half a second.
 | 9 | Databricks: Catalog Explorer with the pvsweep schemas and the load_stage volume, then the Databricks App showing the reconciliation | Same tables, same app, on Azure Databricks | The same platform runs on Azure Databricks: the same tables in Unity Catalog, the same runner and agents, the same review app, with the processed results copied over rather than recomputed. | 12 |
 | 10 | Closing card: results table (screening recall, matching, cost per sweep for GPT and Claude) and the repository URL | github.com/cesarzea/pharmacovigilance-sweep | On the same records, screening recall is above ninety-seven percent for both providers; matching reaches eighty-four percent with GPT and ninety-five with Claude; a full sweep costs about eleven dollars in model calls. Everything is deployable from scratch by the scripts in the repository. | 18 |
 
-Total: about 2 minutes 35 seconds narrated; the silent GIF keeps frames 0 to 10 with captions only at
-6 seconds each, about 65 seconds.
+Total: about 3 minutes narrated with the Gemini voice.
 
 ## Production notes
 
-- Captions are also the subtitle track (SRT) and the GIF text; narration is one audio clip per frame
-  (ElevenLabs, English; a Spanish narration can reuse the same frames).
+- Captions are also the subtitle track (SRT); narration is one audio clip per frame (Gemini TTS,
+  English; a Spanish narration can reuse the same frames).
 - Screens 3, 4 and 8 need an Azure sign-in in the capture browser; 5, 6, 7 Snowsight; 9 Databricks.
 - Frames 1, 2 and 10 are rendered slides, not screenshots.
 - Figures come from docs/ops/spike-log.md (round 3 and the Foundry path) and must be updated together

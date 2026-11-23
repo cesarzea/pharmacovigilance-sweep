@@ -1,18 +1,15 @@
 # Pharmacovigilance Sweep
 
-![Pharmacovigilance Sweep in three minutes: the problem, what the sweep does, and the three systems it runs on](docs/demo/demo.gif)
-
-
 https://github.com/user-attachments/assets/8d93cec3-f71b-470b-b106-7a67d8b5e89e
 
+Three minutes, narrated and subtitled: the problem, what the sweep does and the three systems it runs
+on. The full walkthrough, twenty-one minutes with chapters on how it does it, how it is built, how it
+is measured and what it is worth, is on YouTube:
 
+[![The full walkthrough on YouTube](https://img.youtube.com/vi/wZVfylecfB8/maxresdefault.jpg)](https://youtu.be/wZVfylecfB8)
 
-The subtitles carry the narration. A twenty-minute walkthrough of what it does, how it does it,
-how it is built, how it is measured and what it is worth, with voice and chapters, is on
-[YouTube](https://youtu.be/wZVfylecfB8); the same video is attached to the
-[latest release](https://github.com/cesarzea/pharmacovigilance-sweep/releases/latest) and, silent,
-in [docs/demo/full.gif](docs/demo/full.gif) (10 MB). The scripts, frames and the commands that
-rebuild everything are in [docs/demo/](docs/demo/).
+Both videos are attached to the [latest release](https://github.com/cesarzea/pharmacovigilance-sweep/releases/latest);
+the scripts, frames and commands that rebuild them are in [docs/demo/](docs/demo/).
 
 ## The problem
 
