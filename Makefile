@@ -7,7 +7,7 @@ PARAMS     ?= infra/main.parameters.local.json
 RG          = rg-pvsweep-$(ENV)
 IMAGE_TAG  ?= $(shell git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M)
 
-.PHONY: dbx-app-stop dbx-setup dbx-dry-run dbx-bootstrap dbx-migrate dbx-load dbx-export dbx-import dbx-sync dbx-app dbx-app-smoke deploy outputs build-agent build-runner kv-secrets run-sweep-job deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
+.PHONY: dbx-stop dbx-app-stop dbx-setup dbx-dry-run dbx-bootstrap dbx-migrate dbx-load dbx-export dbx-import dbx-sync dbx-app dbx-app-smoke deploy outputs build-agent build-runner kv-secrets run-sweep-job deploy-agents spike-models spike-agent stage-data snow-keys snow-bootstrap snow-migrate snow-load snow-app teardown
 
 # The Snowflake agent key (from `make snow-keys`) goes into a Foundry project connection when it exists;
 # SNOWFLAKE_ACCOUNT comes from .env (PVSWEEP_SNOWFLAKE_ACCOUNT) unless given on the command line.
@@ -148,6 +148,11 @@ dbx-app:
 dbx-app-smoke:
 	uv run -q --no-project -p 3.11 --with streamlit==1.38.0 --with duckdb --with pandas python -I databricks/app/smoke_test.py
 
-# The app's compute is billed while it runs: stop it after a demo, start it again with dbx-app.
+# Compute is billed while it runs: stop the app and the warehouse after a demo (the warehouse also
+# auto-stops after 10 idle minutes); dbx-app starts the app again, any query wakes the warehouse.
+dbx-stop:
+	$(DBX_RUN) -c "import os; from databricks.sdk import WorkspaceClient; w = WorkspaceClient(host=os.environ['PVSWEEP_DATABRICKS_HOST'], auth_type='azure-cli'); [w.warehouses.stop_and_wait(x.id) for x in w.warehouses.list() if str(x.state).endswith('RUNNING')]; print('warehouses stopped')"
+	$(MAKE) dbx-app-stop
+
 dbx-app-stop:
 	$(DBX_RUN) -c "import os; from databricks.sdk import WorkspaceClient; w = WorkspaceClient(host=os.environ['PVSWEEP_DATABRICKS_HOST'], auth_type='azure-cli'); w.apps.stop_and_wait('pvsweep-review'); print('pvsweep-review stopped')"
