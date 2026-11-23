@@ -252,8 +252,8 @@ flowchart LR
   HF1 & HF2 --> VOC[(REF.PT_VOCAB: demo vocabulary)]
 ```
 
-The load job runs outside Snowflake because a trial account has no external network access. The
-loader (`runner/pvsweep_load`) downloads each pinned file once into a local cache (DuckDB's remote
+The load job runs outside the data platform, like the sweep (ADR-001), so the same loader serves
+Snowflake, Databricks and the local backend. The loader (`runner/pvsweep_load`) downloads each pinned file once into a local cache (DuckDB's remote
 range reads trip Hugging Face's per-IP rate limit), transforms with DuckDB, writes Parquet to
 `data/stage/`, and `scripts/snow_load.sh` `PUT`s the files to an internal stage and `COPY`s them in.
 Every load records the dataset, revision, row counts, date offset and licence in `REF.DATA_SOURCE`.
@@ -682,8 +682,8 @@ provider and deployment that produced them.
 
 | ADR | Decision | Main alternative | Why |
 |---|---|---|---|
-| 001 | The sweep is driven by an Azure Container Apps job that reads from and writes to Snowflake | Calls from inside Snowflake through an External Access Integration | Trial accounts have no external network access. On a paid account steps 1–2 can move into Snowflake |
-| 002 | Models through Microsoft Foundry | Snowflake Cortex AI functions | The role's target stack is Foundry; one platform for both providers, the agent, guardrails and evaluations. Cortex is the natural option for a Snowflake-only variant |
+| 001 | The sweep is driven by an Azure Container Apps job that reads from and writes to the data platform | Calls from inside Snowflake through an External Access Integration | The orchestration (model calls, hosted-agent invocations, bounded concurrency, retries, resume) is kept independent of the data platform, so one package runs unchanged on Snowflake, on Databricks and on a local file, and the platform stays the system of record for data and decisions rather than a place where application code runs. The job runs under a managed identity (Entra ID to Foundry, keys from Key Vault), is testable locally and in CI, and its code version is recorded on every run. Calling models from inside the platform would tie the pipeline to one vendor's integration features; it remains an option for the single-call steps in a Snowflake-only variant |
+| 002 | Models through Microsoft Foundry | Snowflake Cortex AI functions | One platform carries both providers (GPT and Claude) behind one identity model (Entra ID, no API keys), the hosted-agent runtime, the content filters, the evaluations and the quota, with EU data-zone deployments and billing on the Azure subscription; the comparison between providers is then like for like. Cortex would bind the models to one data platform, and the design has to hold for Snowflake and Databricks alike. Cortex remains the natural option for a Snowflake-only variant |
 | 003 | Runner and agent authenticate to Snowflake with key-pair; CI with workload identity federation | Workload identity federation everywhere | Container Apps and hosted agents are not listed for Snowflake's Azure federation, and it needs tenant consent. Revisit once verified |
 | 004 | The matching agent is built with Microsoft Agent Framework and runs as hosted agents in Foundry Agent Service, one per provider, invoked through the Invocations protocol | A plain tool-calling loop in the runner | Managed runtime with agent identity, isolation, versioning, guardrails and tracing, with identical agent code for both providers. Risk: the Python hosting and Anthropic integrations are prerelease, and Snowflake egress and Claude with Entra ID are unverified. Mitigation: the spike first, and the same package runs in-process as a fallback |
 | 005 | Rules, clocks, reconciliation and follow-up drafts are deterministic SQL and templates | Let the model compute dates and draft letters | Regulatory clocks must be exact and testable; no value in a model there |

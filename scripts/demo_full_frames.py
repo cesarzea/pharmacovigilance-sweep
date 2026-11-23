@@ -594,8 +594,8 @@ def f_roles(n: int) -> Image.Image:
 def f_decisions(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Architecture decisions · 6 of 15", "Why it is built this way,", "with the alternative and the reason.")
-    items = [("ADR-001 · An Azure job, not code inside Snowflake", "a trial account has no network egress; on a paid account steps 1–2 can move inside"),
-             ("ADR-002 · Foundry, not Snowflake Cortex", "one platform for both providers, the agent, the guardrails and the evaluations"),
+    items = [("ADR-001 · An Azure job, not code inside the platform", "orchestration independent of the data platform: one package on Snowflake, Databricks and a local file; the platform stays the system of record"),
+             ("ADR-002 · Foundry, not Snowflake Cortex", "both providers behind one identity model, the agent runtime, filters, evaluations and quota; not bound to one data platform"),
              ("ADR-008 · Synchronous calls, bounded concurrency", "Claude on Foundry has no Message Batches; the comparison needs the same mode on both"),
              ("ADR-009 · Screening and extraction are single calls", "one input, one structured output, nothing to decide: an agent adds cost and variance"),
              ("ADR-010 · The decision is a strict tool's argument", "works identically on both providers; structured output via the framework's Anthropic client is undocumented"),
