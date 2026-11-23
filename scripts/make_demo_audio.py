@@ -27,6 +27,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -34,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FRAMES = ROOT / "docs/demo/frames"
 OUT = ROOT / "docs/demo"
 SCRIPT = ROOT / "docs/demo/script.md"
-DEFAULT_VOICE = "JBFqnCBsd6RMkjVDRZzb"   # ElevenLabs "George": a calm, narrative English voice
+DEFAULT_VOICE = "Gfpl8Yo74Is0W6cPUWWT"   # ElevenLabs voice chosen for the narration (override with --voice)
 W, H = 1920, 1080
 # subtitle zone: the footer's right side (the left 440 px hold the name and the site)
 SUB_LEFT, SUB_RIGHT, SUB_BOTTOM = 470, 96, 40
@@ -50,14 +51,19 @@ def script_rows() -> list[dict]:
     return rows
 
 
+KEY_NAMES = ("ELEVENLABS_API_KEY", "ELEVEN_LABS_KEY", "ELEVEN_API_KEY")
+
+
 def load_env_key() -> str | None:
-    if os.environ.get("ELEVENLABS_API_KEY"):
-        return os.environ["ELEVENLABS_API_KEY"]
+    for name in KEY_NAMES:
+        if os.environ.get(name):
+            return os.environ[name]
     env = ROOT / ".env"
     if env.is_file():
         for ln in env.read_text().splitlines():
-            if ln.startswith("ELEVENLABS_API_KEY="):
-                return ln.split("=", 1)[1].strip().strip('"').strip("'")
+            k, _, v = ln.partition("=")
+            if k.strip() in KEY_NAMES and v.strip():
+                return v.strip().strip('"').strip("'")
     return None
 
 
@@ -107,7 +113,10 @@ def print_voices(key: str) -> None:
 
 def make_samples(key: str, voices: list[str], text: str) -> None:
     """One short clip per candidate voice in docs/demo/audio/samples/, named by the voice, to pick one by ear."""
-    names = {v["voice_id"]: v["name"] for v in elevenlabs_voices(key)}
+    try:
+        names = {v["voice_id"]: v["name"] for v in elevenlabs_voices(key)}
+    except urllib.error.HTTPError:   # a key without voices_read can still synthesise
+        names = {}
     sdir = OUT / "audio" / "samples"
     sdir.mkdir(parents=True, exist_ok=True)
     for vid in voices:
@@ -232,7 +241,7 @@ def main() -> int:
     key = load_env_key()
     if args.list_voices or args.sample:
         if not key:
-            raise SystemExit("ELEVENLABS_API_KEY not set (environment or .env)")
+            raise SystemExit("ELEVENLABS_API_KEY (or ELEVEN_LABS_KEY) not set in the environment or .env")
         if args.list_voices:
             print_voices(key)
         if args.sample:
@@ -240,7 +249,7 @@ def main() -> int:
         return 0
     engine = args.engine or ("elevenlabs" if key else "say")
     if engine == "elevenlabs" and not key:
-        raise SystemExit("ELEVENLABS_API_KEY not set (environment or .env); use --engine say for a draft")
+        raise SystemExit("ELEVENLABS_API_KEY (or ELEVEN_LABS_KEY) not set in the environment or .env; use --engine say for a draft")
     voice = args.voice or (DEFAULT_VOICE if engine == "elevenlabs" else "Samantha")
     audio_dir = OUT / "audio" / engine / args.name
     audio_dir.mkdir(parents=True, exist_ok=True)

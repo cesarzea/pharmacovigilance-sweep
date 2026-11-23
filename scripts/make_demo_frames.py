@@ -115,7 +115,12 @@ def label(d: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, size: int = 22
     d.text((x + 24, y), text.upper(), font=load(MONO, size), fill=color)
 
 
+CAPTIONS = True   # False when the caption is burned in later as timed subtitles (make_demo_audio.py)
+
+
 def footer(im: Image.Image, d: ImageDraw.ImageDraw, caption: str, portrait: Path | None, frame_no: int, total: int) -> None:
+    if not CAPTIONS:
+        caption = ""
     y0 = H - FOOTER_H
     d.line([(0, y0), (W, y0)], fill=(40, 40, 46), width=1)
     r = 48
@@ -262,7 +267,11 @@ def main() -> int:
     ap.add_argument("--frames", default=",".join(str(k) for k in FRAMES))
     ap.add_argument("--portrait", default="", help="optional photo for the circle; by default the circle shows the initials")
     ap.add_argument("--total", type=int, default=11)
+    ap.add_argument("--no-captions", action="store_true", help="leave the footer free for karaoke subtitles")
     args = ap.parse_args()
+    global CAPTIONS
+    if args.no_captions:
+        CAPTIONS = False
     OUT.mkdir(parents=True, exist_ok=True)
     portrait = Path(args.portrait)
     for n in [int(x) for x in args.frames.split(",") if x.strip()]:

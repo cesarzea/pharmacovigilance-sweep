@@ -109,7 +109,11 @@ def main() -> int:
     ap.add_argument("--frames-dir", default=None, help="where the NN.png frames are (default docs/demo/frames)")
     ap.add_argument("--name", default="demo", help="output base name: <name>.gif and <name>.mp4 in docs/demo")
     ap.add_argument("--no-shots", action="store_true", help="frames are complete already; do not compose screenshots")
+    ap.add_argument("--no-captions", action="store_true", help="leave the footer free for karaoke subtitles")
     args = ap.parse_args()
+    if args.no_captions:
+        import make_demo_frames
+        make_demo_frames.CAPTIONS = False
     global FRAMES, SCRIPT
     if args.script:
         SCRIPT = Path(args.script)
