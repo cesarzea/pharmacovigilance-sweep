@@ -28,7 +28,7 @@ OUT = Path("docs/demo/full/frames")
 SHOTS = Path("docs/demo/frames/shots")
 SCRIPT = Path("docs/demo/script-full.md")
 LINE = (44, 44, 52)
-TOTAL = 37
+TOTAL = 43
 
 
 def captions() -> dict[int, str]:
@@ -126,7 +126,7 @@ def finish(im: Image.Image, d: ImageDraw.ImageDraw, n: int) -> Image.Image:
 
 # ---------------------------------------------------------------- frames
 
-def f02() -> Image.Image:
+def f02(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "The regulatory clock", "Day 0 is the first time anyone", "in the company hears of the case.")
     # timeline
@@ -143,10 +143,10 @@ def f02() -> Image.Image:
     bullets(d, ["A significant follow-up restarts the clock at its own receipt date; the case keeps its initial receipt date (GVP VI.B.7).",
                 "A report that waits in a channel is late, or missing, when the inspector asks: the clock ran anyway."],
             96, ty + 150, 1700, 30)
-    return finish(im, d, 2)
+    return finish(im, d, n)
 
 
-def f03() -> Image.Image:
+def f03(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Two distinct jobs", "Did PV receive everything?", "Is there anything nobody passed on?")
     card(d, (96, y, 940, y + 420), "Transmission reconciliation",
@@ -155,10 +155,10 @@ def f03() -> Image.Image:
     card(d, (980, y, 1824, y + 420), "Source re-screening",
          ["Inputs: free-text source records", "Method: LLM screening and extraction, agent-assisted matching, human assessment",
           "Finding: \"this PSP note records an admission for arrhythmia; nobody assessed the product\"", "AI needed: yes"], tag="JOB 2")
-    return finish(im, d, 3)
+    return finish(im, d, n)
 
 
-def f04() -> Image.Image:
+def f04(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Report types · ICH E2D(R1)", "Spontaneous or solicited", "changes what reportable means.")
     card(d, (96, y, 940, y + 300), "Spontaneous", ["Unsolicited: medical information calls, field notes, quality complaints, a post found by chance",
@@ -167,10 +167,10 @@ def f04() -> Image.Image:
          ["Patient support programmes, planned social listening, market research", "Needs a causality assessment; reportable only if a relationship is at least possible",
           "Day 0 for social listening: when the reviewer identifies the minimum criteria"], tag="PSP · SOCIAL")
     bullets(d, ["The sweep carries the report type from the channel into the rules, the agent payload and the finding."], 96, y + 340, 1700, 30)
-    return finish(im, d, 4)
+    return finish(im, d, n)
 
 
-def f06() -> Image.Image:
+def f06(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 1 · Screen", "One call, one strict schema.", "Nothing for PV stops here.")
     card(d, (96, y, 800, y + 330), "Output", ["screening_class: ADVERSE_EVENT | SPECIAL_SITUATION | NO_PV_CONTENT",
@@ -179,10 +179,10 @@ def f06() -> Image.Image:
                                                   "· ADVERSE_EVENT · patient, reporter, product and event: all four present"], tag="CRM NOTE")
     bullets(d, ["Invalid JSON is retried once; a second failure is counted and not routed silently.",
                 "A ranked 5 % sample of screened-out records goes to a person: nothing is closed unseen."], 96, y + 370, 1700, 30)
-    return finish(im, d, 6)
+    return finish(im, d, n)
 
 
-def f07() -> Image.Image:
+def f07(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 2 · Extract", "Case facts,", "every one with its quote.")
     fields = [("Patient", "sex, age, initials"), ("Reporter", "type, identifiable"), ("Products", "names, suspect, batch"),
@@ -196,10 +196,10 @@ def f07() -> Image.Image:
     bullets(d, ["Validated against the JSON schema and against the text: a quote that is not in the record is a validation error.",
                 "If the small model fails validation, the record is escalated once to the large model (61 of 370 records in round 3)."],
             96, yy + 2 * (ch + 20) + 20, 1700, 30)
-    return finish(im, d, 7)
+    return finish(im, d, n)
 
 
-def f08() -> Image.Image:
+def f08(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 3 · Rules", "Deterministic.", "No model decides a deadline.")
     rules = [("Ownership", "own brand, own substance, other MAH", GOLD), ("Seriousness", "criteria + the IME list (bring your own)", GOLD),
@@ -216,10 +216,10 @@ def f08() -> Image.Image:
             d.text((bx + 28, by + 72 + j * 30), ln, font=load(SANS, 24), fill=MUTED)
     bullets(d, ["After matching, a record PV already holds gets no new clock; the overdue count in the KPIs stops counting it."],
             96, y + 360, 1700, 30)
-    return finish(im, d, 8)
+    return finish(im, d, n)
 
 
-def f09() -> Image.Image:
+def f09(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 4 · Match", "Has pharmacovigilance", "already got this case?")
     top = y + 20
@@ -240,10 +240,10 @@ def f09() -> Image.Image:
             "NON_SIGNIFICANT_FOLLOW_UP · no new clock", "BLOCKED · a person looks"]
     for i, t in enumerate(outs):
         d.text((126, top + 200 + i * 36), t, font=load(SANS, 24), fill=INK)
-    return finish(im, d, 9)
+    return finish(im, d, n)
 
 
-def f10() -> Image.Image:
+def f10(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "A lesson from the evaluation", "Without an identifier,", "a safety database is full of lookalikes.")
     rows = [("", "Round 2 (no initials)", "Round 3 (initials + prompt v3)"), ("GPT matching", "0.694", "0.835"), ("Claude matching", "0.844", "0.956"),
@@ -260,10 +260,10 @@ def f10() -> Image.Image:
     bullets(d, ["Real safety databases hold patient initials; FAERS does not, so the extract carries deterministic synthetic ones.",
                 "The prompt makes initials the primary identity rule; queue candidates are offered only when the event or the initials agree."],
             96, y + 330, 1700, 30)
-    return finish(im, d, 10)
+    return finish(im, d, n)
 
 
-def f11() -> Image.Image:
+def f11(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 5 · Finding", "A priority,", "and a proposed intake package.")
     card(d, (96, y, 900, y + 430), "Priority score",
@@ -273,10 +273,10 @@ def f11() -> Image.Image:
          ["record and channel · product and substance · patient · reporter", "events with terms · seriousness · causality · minimum criteria",
           "dates: channel receipt, proposed day 0, deadline, days remaining, status", "forwarding · match outcome and matched ids · evidence quotes · compliance note"],
          tag="PROPOSAL FOR THE REVIEWER")
-    return finish(im, d, 11)
+    return finish(im, d, n)
 
 
-def f12() -> Image.Image:
+def f12(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 6 · Reconcile", "What vendors sent", "against what PV received.")
     node(d, (96, y + 20, 600, y + 130), "Vendor transmission log", "reference · sent_at · product · event")
@@ -294,10 +294,10 @@ def f12() -> Image.Image:
     bullets(d, ["Synthetic data plants 20 PSP, 27 MI-vendor and 3 social-listening items as never received: the report view finds all 50.",
                 "The channel KPI view adds records screened, routed, potential new cases, overdue and forwarding breaches per run."],
             96, y + 430, 1700, 30)
-    return finish(im, d, 12)
+    return finish(im, d, n)
 
 
-def f15() -> Image.Image:
+def f15(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Architecture · context", "Three systems,", "one repository.")
     top = y
@@ -317,29 +317,30 @@ def f15() -> Image.Image:
     arrow(d, (1340, top + 210), (1400, top + 210), "views only")
     d.text((96, top + 462), "Reviewers and the operations manager use the review app; the engineer uses the repository; public datasets are pulled at deploy time.",
            font=load(SANS, 24), fill=MUTED)
-    return finish(im, d, 15)
+    return finish(im, d, n)
 
 
-def f16() -> Image.Image:
+def f16(n: int) -> Image.Image:
     im, d = canvas()
-    y = headline(d, "Architecture · data model", "Nine schemas,", "versioned migrations.")
+    y = headline(d, "Architecture · data model", "Ten schemas,", "versioned migrations.")
     schemas = [("REF", "products, channels, vendors, vocabulary, IME terms", GOLD), ("SRC", "source records from the five channels", GOLD),
                ("PV", "safety database extract, intake queue and log, vendor log", GOLD), ("AGENT_API", "secure views: all the agent can see", GREEN),
                ("SWEEP", "runs, screening, extraction, rules, candidates, decisions, findings", (224, 122, 95)),
                ("AUDIT", "one row per model call and agent invocation", (224, 122, 95)), ("REVIEW", "decisions, confirmed packages, compliance findings", (155, 176, 196)),
+               ("EVAL", "gold labels, metrics per run, comparisons", (155, 176, 196)),
                ("REPORT", "reconciliation, channel KPIs, model comparison", (155, 176, 196)), ("OPS", "migration history, load stage", MUTED)]
     for i, (t, s, c) in enumerate(schemas):
-        bx = 96 + (i % 3) * 580
-        by = y + (i // 3) * 150
-        d.rounded_rectangle([bx, by, bx + 560, by + 130], radius=14, fill=CARD, outline=LINE)
-        d.rectangle([bx, by + 12, bx + 5, by + 118], fill=c)
-        d.text((bx + 28, by + 20), t, font=load(MONO, 26), fill=c)
-        for j, ln in enumerate(wrap(d, s, load(SANS, 24), 500)):
-            d.text((bx + 28, by + 62 + j * 30), ln, font=load(SANS, 24), fill=MUTED)
-    return finish(im, d, 16)
+        bx = 96 + (i % 5) * 350
+        by = y + (i // 5) * 190
+        d.rounded_rectangle([bx, by, bx + 330, by + 170], radius=14, fill=CARD, outline=LINE)
+        d.rectangle([bx, by + 12, bx + 5, by + 158], fill=c)
+        d.text((bx + 24, by + 20), t, font=load(MONO, 26), fill=c)
+        for j, ln in enumerate(wrap(d, s, load(SANS, 23), 290)):
+            d.text((bx + 24, by + 62 + j * 29), ln, font=load(SANS, 23), fill=MUTED)
+    return finish(im, d, n)
 
 
-def f20() -> Image.Image:
+def f20(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "The hosted agent", "Protocol in, decision out.", "Secrets never sit in the image.")
     top = y + 10
@@ -356,10 +357,10 @@ def f20() -> Image.Image:
     bullets(d, ["A wrapper agent with a \"match\" tool would make a model echo a 10,000-token payload into a tool call: slow, costly, and Claude truncated it. The entry point hands the payload to the matcher directly.",
                 "Sessions are reused through the agent_session_id query parameter: about 6 s cold, 1 s warm. Error replies become BLOCKED decisions, never silent NO_MATCH."],
             96, top + 140, 850, 24)
-    return finish(im, d, 20)
+    return finish(im, d, n)
 
 
-def f21() -> Image.Image:
+def f21(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "The sweep runner", "One package,", "three backends, every call audited.")
     node(d, (96, y, 520, y + 100), "pvsweep_runner", "screen · extract · rules · match · findings")
@@ -376,26 +377,26 @@ def f21() -> Image.Image:
          "retries with back-off on 429 · failures become BLOCKED · --resume continues a run · concurrency per quota")
     bullets(d, ["make run-sweep-job starts an execution with its arguments and prints its logs; without --limit it refuses to sweep the whole corpus by accident."],
             96, y + 400, 1700, 28)
-    return finish(im, d, 21)
+    return finish(im, d, n)
 
 
-def f22() -> Image.Image:
+def f22(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Security", "Source text is untrusted.", "The agent can only read.")
     items = [("Read-only, parameterised tools", "the model never writes SQL; every tool is a fixed query over secure views"),
              ("Validation twice", "every output against its JSON schema, and against the payload (ids must exist, quotes must be in the text)"),
              ("No API keys", "Entra ID for models and agents; key-pair service users for the data platform; keys in Key Vault and a project connection"),
-             ("Least privilege", "runner: results only · agent: four views · review app: review tables · reviewers: no model access"),
+             ("Least privilege", "runner: results only · agent: six views · review app: review tables · reviewers: no model access"),
              ("Content filters tested", "overdose and self-harm texts reached assessment unblocked with the default filter"),
              ("Residency", "GPT in the EU data zone; Claude Global Standard (US data zone only), a documented decision for the sponsor")]
     for i, (t, s) in enumerate(items):
         bx = 96 + (i % 2) * 880
         by = y + (i // 2) * 150
         card(d, (bx, by, bx + 850, by + 130), t, [s], title_size=28, body_size=22)
-    return finish(im, d, 22)
+    return finish(im, d, n)
 
 
-def f25() -> Image.Image:
+def f25(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Deploy from the repository · Azure", "make deploy.", "One Bicep deployment, everything.")
     mods = [("main.bicep", "resource group · 50 EUR budget with 80 % / 100 % alerts · parameters file"),
@@ -410,10 +411,10 @@ def f25() -> Image.Image:
         card(d, (bx, by, bx + 850, by + 122), t, [s], title_size=26, body_size=22)
     bullets(d, ["make outputs writes the deployment's outputs to a git-ignored .env file for the other targets; make teardown removes the resource group."],
             96, y + 430, 1700, 28)
-    return finish(im, d, 25)
+    return finish(im, d, n)
 
 
-def f26() -> Image.Image:
+def f26(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Deploy from the repository · data platform", "Keys, bootstrap, migrations,", "load, app. Same on Databricks.")
     steps = [("make snow-keys", "two RSA key pairs into .secrets/ (git-ignored)"), ("make snow-bootstrap", "roles, warehouse, database, service users; once, as ACCOUNTADMIN"),
@@ -425,10 +426,10 @@ def f26() -> Image.Image:
         card(d, (bx, by, bx + 850, by + 122), t, [s], title_size=26, body_size=22)
     bullets(d, ["Lessons are written down: one grantee per GRANT, Parquet logical types, Streamlit ownership, Unity Catalog entitlements and warehouse permissions."],
             96, y + 430, 1700, 28)
-    return finish(im, d, 26)
+    return finish(im, d, n)
 
 
-def f27() -> Image.Image:
+def f27(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Deploy from the repository · agents and jobs", "Build, deploy, run.", "Secrets by file, never by argument.")
     steps = [("make build-agent", "linux/amd64 image built in the registry from agent/Dockerfile"),
@@ -441,20 +442,20 @@ def f27() -> Image.Image:
         bx = 96 + (i % 2) * 880
         by = y + (i // 2) * 140
         card(d, (bx, by, bx + 850, by + 122), t, [s], title_size=26, body_size=22)
-    return finish(im, d, 27)
+    return finish(im, d, n)
 
 
-def f28() -> Image.Image:
+def f28(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "GitHub", "CI on every push.", "Deployment by hand, with OIDC.")
     card(d, (96, y, 940, y + 300), "ci.yml", ["uv sync · pytest (69 tests: rules, findings, local schema, Databricks store) · ruff", "runs on push and pull request, no cloud access"], tag="EVERY PUSH")
     card(d, (980, y, 1824, y + 300), "deploy.yml", ["workflow_dispatch · azure/login with OpenID Connect · protected environment", "the parameters file is the only secret · make deploy, build-agent, deploy-agents"], tag="MANUAL")
     bullets(d, ["No AI attribution, no credentials and no account identifiers in the repository or its history: reviewed before publication.",
                 "Commit history tells the story: definition, spike, rounds 1 to 3, findings, job, Databricks, demo."], 96, y + 340, 1700, 30)
-    return finish(im, d, 28)
+    return finish(im, d, n)
 
 
-def f29() -> Image.Image:
+def f29(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Local development", "The same runner", "over a file on your laptop.")
     steps = [("make stage-data", "downloads the pinned datasets once into data/cache, writes Parquet to data/stage"),
@@ -467,10 +468,10 @@ def f29() -> Image.Image:
         bx = 96 + (i % 2) * 880
         by = y + (i // 2) * 140
         card(d, (bx, by, bx + 850, by + 122), t, [s], title_size=26, body_size=22)
-    return finish(im, d, 29)
+    return finish(im, d, n)
 
 
-def f30() -> Image.Image:
+def f30(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Evaluation data", "450 records with known answers,", "anchored on real cases.")
     card(d, (96, y, 700, y + 300), "Scenario first", ["13 scenario kinds: new, in the safety database, in the queue, follow-ups, planned procedure, other MAH, no PV content…",
@@ -478,10 +479,10 @@ def f30() -> Image.Image:
     card(d, (740, y, 1280, y + 300), "Anchored on FAERS", ["93 scenarios reuse a real case: same substance, sex, age, initials, dates", "so lookalikes and follow-ups are real, not invented"], tag="GROUND TRUTH")
     card(d, (1320, y, 1824, y + 300), "Public data only", ["FAERS (CC0) and VAERS (CC0 / Apache 2.0) at pinned revisions", "MedDRA and the IME list bring-your-own; demo lists instead"], tag="LICENCES")
     bullets(d, ["The gold record holds screening class, match outcome, causality, patient fields, seriousness and day 0 for every record."], 96, y + 340, 1700, 30)
-    return finish(im, d, 30)
+    return finish(im, d, n)
 
 
-def f32() -> Image.Image:
+def f32(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Results · round 3 · 450 records", "Measured,", "not assumed.")
     rows = [("", "GPT (gpt-5-4-mini)", "Claude on Foundry (Haiku + Sonnet)"), ("Screening recall / precision", "0.997 / 1.0", "0.976 / 0.997"),
@@ -496,10 +497,10 @@ def f32() -> Image.Image:
         d.text((1240, yy), c, font=f, fill=col)
         if i == 0:
             d.line([(96, yy + 40), (1824, yy + 40)], fill=LINE)
-    return finish(im, d, 32)
+    return finish(im, d, n)
 
 
-def f33() -> Image.Image:
+def f33(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Caveats", "What the numbers", "do not say.")
     bullets(d, ["The texts are synthetic. Real notes are messier, multilingual and longer; a pilot with real reviewers is the test that matters.",
@@ -508,10 +509,10 @@ def f33() -> Image.Image:
                 "Gold timing labels disagree with planted dates on 71 of 120 records; the overdue check now derives the expected flag from the dates.",
                 "Records the agent judges already received never reach a reviewer: a sample of those belongs in production."],
             96, y, 1700, 30, gap=18)
-    return finish(im, d, 33)
+    return finish(im, d, n)
 
 
-def f34() -> Image.Image:
+def f34(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Path to production", "What would change", "for a real deployment.")
     items = ["Connectors to the real source systems and a real safety database extract instead of FAERS",
@@ -522,14 +523,14 @@ def f34() -> Image.Image:
              "Computer system validation proportionate to risk (GAMP 5, CSA), change control on prompts, models and agent versions",
              "A pilot with real reviewers to measure the business KPIs the POC only simulates"]
     bullets(d, items, 96, y, 1700, 30, gap=14)
-    return finish(im, d, 34)
+    return finish(im, d, n)
 
 
-def f35() -> Image.Image:
+def f35(n: int) -> Image.Image:
     im, d = canvas()
     y = headline(d, "Everything in the box", "In the repository,", "today.")
     left = ["Definition with the regulatory grounding (GVP VI, ICH E2D)", "Architecture with 15 decision records and a spike log",
-            "Business case with its assumptions table", "Prompts and JSON schemas under version", "Synthetic data generator + 450 records with ground truth",
+            "Business case with its assumptions table", "Matching error analysis and comparison reports", "Prompts and JSON schemas under version", "Synthetic data generator + 450 records with ground truth",
             "Runner: local, Snowflake, Databricks backends", "Hosted agents for GPT and Claude, one image", "Findings, priority, case intake package, QC sample"]
     right = ["Snowflake and Databricks SQL, migrations, loads, sync", "Review apps: Streamlit in Snowflake and a Databricks App",
              "Container Apps job, Key Vault, identities, budget", "Three Foundry evaluators, evaluate and compare tools",
@@ -537,11 +538,135 @@ def f35() -> Image.Image:
              "This video's script and the scripts that rebuild it"]
     bullets(d, left, 96, y, 840, 26, gap=8)
     bullets(d, right, 980, y, 840, 26, gap=8)
-    return finish(im, d, 35)
+    return finish(im, d, n)
+
+
+def f_errors(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "The error analysis", "Every disagreement classified,", "every fix traced to a cause.")
+    card(d, (96, y, 900, y + 300), "37 disagreements, six causes",
+         ["blocking cut the true case out of the candidates (7)", "agent dismissed an offered candidate after its own search found nothing (7)",
+          "lookalikes accepted (8) · right case, wrong follow-up label (8)", "debatable gold on FAERS twins (4) · rate limits (3)"], tag="ROUND 1 · GPT", body_size=23)
+    card(d, (940, y, 1824, y + 300), "Matching accuracy, run by run",
+         ["0.71 first run · 0.91 with a country and date rule", "0.69 when an exact-key pass offered lookalikes to every record",
+          "0.84 (GPT) and 0.96 (Claude) with patient initials and prompt v3"], tag="TRAJECTORY", body_size=23)
+    rows = [("", "records", "GPT", "Claude"), ("Already in the safety database", "47", "0.447", "0.795"),
+            ("Significant follow-up", "28", "0.393", "1.000"), ("Non-significant follow-up", "18", "0.333", "0.750")]
+    for i, (a, b, c, e) in enumerate(rows):
+        yy = y + 330 + i * 40
+        f = load(MONO, 20) if i == 0 else load(SANS, 26)
+        col = GOLD if i == 0 else INK
+        d.text((96, yy), a, font=f, fill=col)
+        d.text((700, yy), b, font=f, fill=col)
+        d.text((900, yy), c, font=f, fill=col)
+        d.text((1100, yy), e, font=f, fill=col)
+        if i == 0:
+            d.line([(96, yy + 32), (1300, yy + 32)], fill=LINE)
+    d.text((1340, y + 335), "Claude confirms a candidate by reading", font=load(SANS, 23), fill=MUTED)
+    d.text((1340, y + 365), "its case history; GPT rejects it when", font=load(SANS, 23), fill=MUTED)
+    d.text((1340, y + 395), "its own search returns nothing.", font=load(SANS, 23), fill=MUTED)
+    d.text((1340, y + 435), "docs/ops/comparison-round3.md · matching-analysis.md", font=load(MONO, 18), fill=GOLD)
+    return finish(im, d, n)
+
+
+def f_roles(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "Least privilege", "Seven roles.", "No run-time role updates or deletes.")
+    roles = [("PVSWEEP_ADMIN", "owns the objects; deployment only", GOLD), ("PVSWEEP_PIPELINE", "the runner: reads sources, writes results and audit", GOLD),
+             ("PVSWEEP_AGENT", "the hosted agents: six secure views, nothing else", GREEN), ("PVSWEEP_REVIEW_APP", "the review app's role", (155, 176, 196)),
+             ("PVSWEEP_REVIEWER", "reviewers: review tables, patient fields unmasked", (155, 176, 196)),
+             ("PVSWEEP_ANALYST", "report views only, masked by design", (155, 176, 196)), ("PVSWEEP_CI", "pipeline and agent rights on a cloned database", MUTED)]
+    for i, (t, s, c) in enumerate(roles):
+        bx = 96 + (i % 4) * 440
+        by = y + (i // 4) * 150
+        d.rounded_rectangle([bx, by, bx + 420, by + 130], radius=14, fill=CARD, outline=LINE)
+        d.rectangle([bx, by + 12, bx + 5, by + 118], fill=c)
+        d.text((bx + 24, by + 20), t, font=load(MONO, 22), fill=c)
+        for j, ln in enumerate(wrap(d, s, load(SANS, 22), 380)):
+            d.text((bx + 24, by + 58 + j * 28), ln, font=load(SANS, 22), fill=MUTED)
+    bullets(d, ["Append-only tables: the only UPDATE any run-time role holds is the runner closing its own SWEEP.RUN row (V008).",
+                "Databricks: no key material at all; runner and agents use Entra tokens, the agents are workspace service principals.",
+                "Stated gap: Unity Catalog has no insert-only privilege, so append-only is not enforced there yet; delta.appendOnly is the documented fix."],
+            96, y + 320, 1700, 26, gap=10)
+    return finish(im, d, n)
+
+
+def f_decisions(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "Architecture decisions · 6 of 15", "Why it is built this way,", "with the alternative and the reason.")
+    items = [("ADR-001 · An Azure job, not code inside Snowflake", "a trial account has no network egress; on a paid account steps 1–2 can move inside"),
+             ("ADR-002 · Foundry, not Snowflake Cortex", "one platform for both providers, the agent, the guardrails and the evaluations"),
+             ("ADR-008 · Synchronous calls, bounded concurrency", "Claude on Foundry has no Message Batches; the comparison needs the same mode on both"),
+             ("ADR-009 · Screening and extraction are single calls", "one input, one structured output, nothing to decide: an agent adds cost and variance"),
+             ("ADR-010 · The decision is a strict tool's argument", "works identically on both providers; structured output via the framework's Anthropic client is undocumented"),
+             ("ADR-012 · Reused sessions, a fresh thread per invocation", "hosted compute is billed per session, idle time included; reuse is safe only with fresh state")]
+    for i, (t, s) in enumerate(items):
+        bx = 96 + (i % 2) * 880
+        by = y + (i // 2) * 150
+        card(d, (bx, by, bx + 850, by + 132), t, [s], title_size=26, body_size=22)
+    return finish(im, d, n)
+
+
+def f_parity(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "Same code, two hosting paths", "Anthropic's API or Foundry:", "within half a point.")
+    rows = [("", "Claude via Anthropic API", "Claude on Foundry"), ("Matching accuracy", "0.956", "0.954"), ("Screening recall", "0.968", "0.976"),
+            ("Causality statement", "0.929", "0.938"), ("Extraction valid", "1.000", "1.000")]
+    for i, (a, b, c) in enumerate(rows):
+        yy = y + i * 50
+        f = load(MONO, 22) if i == 0 else load(SANS, 30)
+        col = GOLD if i == 0 else INK
+        d.text((96, yy), a, font=f, fill=col)
+        d.text((640, yy), b, font=f, fill=col)
+        d.text((1140, yy), c, font=f, fill=col)
+        if i == 0:
+            d.line([(96, yy + 40), (1500, yy + 40)], fill=LINE)
+    bullets(d, ["What Foundry adds: Entra ID instead of an API key, EU billing, and the audit trail in the data platform.",
+                "Claude's recall loss is a format failure: 14 records answered invalid JSON twice and were logged, not routed. Fix: retry on the large model.",
+                "Prompt caching on the Claude system prompt: 1.9 M cached input tokens in round 3; cache reads do not count against the Foundry quota."],
+            96, y + 290, 1700, 26, gap=10)
+    return finish(im, d, n)
+
+
+def f_value(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "The business case", "327 hours a month by hand,", "24 to 39 with the sweep.")
+    rows = [("8,000 records / month · 3 % with PV content", "Manual", "GPT", "Claude"), ("Findings to review", "240 + re-reading everything", "102", "43"),
+            ("Reviewer hours / month", "327 h, about 2 FTE", "38.5 h", "23.8 h"), ("People cost / month", "EUR 19,600", "EUR 2,312", "EUR 1,429"),
+            ("Model cost / month", "—", "about $15", "about $15"), ("Accuracy on records PV already holds", "—", "0.60", "0.86")]
+    for i, (a, b, c, e) in enumerate(rows):
+        yy = y + i * 50
+        f = load(MONO, 22) if i == 0 else load(SANS, 28)
+        col = GOLD if i == 0 else INK
+        d.text((96, yy), a, font=f, fill=col)
+        d.text((900, yy), b, font=f, fill=col)
+        d.text((1330, yy), c, font=f, fill=col)
+        d.text((1580, yy), e, font=f, fill=col)
+        if i == 0:
+            d.line([(96, yy + 40), (1824, yy + 40)], fill=LINE)
+    bullets(d, ["Cadence: a weekly sweep finds an unforwarded serious case with at least 8 of its 15 days left; a monthly one finds most after the deadline. Same model cost.",
+                "Assumptions A1–A15 with ranges; 2 % false positives on real text still keeps the sweep under a quarter of the manual effort."],
+            96, y + 340, 1700, 26, gap=10)
+    return finish(im, d, n)
+
+
+def f_options(n: int) -> Image.Image:
+    im, d = canvas()
+    y = headline(d, "Data residency", "Three options,", "and the decision asked of the sponsor.")
+    opts = [("A · GPT throughout, EU data zone", ["simplest residency", "38.5 h of review a month; weaker follow-up labels"]),
+            ("B · Claude throughout", ["best measured matching and causality", "needs a transfer assessment or pseudonymisation; Claude on Foundry is Global Standard or US zone only, operational data outside Azure"]),
+            ("C · GPT screens in the EU, Claude matches", ["pseudonymised candidates only go to Claude", "highest recall plus the best matching", "two providers to operate and validate; pseudonymisation design unproven"])]
+    for i, (t, lines) in enumerate(opts):
+        bx = 96 + i * 585
+        card(d, (bx, y, bx + 560, y + 290), t, lines, title_size=26, body_size=22)
+    bullets(d, ["Decisions asked: approve phase 1 and a phase-2 pilot on a named channel · set the residency position (EU-only, or a transfer assessment allowed) · name the QPPV delegate and the QA contact.",
+                "Keep both providers through phase 1; the agent code is identical on both."],
+            96, y + 330, 1700, 26, gap=10)
+    return finish(im, d, n)
 
 
 def shared(n: int):
-    fn = {0: frame_00, 1: frame_01, 5: frame_02, 36: frame_10}[n]
+    fn = {0: frame_00, 1: frame_01, 5: frame_02, 42: frame_10}[n]
     im = fn(None, TOTAL)
     # repaint the footer caption and counter for the long script
     d = ImageDraw.Draw(im)
@@ -556,18 +681,19 @@ def shared(n: int):
     return im
 
 
-SHOT_MAP = {13: ("06-*.jpg", "Snowflake · review app"), 14: ("07-decision-flow.gif", "Snowflake · recording a decision"),
-            17: ("05-*.jpg", "Snowflake · the agent's views"), 18: ("03-*.jpg", "Microsoft Foundry · model deployments"),
-            19: ("04-*.jpg", "Microsoft Foundry · hosted agents"), 23: ("09a-*.jpg", "Azure Databricks · Unity Catalog"),
-            24: ("09b-*.jpg", "Azure Databricks · the review app"), 31: ("08-*.jpg", "Microsoft Foundry · evaluation")}
+SHOT_MAP = {14: ("06-*.jpg", "Snowflake · review app"), 15: ("07-decision-flow.gif", "Snowflake · recording a decision"),
+            18: ("05-*.jpg", "Snowflake · the agent's views"), 19: ("03-*.jpg", "Microsoft Foundry · model deployments"),
+            20: ("04-*.jpg", "Microsoft Foundry · hosted agents"), 25: ("09a-*.jpg", "Azure Databricks · Unity Catalog"),
+            26: ("09b-*.jpg", "Azure Databricks · the review app"), 34: ("08-*.jpg", "Microsoft Foundry · evaluation")}
 
-SLIDES = {2: f02, 3: f03, 4: f04, 6: f06, 7: f07, 8: f08, 9: f09, 10: f10, 11: f11, 12: f12, 15: f15, 16: f16, 20: f20, 21: f21,
-          22: f22, 25: f25, 26: f26, 27: f27, 28: f28, 29: f29, 30: f30, 32: f32, 33: f33, 34: f34, 35: f35}
-
+# frame number -> slide function (functions keep the number they had in the 37-frame script; the map is the truth)
+SLIDES = {2: f02, 3: f03, 4: f04, 6: f06, 7: f07, 8: f08, 9: f09, 10: f10, 11: f_errors, 12: f11, 13: f12, 16: f15, 17: f16,
+          21: f20, 22: f21, 23: f22, 24: f_roles, 27: f_decisions, 28: f25, 29: f26, 30: f27, 31: f28, 32: f29, 33: f30,
+          35: f32, 36: f_parity, 37: f33, 38: f_value, 39: f_options, 40: f34, 41: f35}
 
 def render(n: int) -> Image.Image:
     if n in SLIDES:
-        return SLIDES[n]()
+        return SLIDES[n](n)
     if n in SHOT_MAP:
         pattern, section = SHOT_MAP[n]
         files = sorted(SHOTS.glob(pattern))

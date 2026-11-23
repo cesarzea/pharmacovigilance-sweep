@@ -1,147 +1,171 @@
 1
-00:00:00,000 --> 00:00:17,065
+00:00:00,000 --> 00:00:16,216
 A Microsoft AI Foundry, Snowflake and Databricks POC
 
 2
-00:00:17,265 --> 00:00:42,220
+00:00:16,416 --> 00:00:39,184
 Side effects are mentioned where pharmacovigilance does not look
 
 3
-00:00:42,420 --> 00:01:11,240
+00:00:39,384 --> 00:01:04,120
 The clock starts when anyone in the company first hears of the case
 
 4
-00:01:11,440 --> 00:01:36,159
+00:01:04,320 --> 00:01:26,248
 Two distinct jobs: did PV receive everything, and is there anything nobody passed on?
 
 5
-00:01:36,359 --> 00:02:08,549
+00:01:26,448 --> 00:01:55,576
 Spontaneous or solicited changes what "reportable" means
 
 6
-00:02:08,749 --> 00:02:25,998
+00:01:55,776 --> 00:02:10,504
 Re-read every record. Keep what PV never received.
 
 7
-00:02:26,198 --> 00:02:55,619
+00:02:10,704 --> 00:02:40,432
 Step 1 · Screen: adverse event, special situation, or nothing for PV?
 
 8
-00:02:55,819 --> 00:03:25,423
+00:02:40,632 --> 00:03:06,088
 Step 2 · Extract the case facts, every one with its quote
 
 9
-00:03:25,623 --> 00:03:48,383
+00:03:06,288 --> 00:03:44,224
 Step 3 · Deterministic rules: no model decides a deadline
 
 10
-00:03:48,583 --> 00:04:25,971
+00:03:44,424 --> 00:04:14,920
 Step 4 · Match: has pharmacovigilance already got this case?
 
 11
-00:04:26,171 --> 00:04:54,234
+00:04:15,120 --> 00:04:39,904
 Why patient initials matter: 0.69 to 0.84 and 0.84 to 0.96
 
 12
-00:04:54,434 --> 00:05:21,609
-Step 5 · A finding with a priority and a proposed intake package
+00:04:40,104 --> 00:05:31,192
+Every disagreement was classified; the fixes came from the causes
 
 13
-00:05:21,809 --> 00:05:46,528
-Step 6 · Reconcile what vendors sent against what PV received
+00:05:31,392 --> 00:05:56,776
+Step 5 · A finding with a priority and a proposed intake package
 
 14
-00:05:46,728 --> 00:06:02,357
-The reviewer works a prioritised queue
+00:05:56,976 --> 00:06:18,352
+Step 6 · Reconcile what vendors sent against what PV received
 
 15
-00:06:02,557 --> 00:06:29,418
-Confirm day 0, choose the outcome, record the decision
+00:06:18,552 --> 00:06:45,448
+The reviewer works a prioritised queue in a five-page app
 
 16
-00:06:29,618 --> 00:06:56,192
-Three systems, one repository, everything deployed by script
+00:06:45,648 --> 00:07:09,976
+Confirm day 0, choose the outcome, record the decision
 
 17
-00:06:56,392 --> 00:07:21,346
-Nine schemas: sources, the safety database, results, review, audit
+00:07:10,176 --> 00:07:33,400
+Three systems, one repository, everything deployed by script
 
 18
-00:07:21,546 --> 00:07:43,940
-The agent's credential can read four secure views and nothing else
+00:07:33,600 --> 00:08:00,448
+Ten schemas: sources, the safety database, results, review, audit, evaluation
 
 19
-00:07:44,140 --> 00:08:08,677
-One Foundry project, two providers, no API keys
+00:08:00,648 --> 00:08:28,672
+The agent's credential can read six secure views and nothing else
 
 20
-00:08:08,877 --> 00:08:33,282
-The matching agent is a hosted agent in Foundry Agent Service
+00:08:28,872 --> 00:08:47,800
+One Foundry project, two providers, no API keys
 
 21
-00:08:33,482 --> 00:08:59,142
-Secrets never sit in the image: a project connection injects the agent's key at start
+00:08:48,000 --> 00:09:15,784
+The matching agent is a hosted agent in Foundry Agent Service
 
 22
-00:08:59,342 --> 00:09:29,129
-The sweep runs unattended as a container job
+00:09:15,984 --> 00:09:37,432
+Secrets never sit in the image: a project connection injects the agent's key at start
 
 23
-00:09:29,329 --> 00:09:51,044
-Source text is untrusted: read-only tools, validation twice, content filters
+00:09:37,632 --> 00:10:17,608
+The sweep runs unattended as a container job, and nothing fails silently
 
 24
-00:09:51,244 --> 00:10:15,180
-The same platform on Azure Databricks: same tables, results copied, nothing recomputed
+00:10:17,808 --> 00:10:40,096
+Source text is untrusted: read-only tools, validation twice, content filters
 
 25
-00:10:15,380 --> 00:10:28,265
-Same numbers on both platforms
+00:10:40,296 --> 00:11:26,824
+Least privilege: seven roles, and no run-time role can update or delete
 
 26
-00:10:28,465 --> 00:11:09,198
-One command creates Azure: Foundry, models, registry, identities, Key Vault, the job, the Databricks workspace
+00:11:27,024 --> 00:11:55,792
+The same platform on Azure Databricks: same tables, results copied, nothing recomputed
 
 27
-00:11:09,398 --> 00:11:45,820
-Four commands build the data platform: keys, bootstrap, migrations, load, app
+00:11:55,992 --> 00:12:07,528
+Same numbers on both platforms
 
 28
-00:11:46,020 --> 00:12:11,157
-Build the image, deploy the hosted agents, put the keys in Key Vault, start a sweep
+00:12:07,728 --> 00:13:07,336
+Why it is built this way: fifteen decisions, each with its alternative and its reason
 
 29
-00:12:11,357 --> 00:12:35,945
-CI on every push; deployment is a manual workflow with OIDC and no stored secrets
+00:13:07,536 --> 00:13:38,992
+One command creates Azure: Foundry, models, registry, identities, Key Vault, the job, the Databricks workspace
 
 30
-00:12:36,145 --> 00:13:02,667
-Develop and evaluate on a laptop: the same runner over a local file
+00:13:39,192 --> 00:14:10,960
+Five commands build the data platform: keys, bootstrap, migrations, load, app
 
 31
-00:13:02,867 --> 00:13:29,598
-450 synthetic records with known answers, anchored on real cases
+00:14:11,160 --> 00:14:39,304
+Build the image, deploy the hosted agents, put the keys in Key Vault, start a sweep
 
 32
-00:13:29,798 --> 00:13:47,542
-Custom evaluators in Foundry grade routing, matching and causality
+00:14:39,504 --> 00:15:01,192
+CI on every push; deployment is a manual workflow with OIDC and no stored secrets
 
 33
-00:13:47,742 --> 00:14:12,278
-Measured, not assumed
+00:15:01,392 --> 00:15:25,648
+Develop and evaluate on a laptop: the same runner over a local file
 
 34
-00:14:12,478 --> 00:14:29,491
-What the numbers do not say
+00:15:25,848 --> 00:16:13,456
+450 synthetic records with known answers, anchored on real cases, validated
 
 35
-00:14:29,691 --> 00:14:50,597
-From proof of concept to production
+00:16:13,656 --> 00:16:28,792
+Custom evaluators in Foundry grade routing, matching and causality
 
 36
-00:14:50,797 --> 00:15:37,851
-Everything in the box
+00:16:28,992 --> 00:16:57,328
+Measured, not assumed
 
 37
-00:15:38,051 --> 00:15:56,135
+00:16:57,528 --> 00:17:33,544
+Same code through Anthropic's API and through Foundry: within half a point
+
+38
+00:17:33,744 --> 00:17:50,320
+What the numbers do not say
+
+39
+00:17:50,520 --> 00:18:41,368
+The business case: 327 hours a month by hand, 24 to 39 with the sweep
+
+40
+00:18:41,568 --> 00:19:32,776
+Residency: three options, and the decision the sponsor is asked to make
+
+41
+00:19:32,976 --> 00:19:52,144
+From proof of concept to production
+
+42
+00:19:52,344 --> 00:20:39,832
+Everything in the box
+
+43
+00:20:40,032 --> 00:20:55,000
 github.com/cesarzea/pharmacovigilance-sweep

@@ -11,10 +11,12 @@ clip per frame, word timings, karaoke subtitles (the words light up as they are 
     uv run --no-project python -I scripts/make_demo_audio.py --list-voices          # pick a voice
     uv run --no-project python -I scripts/make_demo_audio.py --sample <id>,<id>     # hear candidates
 
-Engines: "elevenlabs" (default when ELEVENLABS_API_KEY is in the environment or in .env; the key never
-leaves the machine except in the API call; word timings come from the API's alignment) or "say"
-(macOS text-to-speech, free, for drafts; word timings are spread over the clip by word length). Clips
-are cached in docs/demo/audio/<engine>/<name>/ and regenerated only when the narration text changes.
+Engines: "gemini" (default when GEMINI_API_KEY is set: gemini-3.8-flash-tts, voice "Bodi", the request AI
+Studio exports; no word timings, so they are spread over the clip by word length), "elevenlabs" (default
+when only ELEVENLABS_API_KEY is set; word timings come from the API's alignment) or "say" (macOS
+text-to-speech, free, for drafts). Keys are read from the environment or .env and never leave the machine
+except in the API call. Clips are cached in docs/demo/audio/<engine>/<name>/ and regenerated only when
+the narration text, the voice or the style changes.
 """
 
 from __future__ import annotations
@@ -27,6 +29,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -38,8 +41,9 @@ SCRIPT = ROOT / "docs/demo/script.md"
 DEFAULT_VOICE = "Gfpl8Yo74Is0W6cPUWWT"   # ElevenLabs voice chosen for the narration (override with --voice)
 W, H = 1920, 1080
 # subtitle zone: the footer's right side (the left 440 px hold the name and the site)
-SUB_LEFT, SUB_RIGHT, SUB_BOTTOM = 470, 96, 40
-CHUNK_CHARS = 210   # about three lines at the default size; longer narrations are shown in successive chunks
+SUB_LEFT, SUB_RIGHT, SUB_BOTTOM = 470, 96, 36
+SUB_LINES = 2       # lines per subtitle chunk; the band under the slide holds two at the default size
+CHUNK_CHARS = 110   # recomputed from the font size in main(): longer narrations are shown in successive chunks
 
 
 def script_rows() -> list[dict]:
@@ -128,9 +132,86 @@ def make_samples(key: str, voices: list[str], text: str) -> None:
         print(out)
 
 
-def tts_say(text: str, out: Path, voice: str) -> list[tuple[float, float]]:
-    subprocess.run(["say", "-v", voice, "-r", "165", "-o", str(out), text], check=True)
-    total = duration(out)
+GEMINI_MODEL = "gemini-3.8-flash-tts"
+GEMINI_KEY_NAMES = ("GEMINI_API_KEY", "GOOGLE_API_KEY")
+
+
+def load_gemini_key() -> str | None:
+    for name in GEMINI_KEY_NAMES:
+        if os.environ.get(name):
+            return os.environ[name]
+    env = ROOT / ".env"
+    if env.is_file():
+        for ln in env.read_text().splitlines():
+            k, _, v = ln.partition("=")
+            if k.strip() in GEMINI_KEY_NAMES and v.strip():
+                return v.strip().strip('"').strip("'")
+    return None
+
+
+def gemini_voices(key: str, language: str = "en-US") -> list[dict]:
+    """The extended voice library for one language (the 30 curated voices plus the rest), as the API lists it."""
+    out, token = [], None
+    while True:
+        url = (f"https://generativelanguage.googleapis.com/v1beta/voices?pageSize=1000&languageCode={language}"
+               + (f"&pageToken={token}" if token else ""))
+        req = urllib.request.Request(url, headers={"x-goog-api-key": key})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            body = json.load(r)
+        out += body.get("voices", [])
+        token = body.get("nextPageToken")
+        if not token:
+            return out
+
+
+def tts_gemini(text: str, out: Path, voice: str, key: str, style: str = "") -> list[tuple[float, float]]:
+    """Gemini TTS through generateContent, the same request AI Studio exports: the transcript under a
+    "## Transcript:" heading, temperature 1, the prebuilt voice by name. The reply is raw 16-bit PCM at
+    24 kHz; no word timings, so they are spread by word length."""
+    prompt = (f"## Style:\n{style}\n\n" if style else "") + f"## Transcript:\n{text}"
+    body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 1, "responseModalities": ["audio"],
+                                 "speechConfig": {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}}}}
+    req = urllib.request.Request(f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent",
+                                 data=json.dumps(body).encode(),
+                                 headers={"x-goog-api-key": key, "Content-Type": "application/json"})
+    for attempt in range(8):   # the per-minute quota is small: wait and retry on 429 / 5xx
+        try:
+            with urllib.request.urlopen(req, timeout=300) as r:
+                resp = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 503) or attempt == 7:
+                raise
+            wait = float(e.headers.get("Retry-After") or min(60, 5 * 2 ** attempt))
+            print(f"  {e.code} from Gemini, retrying in {wait:.0f} s")
+            time.sleep(wait)
+    pcm, mime = bytearray(), ""
+    for cand in resp.get("candidates", []):
+        for part in cand.get("content", {}).get("parts", []):
+            inline = part.get("inlineData")
+            if inline and inline.get("data"):
+                pcm += base64.b64decode(inline["data"])
+                mime = inline.get("mimeType", "")
+    if not pcm:
+        raise SystemExit(f"Gemini returned no audio: {json.dumps(resp)[:400]}")
+    rate = 24000
+    m = re.search(r"rate=(\d+)", mime)
+    if m:
+        rate = int(m.group(1))
+    raw = out.with_suffix(".pcm")
+    raw.write_bytes(pcm)
+    if mime.startswith("audio/L16") or "rate=" in mime:
+        src = ["-f", "s16le", "-ar", str(rate), "-ac", "1", "-i", str(raw)]
+    else:   # a container with a header (wav/mp3): let ffmpeg detect it
+        src = ["-i", str(raw)]
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *src, "-c:a", "libmp3lame", "-b:a", "128k", str(out)], check=True)
+    raw.unlink()
+    return spread_timings(text, duration(out))
+
+
+def spread_timings(text: str, total: float) -> list[tuple[float, float]]:
+    """Word timings for an engine that gives none: spread over the clip by word length and punctuation."""
     ws = text.split()
     weights = [len(w) + 1.5 + (2.5 if w.endswith((".", ",", ";", ":")) else 0) for w in ws]
     scale = (total - 0.15) / sum(weights)
@@ -139,6 +220,11 @@ def tts_say(text: str, out: Path, voice: str) -> list[tuple[float, float]]:
         timings.append((t, t + wgt * scale))
         t += wgt * scale
     return timings
+
+
+def tts_say(text: str, out: Path, voice: str) -> list[tuple[float, float]]:
+    subprocess.run(["say", "-v", voice, "-r", "165", "-o", str(out), text], check=True)
+    return spread_timings(text, duration(out))
 
 
 def duration(path: Path) -> float:
@@ -218,18 +304,22 @@ def ass_events(frame_start: float, frame_end: float, words: list[str], timings: 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--engine", choices=["elevenlabs", "say"], default=None)
-    ap.add_argument("--voice", default=None, help="ElevenLabs voice id, or a macOS voice name for --engine say")
-    ap.add_argument("--list-voices", action="store_true", help="print the ElevenLabs voices of the account and exit")
+    ap.add_argument("--engine", choices=["elevenlabs", "gemini", "say"], default=None)
+    ap.add_argument("--style", default="", help="Gemini only: delivery style for every clip, e.g. Friendly")
+    ap.add_argument("--voice", default=None, help="ElevenLabs voice id, Gemini voice name, or a macOS voice for --engine say")
+    ap.add_argument("--list-voices", action="store_true", help="print the voices of the engine (ElevenLabs account or Gemini library) and exit")
     ap.add_argument("--sample", default=None, metavar="ID[,ID...]",
-                    help="narrate the first frame with each of these ElevenLabs voices into docs/demo/audio/samples/ and exit")
+                    help="narrate the first frame with each of these voices into docs/demo/audio/samples/ and exit")
+    ap.add_argument("--sample-text", default=None, help="text for --sample (default: the first frame's narration)")
     ap.add_argument("--pause", type=float, default=0.8, help="seconds of silence after each clip")
     ap.add_argument("--lead", type=float, default=0.4, help="seconds before a clip starts on its frame")
     ap.add_argument("--script", default=None)
     ap.add_argument("--frames-dir", default=None)
     ap.add_argument("--name", default="demo", help="output base name in docs/demo")
     ap.add_argument("--font", default="Inter Tight", help="subtitle font family (docs/demo/fonts is passed to libass)")
-    ap.add_argument("--font-size", type=int, default=34)
+    ap.add_argument("--font-size", type=int, default=52)
+    ap.add_argument("--only", default=None, metavar="N[,N...]", help="render these frames only (a quick preview)")
+    ap.add_argument("--audio-name", default=None, help="clip cache to use (default: the output name)")
     ap.add_argument("--gif-width", type=int, default=1280)
     ap.add_argument("--gif-fps", type=int, default=5)
     args = ap.parse_args()
@@ -239,30 +329,64 @@ def main() -> int:
     if args.frames_dir:
         FRAMES = Path(args.frames_dir) if Path(args.frames_dir).is_absolute() else ROOT / args.frames_dir
     key = load_env_key()
-    if args.list_voices or args.sample:
-        if not key:
-            raise SystemExit("ELEVENLABS_API_KEY (or ELEVEN_LABS_KEY) not set in the environment or .env")
-        if args.list_voices:
-            print_voices(key)
-        if args.sample:
-            make_samples(key, [v.strip() for v in args.sample.split(",") if v.strip()], script_rows()[0]["narration"])
-        return 0
-    engine = args.engine or ("elevenlabs" if key else "say")
+    gkey = load_gemini_key()
+    engine = args.engine or ("gemini" if gkey else "elevenlabs" if key else "say")
     if engine == "elevenlabs" and not key:
         raise SystemExit("ELEVENLABS_API_KEY (or ELEVEN_LABS_KEY) not set in the environment or .env; use --engine say for a draft")
-    voice = args.voice or (DEFAULT_VOICE if engine == "elevenlabs" else "Samantha")
-    audio_dir = OUT / "audio" / engine / args.name
+    if engine == "gemini" and not gkey:
+        raise SystemExit("GEMINI_API_KEY (or GOOGLE_API_KEY) not set in the environment or .env")
+    if args.list_voices or args.sample:
+        if args.list_voices:
+            if engine == "gemini":
+                for v in gemini_voices(gkey):
+                    print(f"{v['display_name']:16} {v.get('gender', ''):8} {v.get('pitch', ''):7} {v.get('accent', '')[:18]:18} "
+                          f"{v.get('persona', '')[:36]:36} {v.get('description', '')[:80]}")
+            else:
+                print_voices(key)
+        if args.sample:
+            text = args.sample_text or script_rows()[0]["narration"]
+            ids = [v.strip() for v in args.sample.split(",") if v.strip()]
+            if engine == "gemini":
+                sdir = OUT / "audio" / "samples"
+                sdir.mkdir(parents=True, exist_ok=True)
+                for vid in ids:
+                    out = sdir / f"gemini-{vid}{'-' + args.style.replace(' ', '_') if args.style else ''}.mp3"
+                    tts_gemini(text, out, vid, gkey, args.style)
+                    print(out)
+            else:
+                make_samples(key, ids, text)
+        return 0
+    voice = args.voice or {"elevenlabs": DEFAULT_VOICE, "gemini": "Bodi", "say": "Samantha"}[engine]
+    audio_dir = OUT / "audio" / engine / (args.audio_name or args.name)
+    global CHUNK_CHARS
+    CHUNK_CHARS = int(SUB_LINES * (W - SUB_LEFT - SUB_RIGHT) / (args.font_size * 0.48))
+    only = {int(x) for x in args.only.split(",")} if args.only else None
     audio_dir.mkdir(parents=True, exist_ok=True)
 
     segments = []   # (frame, clip, dur, caption, words, timings)
     for row in script_rows():
         n, text = row["n"], row["narration"]
-        clip = audio_dir / f"{n:02d}.{'mp3' if engine == 'elevenlabs' else 'aiff'}"
-        meta = audio_dir / f"{n:02d}.json"
-        digest = hashlib.sha256(f"{voice}|{text}".encode()).hexdigest()
-        if not (clip.is_file() and meta.is_file() and json.loads(meta.read_text()).get("sha") == digest):
+        if only is not None and n not in only:
+            continue
+        digest = hashlib.sha256(f"{voice}|{args.style}|{text}".encode()).hexdigest()
+        # clips are named by the hash of voice, style and text, so renumbering frames never re-synthesises
+        ext = "aiff" if engine == "say" else "mp3"
+        clip = audio_dir / f"{digest[:16]}.{ext}"
+        meta = audio_dir / f"{digest[:16]}.json"
+        if not clip.is_file():   # adopt a clip cached under the old NN naming, if its text matches
+            for old_meta in sorted(audio_dir.glob("[0-9][0-9].json")):
+                if json.loads(old_meta.read_text()).get("sha") == digest and old_meta.with_suffix(f".{ext}").is_file():
+                    old_meta.with_suffix(f".{ext}").rename(clip)
+                    old_meta.rename(meta)
+                    break
+        if not (clip.is_file() and meta.is_file()):
             print(f"narrating frame {n} ({engine}, {len(text)} chars)")
-            timings = tts_elevenlabs(text, clip, voice, key) if engine == "elevenlabs" else tts_say(text, clip, voice)
+            if engine == "elevenlabs":
+                timings = tts_elevenlabs(text, clip, voice, key)
+            elif engine == "gemini":
+                timings = tts_gemini(text, clip, voice, gkey, args.style)
+            else:
+                timings = tts_say(text, clip, voice)
             meta.write_text(json.dumps({"sha": digest, "timings": timings}))
         timings = [tuple(x) for x in json.loads(meta.read_text())["timings"]]
         frame = FRAMES / f"{n:02d}.png"

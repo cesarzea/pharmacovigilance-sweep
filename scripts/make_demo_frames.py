@@ -116,6 +116,7 @@ def label(d: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, size: int = 22
 
 
 CAPTIONS = True   # False when the caption is burned in later as timed subtitles (make_demo_audio.py)
+HEADER = "A Pharma AI Foundry, Snowflake and Databricks POC"   # running header at the top of every frame
 
 
 def footer(im: Image.Image, d: ImageDraw.ImageDraw, caption: str, portrait: Path | None, frame_no: int, total: int) -> None:
@@ -144,6 +145,7 @@ def footer(im: Image.Image, d: ImageDraw.ImageDraw, caption: str, portrait: Path
     cap_font = load(SANS, 30)
     d.text((W - 96, cy), caption, font=cap_font, fill=INK, anchor="rm")
     d.text((W - 96, 48), f"{frame_no:02d} / {total:02d}", font=load(MONO, 22), fill=MUTED, anchor="ra")
+    d.text((96, 48), HEADER.upper(), font=load(MONO, 22), fill=MUTED, anchor="la")
 
 
 def wrap(d: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list[str]:
