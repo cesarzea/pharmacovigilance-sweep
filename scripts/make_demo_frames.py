@@ -59,7 +59,30 @@ def font_file(candidates: list[str], style: str = "") -> tuple[str, int] | None:
     return None
 
 
+LOCAL_FONTS = Path("docs/demo/fonts")   # the site's own fonts, converted from woff2 (git-ignored)
+LOCAL = {  # (family, style word) -> (file prefix, variation axes)
+    ("Fraunces", ""): ("Fraunces-normal", {"wght": 380, "opsz": 72}),
+    ("Fraunces", "Italic"): ("Fraunces-italic", {"wght": 380, "opsz": 72}),
+    ("Inter Tight", ""): ("InterTight-normal", {"wght": 400}),
+    ("JetBrains Mono", ""): ("JetBrainsMono-normal", {"wght": 400}),
+}
+
+
 def load(candidates: list[str], size: int, style: str = "", index: int = 0) -> ImageFont.FreeTypeFont:
+    wanted = "Italic" if "Italic" in style else ""
+    for family in candidates:
+        if (family, wanted) in LOCAL and LOCAL_FONTS.is_dir():
+            prefix, axes = LOCAL[(family, wanted)]
+            files = sorted(LOCAL_FONTS.glob(prefix + "*.ttf"))
+            if files:
+                f = ImageFont.truetype(str(files[0]), size=size)
+                try:
+                    names = [a["name"].decode() if isinstance(a["name"], bytes) else a["name"] for a in f.get_variation_axes()]
+                    f.set_variation_by_axes([axes.get(n.lower()[:4], axes.get(n, 400)) if n.lower().startswith(("wght", "weight")) else
+                                             (axes.get("opsz", 72) if n.lower().startswith(("opsz", "optical")) else 0) for n in names])
+                except Exception:  # noqa: BLE001 - static font or no variation support in this build
+                    pass
+                return f
     found = font_file(candidates, style)
     if found is None:
         return ImageFont.load_default(size=size)
@@ -98,8 +121,11 @@ def footer(im: Image.Image, d: ImageDraw.ImageDraw, caption: str, portrait: Path
     cx, cy = 96 + r, y0 + 75
     if portrait and portrait.is_file():
         p = Image.open(portrait).convert("RGB")
-        side = min(p.size)
-        p = p.crop(((p.width - side) // 2, 0, (p.width - side) // 2 + side, side)).resize((2 * r, 2 * r), Image.LANCZOS)
+        # the site's portrait is a wide frame with the face right of centre; crop a square around it
+        side = int(p.height * 0.72)
+        fx, fy = int(p.width * 0.70), int(p.height * 0.40)
+        box = (max(0, fx - side // 2), max(0, fy - side // 2))
+        p = p.crop((box[0], box[1], box[0] + side, box[1] + side)).resize((2 * r, 2 * r), Image.LANCZOS)
         mask = Image.new("L", (2 * r, 2 * r), 0)
         ImageDraw.Draw(mask).ellipse([0, 0, 2 * r - 1, 2 * r - 1], fill=255)
         im.paste(p, (cx - r, cy - r), mask)
@@ -175,13 +201,65 @@ def frame_01(portrait: Path | None, total: int) -> Image.Image:
     return im
 
 
-FRAMES = {0: frame_00, 1: frame_01}
+def frame_02(portrait: Path | None, total: int) -> Image.Image:
+    im, d = canvas()
+    label(d, (96, 120), "What the solution does")
+    d.text((96, 190), "Re-read every record.", font=load(SERIF, 92, "Light"), fill=INK)
+    d.text((96, 300), "Keep what PV never received.", font=load(SERIF, 92, "Light Italic"), fill=GOLD)
+    steps = [("1", "Screen", "adverse event or special situation?"), ("2", "Extract", "case facts with evidence quotes"),
+             ("3", "Rules", "ownership, seriousness, day 0, deadlines"), ("4", "Match", "agent checks what PV already holds"),
+             ("5", "Finding", "priority and proposed intake package"), ("6", "Reconcile", "vendor logs vs what PV received")]
+    x, y, cw, ch, gap = 96, 470, 280, 260, 20
+    for n, title, desc in steps:
+        d.rounded_rectangle([x, y, x + cw, y + ch], radius=14, fill=CARD, outline=(44, 44, 52), width=1)
+        d.text((x + 24, y + 22), n, font=load(SERIF, 56, "Light"), fill=GOLD)
+        d.text((x + 24, y + 110), title, font=load(SANS, 34), fill=INK)
+        yy = y + 158
+        for ln in wrap(d, desc, load(SANS, 26), cw - 48):
+            d.text((x + 24, yy), ln, font=load(SANS, 26), fill=MUTED)
+            yy += 34
+        if n != "6":
+            d.text((x + cw + gap // 2, y + ch // 2), "›", font=load(SANS, 30), fill=(70, 70, 78), anchor="mm")
+        x += cw + gap
+    body = load(SANS, 34)
+    for i, ln in enumerate(wrap(d, "A pharmacovigilance reviewer works the prioritised queue in a review app and records the outcome. "
+                                   "Nothing is closed by a model.", body, 1560)):
+        d.text((96, 790 + i * 46), ln, font=body, fill=INK)
+    footer(im, d, "Screen, extract, apply the rules, match, produce the finding, reconcile", portrait, 2, total)
+    return im
+
+
+def frame_10(portrait: Path | None, total: int) -> Image.Image:
+    im, d = canvas()
+    label(d, (96, 120), "Results · 450 synthetic records · round 3")
+    d.text((96, 190), "Measured,", font=load(SERIF, 92, "Light"), fill=INK)
+    d.text((96, 300), "not assumed.", font=load(SERIF, 92, "Light Italic"), fill=GOLD)
+    rows = [("", "GPT", "Claude on Foundry"), ("Screening recall", "0.997", "0.976"), ("Extraction valid", "0.995", "1.000"),
+            ("Causality statement", "0.901", "0.938"), ("Matching outcome", "0.835", "0.954"), ("Model cost per sweep", "about $11", "about $11")]
+    x0, y0, rh = 96, 460, 58
+    cols = [x0, x0 + 620, x0 + 980]
+    for i, (a, b, c) in enumerate(rows):
+        yy = y0 + i * rh
+        fnt = load(MONO, 24) if i == 0 else load(SANS, 32)
+        col = GOLD if i == 0 else INK
+        d.text((cols[0], yy), a, font=fnt, fill=col)
+        d.text((cols[1], yy), b, font=fnt, fill=col)
+        d.text((cols[2], yy), c, font=fnt, fill=col)
+        if i == 0:
+            d.line([(x0, yy + 44), (x0 + 1300, yy + 44)], fill=(60, 60, 68), width=1)
+    d.text((96, 830), "Deployable from scratch by the scripts in the repository.", font=load(SANS, 34), fill=INK)
+    d.text((96, 880), "github.com/cesarzea/pharmacovigilance-sweep", font=load(MONO, 30), fill=GOLD)
+    footer(im, d, "Models propose. A person decides.", portrait, 10, total)
+    return im
+
+
+FRAMES = {0: frame_00, 1: frame_01, 2: frame_02, 10: frame_10}
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--frames", default=",".join(str(k) for k in FRAMES))
-    ap.add_argument("--portrait", default="docs/demo/portrait.png", help="square-ish photo; a placeholder is drawn when missing")
+    ap.add_argument("--portrait", default="", help="optional photo for the circle; by default the circle shows the initials")
     ap.add_argument("--total", type=int, default=11)
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)

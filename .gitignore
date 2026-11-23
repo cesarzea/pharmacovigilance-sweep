@@ -29,3 +29,5 @@ data/cache/
 .secrets/
 data/local/
 data/export/
+docs/demo/portrait.png
+docs/demo/fonts/
