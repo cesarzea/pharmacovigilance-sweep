@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: Agent image tag to build and deploy (default: the commit sha)
+        description: "Agent image tag to build and deploy; empty means the commit sha"
         required: false
         default: ""
 
