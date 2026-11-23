@@ -8,8 +8,10 @@ https://github.com/user-attachments/assets/8d93cec3-f71b-470b-b106-7a67d8b5e89e
 
 
 The subtitles carry the narration. A twenty-minute walkthrough of what it does, how it does it,
-how it is built, how it is measured and what it is worth is in [docs/demo/full.gif](docs/demo/full.gif)
-(10 MB) and, with voice, as a video attached to the latest release. The scripts, frames and the commands that
+how it is built, how it is measured and what it is worth, with voice and chapters, is on
+[YouTube](https://youtu.be/wZVfylecfB8); the same video is attached to the
+[latest release](https://github.com/cesarzea/pharmacovigilance-sweep/releases/latest) and, silent,
+in [docs/demo/full.gif](docs/demo/full.gif) (10 MB). The scripts, frames and the commands that
 rebuild everything are in [docs/demo/](docs/demo/).
 
 ## The problem
