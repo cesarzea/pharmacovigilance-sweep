@@ -173,12 +173,12 @@ def f04() -> Image.Image:
 def f06() -> Image.Image:
     im, d = canvas()
     y = headline(d, "Step 1 · Screen", "One call, one strict schema.", "Nothing for PV stops here.")
-    card(d, (96, y, 800, y + 420), "Output", ["screening_class: ADVERSE_EVENT | SPECIAL_SITUATION | NO_PV_CONTENT",
+    card(d, (96, y, 800, y + 330), "Output", ["screening_class: ADVERSE_EVENT | SPECIAL_SITUATION | NO_PV_CONTENT",
                                               "the four minimum criteria: patient, reporter, product, event", "evidence: verbatim quotes", "confidence"], tag="SMALL MODEL · JSON SCHEMA")
-    card(d, (840, y, 1824, y + 420), "Example", ["\"Visited Dr today re Duloxane follow-up. Mentioned pt SG, 52 yo female, black stools… admitted to hospital overnight because of the GI bleed.\"",
-                                                  "· ADVERSE_EVENT · patient ✓ reporter ✓ product ✓ event ✓"], tag="CRM NOTE")
+    card(d, (840, y, 1824, y + 330), "Example", ["\"Visited Dr today re Duloxane follow-up. Mentioned pt SG, 52 yo female, black stools… admitted to hospital overnight because of the GI bleed.\"",
+                                                  "· ADVERSE_EVENT · patient, reporter, product and event: all four present"], tag="CRM NOTE")
     bullets(d, ["Invalid JSON is retried once; a second failure is counted and not routed silently.",
-                "A ranked 5 % sample of screened-out records goes to a person: nothing is closed unseen."], 96, y + 460, 1700, 30)
+                "A ranked 5 % sample of screened-out records goes to a person: nothing is closed unseen."], 96, y + 370, 1700, 30)
     return finish(im, d, 6)
 
 
@@ -355,7 +355,7 @@ def f20() -> Image.Image:
     arrow(d, (900, top + 50), (1010, top + 60))
     bullets(d, ["A wrapper agent with a \"match\" tool would make a model echo a 10,000-token payload into a tool call: slow, costly, and Claude truncated it. The entry point hands the payload to the matcher directly.",
                 "Sessions are reused through the agent_session_id query parameter: about 6 s cold, 1 s warm. Error replies become BLOCKED decisions, never silent NO_MATCH."],
-            96, top + 370, 1700, 28)
+            96, top + 140, 850, 24)
     return finish(im, d, 20)
 
 
@@ -367,11 +367,13 @@ def f21() -> Image.Image:
     node(d, (316, y + 140, 520, y + 220), "Snowflake", "", accent=GOLD)
     node(d, (96, y + 240, 520, y + 320), "Databricks", "", accent=GREEN)
     group(d, (600, y - 30, 1824, y + 360), "Azure · unattended")
-    node(d, (630, y + 20, 1000, y + 100), "Container Apps job", "0.5 vCPU · manual trigger")
-    node(d, (1030, y + 20, 1400, y + 100), "User-assigned identity", "Cognitive Services User · Azure AI User")
-    node(d, (1430, y + 20, 1794, y + 100), "Key Vault", "Snowflake keys as secret refs")
-    node(d, (630, y + 140, 1794, y + 220), "AUDIT.MODEL_CALL: provider, deployment, tokens, cached, latency, status, cost · RULE_RESULT · MATCH_DECISION · FINDING", "")
-    node(d, (630, y + 250, 1794, y + 330), "Retries with back-off on 429 · failures become BLOCKED · --resume continues a run · concurrency per quota", "")
+    node(d, (630, y + 20, 960, y + 100), "Container Apps job", "0.5 vCPU · manual trigger")
+    node(d, (990, y + 20, 1450, y + 100), "User-assigned identity", "Cognitive Services User · Azure AI User")
+    node(d, (1480, y + 20, 1794, y + 100), "Key Vault", "Snowflake keys as secret refs")
+    node(d, (630, y + 140, 1794, y + 220), "AUDIT.MODEL_CALL · RULE_RESULT · MATCH_DECISION · FINDING",
+         "provider, deployment, tokens, cached, latency, status, cost: one row per call")
+    node(d, (630, y + 250, 1794, y + 330), "Resilient by design",
+         "retries with back-off on 429 · failures become BLOCKED · --resume continues a run · concurrency per quota")
     bullets(d, ["make run-sweep-job starts an execution with its arguments and prints its logs; without --limit it refuses to sweep the whole corpus by accident."],
             96, y + 400, 1700, 28)
     return finish(im, d, 21)
@@ -545,8 +547,11 @@ def shared(n: int):
     d = ImageDraw.Draw(im)
     from make_demo_frames import FOOTER_H
     d.rectangle([0, H - FOOTER_H - 2, W, H], fill=(11, 11, 14))
+    d.rectangle([W - 320, 30, W, 90], fill=(11, 11, 14))   # the short demo's own counter
     for x in range(0, W, 120):
         d.line([(x, H - FOOTER_H - 2), (x, H)], fill=(26, 26, 32), width=1)
+        if x >= W - 320:
+            d.line([(x, 30), (x, 90)], fill=(26, 26, 32), width=1)
     footer(im, d, "" if KARAOKE else CAPS.get(n, ""), None, n, TOTAL)
     return im
 

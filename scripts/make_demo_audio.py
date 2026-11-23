@@ -8,6 +8,8 @@ clip per frame, word timings, karaoke subtitles (the words light up as they are 
 
     uv run --no-project python -I scripts/make_demo_audio.py [--script docs/demo/script-full.md]
         [--frames-dir docs/demo/full/frames] [--name full] [--engine elevenlabs|say] [--voice <id>]
+    uv run --no-project python -I scripts/make_demo_audio.py --list-voices          # pick a voice
+    uv run --no-project python -I scripts/make_demo_audio.py --sample <id>,<id>     # hear candidates
 
 Engines: "elevenlabs" (default when ELEVENLABS_API_KEY is in the environment or in .env; the key never
 leaves the machine except in the API call; word timings come from the API's alignment) or "say"
@@ -85,6 +87,36 @@ def tts_elevenlabs(text: str, out: Path, voice: str, key: str) -> list[tuple[flo
         timings.append((starts[j], ends[k]))
         i = k + 1
     return timings
+
+
+def elevenlabs_voices(key: str) -> list[dict]:
+    """The voices available to the account (premade and own), with their labels."""
+    req = urllib.request.Request("https://api.elevenlabs.io/v1/voices", headers={"xi-api-key": key})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.load(r)["voices"]
+
+
+def print_voices(key: str) -> None:
+    rows = sorted(elevenlabs_voices(key), key=lambda v: (v.get("category", ""), v["name"]))
+    print(f"{'voice id':22} {'name':18} {'category':10} labels")
+    for v in rows:
+        lab = v.get("labels") or {}
+        tags = " · ".join(str(lab[k]) for k in ("language", "accent", "gender", "age", "use_case", "description") if lab.get(k))
+        print(f"{v['voice_id']:22} {v['name']:18} {v.get('category', ''):10} {tags}")
+
+
+def make_samples(key: str, voices: list[str], text: str) -> None:
+    """One short clip per candidate voice in docs/demo/audio/samples/, named by the voice, to pick one by ear."""
+    names = {v["voice_id"]: v["name"] for v in elevenlabs_voices(key)}
+    sdir = OUT / "audio" / "samples"
+    sdir.mkdir(parents=True, exist_ok=True)
+    for vid in voices:
+        out = sdir / f"{names.get(vid, vid)}-{vid}.mp3"
+        if out.is_file():
+            print(f"{out} (cached)")
+            continue
+        tts_elevenlabs(text, out, vid, key)
+        print(out)
 
 
 def tts_say(text: str, out: Path, voice: str) -> list[tuple[float, float]]:
@@ -179,6 +211,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--engine", choices=["elevenlabs", "say"], default=None)
     ap.add_argument("--voice", default=None, help="ElevenLabs voice id, or a macOS voice name for --engine say")
+    ap.add_argument("--list-voices", action="store_true", help="print the ElevenLabs voices of the account and exit")
+    ap.add_argument("--sample", default=None, metavar="ID[,ID...]",
+                    help="narrate the first frame with each of these ElevenLabs voices into docs/demo/audio/samples/ and exit")
     ap.add_argument("--pause", type=float, default=0.8, help="seconds of silence after each clip")
     ap.add_argument("--lead", type=float, default=0.4, help="seconds before a clip starts on its frame")
     ap.add_argument("--script", default=None)
@@ -195,6 +230,14 @@ def main() -> int:
     if args.frames_dir:
         FRAMES = Path(args.frames_dir) if Path(args.frames_dir).is_absolute() else ROOT / args.frames_dir
     key = load_env_key()
+    if args.list_voices or args.sample:
+        if not key:
+            raise SystemExit("ELEVENLABS_API_KEY not set (environment or .env)")
+        if args.list_voices:
+            print_voices(key)
+        if args.sample:
+            make_samples(key, [v.strip() for v in args.sample.split(",") if v.strip()], script_rows()[0]["narration"])
+        return 0
     engine = args.engine or ("elevenlabs" if key else "say")
     if engine == "elevenlabs" and not key:
         raise SystemExit("ELEVENLABS_API_KEY not set (environment or .env); use --engine say for a draft")
