@@ -14,11 +14,7 @@ stay in those channels are late, or missing, when an inspector asks.
 **Short version** (3 minutes, narrated and subtitled): the problem, what the sweep does and the
 three systems it runs on.
 
-
-
 https://github.com/user-attachments/assets/d9c9072b-8314-456e-bd1e-71099765457d
-
-
 
 **Detailed version** (21 minutes, with chapters): how it does it, how it is built, how it is measured
 and what it is worth. [Watch it on YouTube](https://youtu.be/wZVfylecfB8).
