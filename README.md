@@ -75,7 +75,7 @@ holds the data, the results and the review app; both hosted agents (GPT and Clau
 Foundry sandbox. The sweep also runs unattended as a Container Apps job
 ([docs/ops/runner-job.md](docs/ops/runner-job.md)), and every processed record ends as a prioritised
 finding with a proposed case intake package that the review app turns into the confirmed package and
-compliance findings. Every planned check is done, and the whole platform also runs on Azure Databricks with the processed results copied over; what remains is the publication decision.
+compliance findings. Every planned check is done. The same runner, agents, prompts, evaluation and review app also run on Azure Databricks, with the processed results copied over rather than recomputed (hosted agents verified on both platforms). What remains is the publication decision.
 
 ## Data and licences
 
