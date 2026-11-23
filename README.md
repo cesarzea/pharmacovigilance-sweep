@@ -1,18 +1,42 @@
 # Pharmacovigilance Sweep
 
-A proof of concept that re-screens a pharmaceutical company's **non-pharmacovigilance** records
-(medical information logs, field-force CRM notes, patient support programme notes, product quality
-complaints, social listening) for adverse events that never reached the pharmacovigilance department,
-and reconciles what vendors say they forwarded against what pharmacovigilance received.
+## The problem
 
-Models propose; a person decides. Every routed record ends as a prioritised finding with a proposed
-case intake package, and a reviewer confirms day 0, the outcome and the compliance findings in a
-review app. Public and synthetic data only; not a validated system.
+A pharmacovigilance (PV) department only sees the adverse events that reach it. Every day, side
+effects are mentioned in channels nobody in PV reads: medical information call logs, sales reps' CRM
+notes, patient support programme nurse notes, quality complaints, social media. EU rules (GVP Module
+VI) make the company responsible for all of them, with a 15-day clock for serious cases that starts
+the day anyone in the company, or a vendor working for it, first hears of the case. Reports that
+stay in those channels are late, or missing, when an inspector asks.
 
-Built on **Microsoft Foundry** (GPT and Claude models, hosted matching agents, content filters,
-evaluations) over a data platform that can be **Snowflake** or **Azure Databricks**: the same tables,
-runner, agents, prompts, evaluation and review app run on both. Everything is deployed from scratch
-by the scripts in this repository.
+## What the solution does
+
+Pharmacovigilance Sweep re-reads those records after the fact and, for each one:
+
+1. **Screens** whether it describes an adverse event or a special situation (overdose, pregnancy,
+   lack of effect, and so on).
+2. **Extracts** the case facts with the evidence quotes: patient, reporter, product, event,
+   seriousness, dates.
+3. **Applies the rules**: is it our product, is it serious, when is day 0, what is the regulatory
+   deadline, was the vendor's forwarding timeline met.
+4. **Matches** it against what PV already holds, through an agent with read-only tools over the
+   safety database, the intake queue and the vendor log: new case, already received, follow-up.
+5. **Produces a prioritised finding** with a proposed case intake package.
+6. **Reconciles** what vendors say they forwarded against what PV received.
+
+A PV reviewer works the queue in a review app and records the outcome; nothing is closed by a model.
+
+## What you get
+
+- The potential cases PV never received, ranked by seriousness and regulatory clock, each with a
+  case intake package ready to confirm.
+- Late-submission and forwarding-breach findings with a root cause, and a vendor reconciliation.
+- A measured comparison of GPT and Claude on the same 450 records, graded by Foundry evaluators.
+- All of it deployable from scratch by the scripts in this repository, on Microsoft Foundry with
+  Snowflake or Azure Databricks as the data platform. Public and synthetic data only; not a
+  validated system.
+
+## Where to read more
 
 - What it does and why: [docs/poc-definition.md](docs/poc-definition.md)
 - How it is built: [docs/architecture.md](docs/architecture.md)
