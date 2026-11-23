@@ -8,7 +8,7 @@ created by the repository's scripts (`make deploy`, `make build-agent`, `make de
 | # | Check | Result |
 |---|---|---|
 | 0 | Foundry resource, project, `gpt-5-4-mini` (EU Data Zone Standard), budget, registry, runner identity and roles deployed from `infra/` to Sweden Central | **Pass.** `make deploy`, about 2 minutes |
-| 0 | `claude-haiku-5-5` deployment | **Blocked.** Preflight `InsufficientQuota`: every Claude model has 0 TPM in the subscription. Support ticket <ticket id> open; see [claude-quota-request.md](claude-quota-request.md) |
+| 0 | `claude-haiku-5-5` deployment | **Blocked.** Preflight `InsufficientQuota`: every Claude model has 0 TPM in the subscription. Support ticket open; see [claude-quota-request.md](claude-quota-request.md) |
 | 0 | GPT call with Entra ID and a strict JSON schema from a laptop (`spike/01_entra_model_calls.py`) | **Pass.** 1.5 s, valid JSON, 153 input / 30 output tokens |
 | 0 | Agent Framework agent with tools, in-process against `gpt-5-4-mini` | **Pass.** 5.7 s, two tool calls, terminal tool returned |
 | 1 | Hosted agent reaches the internet from its sandbox | **Pass.** `probe_url` from inside the hosted agent: `example.com` 200, `snowflakecomputing.com/robots.txt` 403 (a web application firewall answer, so the connection itself worked). Snowflake proper is tested once the trial account exists |

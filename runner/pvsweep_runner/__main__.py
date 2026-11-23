@@ -1,7 +1,7 @@
 """Run a sweep (steps 1-4) and print a summary against the gold labels.
 
     uv run --project runner python -I -m pvsweep_runner sweep --backend local \
-        --account aif-pvsweep-dev-3kk4ld --provider gpt --small gpt-5-4-mini --large gpt-5-4-mini \
+        --account aif-pvsweep-dev-<suffix> --provider gpt --small gpt-5-4-mini --large gpt-5-4-mini \
         --match agent --project-endpoint https://.../api/projects/proj-pvsweep-dev [--limit 40]
 
 --provider claude-direct uses the Anthropic API with ANTHROPIC_API_KEY from .env (development only).

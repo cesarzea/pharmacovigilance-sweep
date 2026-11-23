@@ -13,9 +13,9 @@ Azure portal → **Help + support** → **Create a support request**
 | Field | Value |
 |---|---|
 | Issue type | Technical |
-| Subscription | MCPP Subscription |
+| Subscription | <subscription name> |
 | Service | Microsoft Foundry |
-| Resource | `aif-pvsweep-dev-3kk4ld` (resource group `rg-pvsweep-dev`) |
+| Resource | `aif-pvsweep-dev-<suffix>` (resource group `rg-pvsweep-dev`) |
 | Problem type | Anthropic models |
 | Problem subtype | Billing or quota issues |
 | Severity | C – Minimal impact |
@@ -35,8 +35,8 @@ Initial quota allocation for Anthropic Claude models (claude-haiku-5-5, claude-s
 ```
 Request for initial quota allocation (Global Standard enablement) for Anthropic Claude models in Microsoft Foundry.
 
-Subscription: MCPP Subscription (pay-as-you-go, billing country Spain). Region: Sweden Central.
-Foundry resource: aif-pvsweep-dev-3kk4ld (resource group rg-pvsweep-dev).
+Subscription: <subscription name> (pay-as-you-go, billing country Spain). Region: Sweden Central.
+Foundry resource: aif-pvsweep-dev-<suffix> (resource group rg-pvsweep-dev).
 
 Models and requested quota (Global Standard, model version 2 = Hosted on Azure):
 - claude-haiku-5-5: 40K tokens per minute

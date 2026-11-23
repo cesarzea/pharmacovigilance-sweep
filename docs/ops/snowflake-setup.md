@@ -64,7 +64,7 @@ as a Foundry project connection once those modules exist. Until then the keys st
   `GRANT USAGE ON SCHEMA a, b` are syntax errors. The migrations list every grant separately.
 - `GRANT ROLE x TO USER IDENTIFIER(CURRENT_USER())` is not accepted; the bootstrap grants the role to
   the running user through an `EXECUTE IMMEDIATE` block instead.
-- `CURRENT_USER()` returns the user name (`cesarzea`), not the login name used in the connection.
+- `CURRENT_USER()` returns the user name, not the login name (an e-mail) used in the connection.
 - `COPY INTO` from Parquet needs `USE_LOGICAL_TYPE = TRUE` in the file format. Without it Snowflake reads
   DuckDB's microsecond `TIMESTAMP` columns as nanoseconds and the intake queue dates land in year
   56,000,000; the agent's queries then fail with "Failed to convert rows" and blocking finds no queue items.

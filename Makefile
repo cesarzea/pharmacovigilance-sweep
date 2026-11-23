@@ -113,7 +113,7 @@ DBX_PRINCIPAL ?= $(shell az account show --query user.name -o tsv 2>/dev/null)
 DBX_GRANTEES  = $(foreach g,pvsweep_admin pvsweep_pipeline pvsweep_agent pvsweep_review_app pvsweep_reviewer pvsweep_analyst pvsweep_ci,--var $(g)=$(DBX_PRINCIPAL))
 # Application ids printed in the bootstrap's membership checklist (runner identity, hosted agent identity).
 DBX_PRINCIPALS = --var runner_principal=$(shell grep -s '^RUNNERIDENTITYCLIENTID=' .env.$(ENV) | cut -d= -f2) --var agent_principal=$(DBX_AGENT_PRINCIPAL)
-DBX_AGENT_PRINCIPAL ?= <agent-client-id>
+DBX_AGENT_PRINCIPAL ?= <agent-client-id>   # only printed in the bootstrap checklist; pass the hosted agent identity's client id to be exact
 # Managed location for the catalog when the metastore has no storage root (printed by dbx-setup, kept in .env).
 DBX_LOCATION   = $(if $(shell grep -s '^PVSWEEP_DATABRICKS_MANAGED_LOCATION=' .env),--var "managed_location_clause=MANAGED LOCATION '$$PVSWEEP_DATABRICKS_MANAGED_LOCATION'",)
 
