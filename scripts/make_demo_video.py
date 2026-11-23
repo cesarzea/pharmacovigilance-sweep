@@ -110,18 +110,22 @@ def main() -> int:
             f.write(f"file '{p.resolve()}'\nduration {args.seconds}\n")
         f.write(f"file '{paths[-1].resolve()}'\n")
     total_s = args.seconds * len(paths)
-    # A thin gold progress line along the bottom edge, filled by elapsed time: the frames are stills, and
-    # without it the GIF looks frozen. drawbox evaluates the width expression per frame (t = seconds).
-    bar = f"drawbox=x=0:y=ih-{args.bar_height}:w='iw*t/{total_s}':h={args.bar_height}:color=0xE8B66B:t=fill"
+    bh = args.bar_height
+    # A thin gold progress line along the bottom edge that fills with elapsed time: the frames are stills,
+    # and without it the GIF looks frozen. A full-width gold strip slides in from the left; `overlay`
+    # evaluates its x expression per frame with t = seconds (drawbox has no time variable).
+    def graph(fps: int, tail: str) -> str:
+        return (f"[0:v]fps={fps}[v];color=c=0xE8B66B:s={W}x{bh}:r={fps}:d={total_s}[bar];"
+                f"[v][bar]overlay=x='-main_w+main_w*t/{total_s}':y=main_h-{bh}:eval=frame:shortest=1{tail}")
     # MP4 (silent): slides at the frame rate of a video, H.264, web-friendly
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
-                    "-vf", f"fps=30,{bar},format=yuv420p", "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart",
-                    str(OUT / "demo.mp4")], check=True)
+                    "-filter_complex", graph(30, ",format=yuv420p[out]"), "-map", "[out]",
+                    "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", str(OUT / "demo.mp4")], check=True)
     # GIF with one palette, reduced width, a few frames per second so the progress line moves
-    filters = (f"fps={args.gif_fps},{bar},scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];"
-               "[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=5")
+    tail = (f",scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
+            "[s1][p]paletteuse=dither=bayer:bayer_scale=5[out]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
-                    "-vf", filters, "-loop", "0", str(OUT / "demo.gif")], check=True)
+                    "-filter_complex", graph(args.gif_fps, tail), "-map", "[out]", "-loop", "0", str(OUT / "demo.gif")], check=True)
     for p in (OUT / "demo.mp4", OUT / "demo.gif"):
         print(p, f"{p.stat().st_size / 1e6:.1f} MB")
     return 0
