@@ -16,6 +16,7 @@ Authentication is Entra ID for the models (the agent identity) and key-pair for 
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 
@@ -55,7 +56,14 @@ class MatcherAgent:
                 msgs = messages if isinstance(messages, (list, tuple)) else [messages]
                 text = "\n".join(getattr(m, "text", None) or str(m) for m in msgs)
             payload = json.loads(text)
-            decision = await run_matching(self.client, self._backend, payload, name=NAME)
+            for attempt in range(4):  # model quota (HTTP 429) is the one transient failure worth waiting out in the sandbox
+                try:
+                    decision = await run_matching(self.client, self._backend, payload, name=NAME)
+                    break
+                except Exception as exc:  # noqa: BLE001
+                    if attempt == 3 or not ("429" in str(exc) or "rate_limit" in str(exc).lower()):
+                        raise
+                    await asyncio.sleep(20 * (attempt + 1))
             return json.dumps(decision, default=str)
         except Exception as exc:  # noqa: BLE001 - the runner records the reason as a BLOCKED decision
             key = os.environ.get("PVSWEEP_SNOWFLAKE_PRIVATE_KEY", "")

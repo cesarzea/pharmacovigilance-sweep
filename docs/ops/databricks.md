@@ -117,3 +117,13 @@ platforms swapped:
 
 Not implemented yet; the functions in `scripts/dbx_sync.py` are split by platform to make it an addition
 rather than a rewrite.
+
+## Identities without a person
+
+`scripts/dbx_principals.py --runner <client id> --agent <client id> ...` registers the runner's managed
+identity and the hosted agents' identities as workspace service principals with the `workspace-access`
+and `databricks-sql-access` entitlements, applies the Unity Catalog grants of their role (pipeline or
+agent) and gives them `CAN USE` on the warehouse. All three are needed: Unity Catalog grants alone leave
+the SQL endpoints refusing the principal. The hosted agents are deployed for this platform with
+`make deploy-agents PLATFORM=databricks` (one agent version per switch); `make deploy-agents` puts them
+back on Snowflake.

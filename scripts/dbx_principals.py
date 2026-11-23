@@ -33,12 +33,33 @@ AGENT_GRANTS = [
 ]
 
 
+ENTITLEMENTS = ["workspace-access", "databricks-sql-access"]  # without the SQL one the Statement/SQL endpoints answer "API disabled"
+
+
 def ensure_service_principal(w: WorkspaceClient, app_id: str, name: str) -> None:
-    for sp in w.service_principals.list(filter=f'applicationId eq "{app_id}"'):
-        print(f"{name}: service principal {app_id} already in the workspace")
+    from databricks.sdk.service.iam import ComplexValue
+
+    entitlements = [ComplexValue(value=e) for e in ENTITLEMENTS]
+    existing = next(iter(w.service_principals.list(filter=f'applicationId eq "{app_id}"')), None)
+    if existing is None:
+        w.service_principals.create(application_id=app_id, display_name=name, active=True, entitlements=entitlements)
+        print(f"{name}: service principal {app_id} added to the workspace with {ENTITLEMENTS}")
         return
-    w.service_principals.create(application_id=app_id, display_name=name, active=True)
-    print(f"{name}: service principal {app_id} added to the workspace")
+    have = {e.value for e in (existing.entitlements or [])}
+    if not set(ENTITLEMENTS) <= have:
+        w.service_principals.update(id=existing.id, application_id=app_id, display_name=existing.display_name or name,
+                                    active=True, entitlements=entitlements)
+        print(f"{name}: service principal {app_id} updated with {ENTITLEMENTS}")
+    else:
+        print(f"{name}: service principal {app_id} already in the workspace with the entitlements")
+
+
+def grant_warehouse_use(w: WorkspaceClient, warehouse: str, app_id: str) -> None:
+    """CAN USE on the SQL warehouse is a workspace permission, not a Unity Catalog grant."""
+    from databricks.sdk.service.sql import WarehouseAccessControlRequest, WarehousePermissionLevel
+
+    w.warehouses.update_permissions(warehouse, access_control_list=[
+        WarehouseAccessControlRequest(service_principal_name=app_id, permission_level=WarehousePermissionLevel.CAN_USE)])
 
 
 def run_sql(w: WorkspaceClient, warehouse: str, sql: str) -> None:
@@ -64,7 +85,8 @@ def main() -> int:
         ensure_service_principal(w, app_id, name)
         for g in grants:
             run_sql(w, args.warehouse_id, g.format(c=args.catalog, p=app_id))
-        print(f"{name}: {len(grants)} grants applied")
+        grant_warehouse_use(w, args.warehouse_id, app_id)
+        print(f"{name}: {len(grants)} grants applied, CAN USE on warehouse {args.warehouse_id}")
     return 0
 
 

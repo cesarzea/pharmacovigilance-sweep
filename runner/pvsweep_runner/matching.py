@@ -165,6 +165,9 @@ def match_hosted(project_endpoint: str, agent_name: str, token: str, payload: di
     except (ValueError, json.JSONDecodeError):
         return {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": f"unparseable reply: {text[:200]}",
                 "confidence": "low", "tool_calls": [], "submitted": False, "latency_ms": ms}
+    if "outcome" not in decision:  # the hosted entry point answers {"error": ...} when the matcher could not run
+        return {"outcome": "BLOCKED", "matched_ids": [], "new_facts": [], "justification": f"hosted agent error: {text[:300]}",
+                "confidence": "low", "tool_calls": [], "submitted": False, "latency_ms": ms}
     decision.setdefault("submitted", decision.get("accepted", True))
     decision["latency_ms"] = ms
     decision["session_id"] = rsp.headers.get("x-agent-session-id")
