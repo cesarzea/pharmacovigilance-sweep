@@ -696,6 +696,7 @@ provider and deployment that produced them.
 | 012 | A small pool of reused sessions, a fresh agent thread per invocation | One session per record | Hosted compute is billed per session including idle time; reuse is safe only with fresh state |
 | 013 | A local DuckDB backend mirrors the Snowflake tables for development and CI | Snowflake only | Work continues without an account; CI runs without cloud credentials; the agent tools and SQL views are exercised on both |
 | 014 | Rules in Python with unit tests; report views and reconciliation in portable SQL | Everything as Snowflake SQL | Clocks and ownership are tested with fixtures in CI; the SQL that matters to analysts stays SQL and runs on both backends |
+| 015 | Second data platform (Azure Databricks, Unity Catalog) behind the same store and agent-backend interfaces, with the same table names; processed results copied, never recomputed | One platform only; or a lowest-common-denominator SQL layer | Shows the design is platform-independent at the cost of one SQL directory per platform (`snowflake/`, `databricks/`); the runner, agents, prompts, evaluation and app logic are shared |
 
 ## 16. Path to production
 
