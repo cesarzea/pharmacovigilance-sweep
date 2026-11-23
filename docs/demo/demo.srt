@@ -1,43 +1,43 @@
 1
-00:00:00,000 --> 00:00:12,304
+00:00:00,000 --> 00:00:17,296
 Models propose. A person decides.
 
 2
-00:00:12,504 --> 00:00:34,960
+00:00:17,496 --> 00:00:39,952
 Side effects are mentioned where pharmacovigilance does not look
 
 3
-00:00:35,160 --> 00:00:59,176
+00:00:40,152 --> 00:01:04,168
 Re-read every record. Keep what PV never received.
 
 4
-00:00:59,376 --> 00:01:11,992
+00:01:04,368 --> 00:01:16,984
 One Foundry project, two providers, Entra ID only
 
 5
-00:01:12,192 --> 00:01:29,080
+00:01:17,184 --> 00:01:34,072
 The matching agent runs as a hosted agent, with read-only tools
 
 6
-00:01:29,280 --> 00:01:44,536
+00:01:34,272 --> 00:01:49,528
 The agent sees four secure views and nothing else
 
 7
-00:01:44,736 --> 00:01:59,920
+00:01:49,728 --> 00:02:04,912
 Every routed record ends as a finding with a proposed intake package
 
 8
-00:02:00,120 --> 00:02:13,816
+00:02:05,112 --> 00:02:18,808
 The reviewer confirms day 0 and the outcome; nothing is closed by a model
 
 9
-00:02:14,016 --> 00:02:29,992
+00:02:19,008 --> 00:02:34,984
 450 synthetic records, graded by custom evaluators in Foundry
 
 10
-00:02:30,192 --> 00:02:43,960
+00:02:35,184 --> 00:02:48,952
 Same tables, same app, on Azure Databricks
 
 11
-00:02:44,160 --> 00:03:01,936
+00:02:49,152 --> 00:03:15,976
 github.com/cesarzea/pharmacovigilance-sweep

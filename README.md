@@ -1,16 +1,5 @@
 # Pharmacovigilance Sweep
 
-https://github.com/user-attachments/assets/8d93cec3-f71b-470b-b106-7a67d8b5e89e
-
-Three minutes, narrated and subtitled: the problem, what the sweep does and the three systems it runs
-on. The full walkthrough, twenty-one minutes with chapters on how it does it, how it is built, how it
-is measured and what it is worth, is on YouTube:
-
-[![The full walkthrough on YouTube](https://img.youtube.com/vi/wZVfylecfB8/maxresdefault.jpg)](https://youtu.be/wZVfylecfB8)
-
-Both videos are attached to the [latest release](https://github.com/cesarzea/pharmacovigilance-sweep/releases/latest);
-the scripts, frames and commands that rebuild them are in [docs/demo/](docs/demo/).
-
 ## The problem
 
 A pharmacovigilance (PV) department only sees the adverse events that reach it. Every day, side
@@ -19,6 +8,19 @@ notes, patient support programme nurse notes, quality complaints, social media. 
 VI) make the company responsible for all of them, with a 15-day clock for serious cases that starts
 the day anyone in the company, or a vendor working for it, first hears of the case. Reports that
 stay in those channels are late, or missing, when an inspector asks.
+
+## Videos
+
+**Short version** (3 minutes, narrated and subtitled): the problem, what the sweep does and the
+three systems it runs on.
+
+[![Short version on YouTube](https://img.youtube.com/vi/BzFxbfOfr-8/maxresdefault.jpg)](https://youtu.be/BzFxbfOfr-8)
+
+**Detailed version** (21 minutes, with chapters): how it does it, how it is built, how it is measured
+and what it is worth. [Watch it on YouTube](https://youtu.be/wZVfylecfB8).
+
+Both videos are attached to the [latest release](https://github.com/cesarzea/pharmacovigilance-sweep/releases/latest);
+the scripts, frames and commands that rebuild them are in [docs/demo/](docs/demo/).
 
 ## What the solution does
 
