@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: Agent image tag to build and deploy
-        default: ${{ github.sha }}
+        description: Agent image tag to build and deploy (default: the commit sha)
+        required: false
+        default: ""
 
 permissions:
   id-token: write
@@ -27,10 +28,12 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       - name: Parameters
-        run: echo '${{ secrets.PVSWEEP_PARAMETERS_JSON }}' > infra/main.parameters.local.json
+        env:
+          PARAMS_JSON: ${{ secrets.PVSWEEP_PARAMETERS_JSON }}
+        run: printf '%s' "$PARAMS_JSON" > infra/main.parameters.local.json
       - name: Deploy infrastructure
         run: make deploy
       - name: Build agent image
-        run: make build-agent IMAGE_TAG=${{ inputs.image_tag }}
+        run: make build-agent IMAGE_TAG=${{ inputs.image_tag || github.sha }}
       - name: Deploy hosted agents
-        run: make deploy-agents IMAGE_TAG=${{ inputs.image_tag }}
+        run: make deploy-agents IMAGE_TAG=${{ inputs.image_tag || github.sha }}
