@@ -1,9 +1,11 @@
 # Pharmacovigilance Sweep
 
-![Pharmacovigilance Sweep in 65 seconds: the problem, what the sweep does, and the three systems it runs on](docs/demo/demo.gif)
+![Pharmacovigilance Sweep in three minutes: the problem, what the sweep does, and the three systems it runs on](docs/demo/demo.gif)
 
-A narrated version of the same walkthrough is in [docs/demo/demo.mp4](docs/demo/demo.mp4); the
-script, frames and the commands that rebuild both are in [docs/demo/](docs/demo/).
+The subtitles carry the narration. A twelve-minute walkthrough of what it does, how it does it,
+how it is built and how it is measured is in [docs/demo/full.gif](docs/demo/full.gif) (5 MB) and,
+with voice, as a video attached to the latest release. The scripts, frames and the commands that
+rebuild everything are in [docs/demo/](docs/demo/).
 
 ## The problem
 

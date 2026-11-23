@@ -18,14 +18,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from make_demo_frames import BG, GOLD, INK, MUTED, SANS, SERIF, W, H, canvas, footer, label, load  # noqa: E402
+from make_demo_frames import GOLD, MUTED, SANS, SERIF, W, H, canvas, footer, label, load  # noqa: E402
 
 FRAMES = Path("docs/demo/frames")
-SHOTS = FRAMES / "shots"
+SHOTS = Path("docs/demo/frames/shots")
 OUT = Path("docs/demo")
+SCRIPT = Path("docs/demo/script.md")
 
 # frame number -> (screenshot glob, section label)
 SHOT_FRAMES = {
@@ -42,7 +43,7 @@ SHOT_FRAMES = {
 def captions() -> dict[int, str]:
     """Frame number -> caption, from the table in docs/demo/script.md."""
     out = {}
-    for line in Path("docs/demo/script.md").read_text().splitlines():
+    for line in SCRIPT.read_text().splitlines():
         m = re.match(r"\|\s*(\d+)\s*\|([^|]*)\|([^|]*)\|", line)
         if m:
             out[int(m.group(1))] = m.group(3).strip()
@@ -52,7 +53,9 @@ def captions() -> dict[int, str]:
 def place_shot(n: int, shot: Image.Image, section: str, caption: str, total: int) -> Image.Image:
     im, d = canvas()
     label(d, (96, 60), section)
-    box_w, box_h = W - 192, H - 150 - 130
+    from make_demo_frames import FOOTER_H
+
+    box_w, box_h = W - 192, H - FOOTER_H - 130
     shot = shot.convert("RGB")
     scale = min(box_w / shot.width, box_h / shot.height)
     shot = shot.resize((int(shot.width * scale), int(shot.height * scale)), Image.LANCZOS)
@@ -73,12 +76,12 @@ def placeholder(n: int, section: str, caption: str, total: int) -> Image.Image:
     return im
 
 
-def render_frames(total: int) -> list[Path]:
+def render_frames(total: int, shots: bool = True) -> list[Path]:
     caps = captions()
     paths = []
     for n in range(total):
         target = FRAMES / f"{n:02d}.png"
-        if n in SHOT_FRAMES:
+        if shots and n in SHOT_FRAMES:
             pattern, section = SHOT_FRAMES[n]
             files = sorted(SHOTS.glob(pattern))
             if files:
@@ -102,9 +105,18 @@ def main() -> int:
     ap.add_argument("--gif-fps", type=int, default=4, help="frames per second in the GIF (only the progress line moves)")
     ap.add_argument("--bar-height", type=int, default=8, help="height in pixels of the progress line at 1920x1080")
     ap.add_argument("--total", type=int, default=11)
+    ap.add_argument("--script", default=None, help="script file with the captions (default docs/demo/script.md)")
+    ap.add_argument("--frames-dir", default=None, help="where the NN.png frames are (default docs/demo/frames)")
+    ap.add_argument("--name", default="demo", help="output base name: <name>.gif and <name>.mp4 in docs/demo")
+    ap.add_argument("--no-shots", action="store_true", help="frames are complete already; do not compose screenshots")
     args = ap.parse_args()
-    paths = render_frames(args.total)
-    concat = OUT / "frames.txt"
+    global FRAMES, SCRIPT
+    if args.script:
+        SCRIPT = Path(args.script)
+    if args.frames_dir:
+        FRAMES = Path(args.frames_dir)
+    paths = render_frames(args.total, shots=not args.no_shots)
+    concat = OUT / f"{args.name}-frames.txt"
     with concat.open("w") as f:
         for p in paths:
             f.write(f"file '{p.resolve()}'\nduration {args.seconds}\n")
@@ -120,13 +132,13 @@ def main() -> int:
     # MP4 (silent): slides at the frame rate of a video, H.264, web-friendly
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
                     "-filter_complex", graph(30, ",format=yuv420p[out]"), "-map", "[out]",
-                    "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", str(OUT / "demo.mp4")], check=True)
+                    "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", str(OUT / f"{args.name}.mp4")], check=True)
     # GIF with one palette, reduced width, a few frames per second so the progress line moves
     tail = (f",scale={args.gif_width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];"
             "[s1][p]paletteuse=dither=bayer:bayer_scale=5[out]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat),
-                    "-filter_complex", graph(args.gif_fps, tail), "-map", "[out]", "-loop", "0", str(OUT / "demo.gif")], check=True)
-    for p in (OUT / "demo.mp4", OUT / "demo.gif"):
+                    "-filter_complex", graph(args.gif_fps, tail), "-map", "[out]", "-loop", "0", str(OUT / f"{args.name}.gif")], check=True)
+    for p in (OUT / f"{args.name}.mp4", OUT / f"{args.name}.gif"):
         print(p, f"{p.stat().st_size / 1e6:.1f} MB")
     return 0
 

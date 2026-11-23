@@ -33,3 +33,5 @@ docs/demo/portrait.png
 docs/demo/fonts/
 docs/demo/audio/
 docs/demo/demo-narrated.mp4
+docs/demo/*.mp4
+docs/demo/*-frames*.txt

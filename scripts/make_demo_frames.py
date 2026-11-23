@@ -27,6 +27,7 @@ GRID = (26, 26, 32)
 CARD = (21, 21, 26)
 SITE = "cesarzea.com"
 OUT = Path("docs/demo/frames")
+FOOTER_H = 200   # footer band: identity on the left, timed subtitles on the right
 
 
 def font_file(candidates: list[str], style: str = "") -> tuple[str, int] | None:
@@ -115,10 +116,10 @@ def label(d: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, size: int = 22
 
 
 def footer(im: Image.Image, d: ImageDraw.ImageDraw, caption: str, portrait: Path | None, frame_no: int, total: int) -> None:
-    y0 = H - 150
+    y0 = H - FOOTER_H
     d.line([(0, y0), (W, y0)], fill=(40, 40, 46), width=1)
     r = 48
-    cx, cy = 96 + r, y0 + 75
+    cx, cy = 96 + r, y0 + FOOTER_H // 2
     if portrait and portrait.is_file():
         p = Image.open(portrait).convert("RGB")
         # the site's portrait is a wide frame with the face right of centre; crop a square around it

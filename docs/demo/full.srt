@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:14,388
+A Microsoft AI Foundry, Snowflake and Databricks POC
+
+2
+00:00:14,588 --> 00:00:35,550
+Side effects are mentioned where pharmacovigilance does not look
+
+3
+00:00:35,750 --> 00:00:58,973
+The clock starts when anyone in the company first hears of the case
+
+4
+00:00:59,173 --> 00:01:17,865
+Two distinct jobs: did PV receive everything, and is there anything nobody passed on?
+
+5
+00:01:18,065 --> 00:01:43,339
+Spontaneous or solicited changes what "reportable" means
+
+6
+00:01:43,539 --> 00:01:57,136
+Re-read every record. Keep what PV never received.
+
+7
+00:01:57,336 --> 00:02:20,622
+Step 1 · Screen: adverse event, special situation, or nothing for PV?
+
+8
+00:02:20,822 --> 00:02:45,592
+Step 2 · Extract the case facts, every one with its quote
+
+9
+00:02:45,792 --> 00:03:03,787
+Step 3 · Deterministic rules: no model decides a deadline
+
+10
+00:03:03,987 --> 00:03:33,852
+Step 4 · Match: has pharmacovigilance already got this case?
+
+11
+00:03:34,052 --> 00:03:57,144
+Why patient initials matter: 0.69 to 0.84 and 0.84 to 0.96
+
+12
+00:03:57,344 --> 00:04:19,225
+Step 5 · A finding with a priority and a proposed intake package
+
+13
+00:04:19,425 --> 00:04:38,413
+Step 6 · Reconcile what vendors sent against what PV received
+
+14
+00:04:38,613 --> 00:04:51,920
+The reviewer works a prioritised queue
+
+15
+00:04:52,120 --> 00:05:13,756
+Confirm day 0, choose the outcome, record the decision
+
+16
+00:05:13,956 --> 00:05:35,895
+Three systems, one repository, everything deployed by script
+
+17
+00:05:36,095 --> 00:05:56,282
+Nine schemas: sources, the safety database, results, review, audit
+
+18
+00:05:56,482 --> 00:06:13,679
+The agent's credential can read four secure views and nothing else
+
+19
+00:06:13,879 --> 00:06:33,203
+One Foundry project, two providers, no API keys
+
+20
+00:06:33,403 --> 00:06:53,086
+The matching agent is a hosted agent in Foundry Agent Service
+
+21
+00:06:53,286 --> 00:07:14,438
+Secrets never sit in the image: a project connection injects the agent's key at start
+
+22
+00:07:14,638 --> 00:07:37,485
+The sweep runs unattended as a container job
+
+23
+00:07:37,685 --> 00:07:55,287
+Source text is untrusted: read-only tools, validation twice, content filters
+
+24
+00:07:55,487 --> 00:08:14,751
+The same platform on Azure Databricks: same tables, results copied, nothing recomputed
+
+25
+00:08:14,951 --> 00:08:25,970
+Same numbers on both platforms
+
+26
+00:08:26,170 --> 00:08:59,250
+One command creates Azure: Foundry, models, registry, identities, Key Vault, the job, the Databricks workspace
+
+27
+00:08:59,450 --> 00:09:28,899
+Four commands build the data platform: keys, bootstrap, migrations, load, app
+
+28
+00:09:29,099 --> 00:09:50,053
+Build the image, deploy the hosted agents, put the keys in Key Vault, start a sweep
+
+29
+00:09:50,253 --> 00:10:10,494
+CI on every push; deployment is a manual workflow with OIDC and no stored secrets
+
+30
+00:10:10,694 --> 00:10:32,593
+Develop and evaluate on a laptop: the same runner over a local file
+
+31
+00:10:32,793 --> 00:10:54,976
+450 synthetic records with known answers, anchored on real cases
+
+32
+00:10:55,176 --> 00:11:09,529
+Custom evaluators in Foundry grade routing, matching and causality
+
+33
+00:11:09,729 --> 00:11:28,916
+Measured, not assumed
+
+34
+00:11:29,116 --> 00:11:43,602
+What the numbers do not say
+
+35
+00:11:43,802 --> 00:12:01,564
+From proof of concept to production
+
+36
+00:12:01,764 --> 00:12:39,994
+Everything in the box
+
+37
+00:12:40,194 --> 00:12:54,356
+github.com/cesarzea/pharmacovigilance-sweep
