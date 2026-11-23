@@ -155,4 +155,4 @@ dbx-stop:
 	$(MAKE) dbx-app-stop
 
 dbx-app-stop:
-	$(DBX_RUN) -c "import os; from databricks.sdk import WorkspaceClient; w = WorkspaceClient(host=os.environ['PVSWEEP_DATABRICKS_HOST'], auth_type='azure-cli'); w.apps.stop_and_wait('pvsweep-review'); print('pvsweep-review stopped')"
+	$(DBX_RUN) -c "import os; from databricks.sdk import WorkspaceClient; w = WorkspaceClient(host=os.environ['PVSWEEP_DATABRICKS_HOST'], auth_type='azure-cli'); a = w.apps.get('pvsweep-review'); st = str(a.compute_status.state) if a.compute_status else ''; (w.apps.stop_and_wait('pvsweep-review'), print('pvsweep-review stopped')) if st.endswith('ACTIVE') else print('pvsweep-review already ' + (st or 'stopped'))"
